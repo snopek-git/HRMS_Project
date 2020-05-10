@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace inheritUser.Models.ViewModels
+namespace HRMS_Project.Models.ViewModels
 {
     public class CreateRoleViewModel
     {

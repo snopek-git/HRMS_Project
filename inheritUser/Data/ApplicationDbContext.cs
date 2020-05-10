@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using inheritUser.Models;
+using HRMS_Project.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace inheritUser.Data
+namespace HRMS_Project.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Emp>
+    public class ApplicationDbContext : IdentityDbContext<Employee>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<Emp> Emp { get; set; }
+        public virtual DbSet<Employee> Employee { get; set; }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
@@ -29,11 +29,11 @@ namespace inheritUser.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Emp>(entity =>
+            modelBuilder.Entity<Employee>(entity =>
             {
 
 
-                entity.Property(e => e.IdEmployee).ValueGeneratedNever();
+                //entity.Property(e => e.IdEmployee).ValueGeneratedNever();
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 

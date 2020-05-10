@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using inheritUser.Models;
-using inheritUser.Models.ViewModels;
+using HRMS_Project.Models;
+using HRMS_Project.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace inheritUser.Controllers
+namespace HRMS_Project.Controllers
 {
     public class AdministrationController : Controller
     {
 
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly UserManager<Emp> empManager;
-        public AdministrationController (RoleManager<IdentityRole> roleManager, UserManager<Emp> empManager)
+        private readonly UserManager<Employee> employeeUserManager;
+        public AdministrationController (RoleManager<IdentityRole> roleManager, UserManager<Employee> employeeUserManager)
         {
             this.roleManager = roleManager;
-            this.empManager = empManager;
+            this.employeeUserManager = employeeUserManager;
         }
 
         public IActionResult Index()
@@ -49,7 +49,7 @@ namespace inheritUser.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("ListRoles", "Administration"); //po stworzeniu roli wraca na Home
+                    return RedirectToAction("ListRoles", "Administration");
                 }
 
                 foreach (IdentityError error in result.Errors)
@@ -84,11 +84,11 @@ namespace inheritUser.Controllers
                 RoleName = role.Name
             };
 
-            foreach(var emp in empManager.Users)
+            foreach(var employee in employeeUserManager.Users)
             {
-                if(await empManager.IsInRoleAsync(emp, role.Name))
+                if(await employeeUserManager.IsInRoleAsync(employee, role.Name))
                 {
-                    model.Users.Add(emp.UserName);
+                    model.Users.Add(employee.UserName);
                 }
             }
 
@@ -122,5 +122,6 @@ namespace inheritUser.Controllers
                 return View(model);
             }
         }
+
     }
 }

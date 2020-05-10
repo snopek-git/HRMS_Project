@@ -1,10 +1,10 @@
-﻿using inheritUser.Business.Interfaces;
+﻿using HRMS_Project.Business.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace inheritUser.Business.Services
+namespace HRMS_Project.Business.Services
 {
     public class AdministrationService : IAdministrationService
     {

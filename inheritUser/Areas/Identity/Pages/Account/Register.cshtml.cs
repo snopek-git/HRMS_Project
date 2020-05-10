@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using inheritUser.Models;
+using HRMS_Project.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,20 +15,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
-namespace inheritUser.Areas.Identity.Pages.Account
+namespace HRMS_Project.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<Emp> _signInManager;
-        private readonly UserManager<Emp> _userManager;
-        private readonly ILogger<Emp> _logger;
+        private readonly SignInManager<Employee> _signInManager;
+        private readonly UserManager<Employee> _userManager;
+        private readonly ILogger<Employee> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<Emp> userManager,
-            SignInManager<Emp> signInManager,
-            ILogger<Emp> logger,
+            UserManager<Employee> userManager,
+            SignInManager<Employee> signInManager,
+            ILogger<Employee> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -92,7 +92,7 @@ namespace inheritUser.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new Emp 
+                var user = new Employee 
                 {   
                     UserName = Input.Email, 
                     Email = Input.Email, 

@@ -1,6 +1,6 @@
 using System;
 
-namespace inheritUser.Models
+namespace HRMS_Project.Models.ViewModels
 {
     public class ErrorViewModel
     {

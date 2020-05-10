@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using inheritUser.Data;
+using HRMS_Project.Data;
 
-namespace inheritUser.Data.Migrations
+namespace HRMS_Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -154,7 +154,7 @@ namespace inheritUser.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("inheritUser.Models.Emp", b =>
+            modelBuilder.Entity("HRMS_Project.Models.Employee", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -185,8 +185,8 @@ namespace inheritUser.Data.Migrations
                         .HasColumnType("nvarchar(6)")
                         .HasMaxLength(6);
 
-                    b.Property<int>("IdEmployee")
-                        .HasColumnType("int");
+                    //b.Property<int>("IdEmployee")
+                    //    .HasColumnType("int");
 
                     b.Property<int?>("IdManager")
                         .HasColumnType("int");
@@ -266,7 +266,7 @@ namespace inheritUser.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("inheritUser.Models.Emp", null)
+                    b.HasOne("HRMS_Project.Models.Employee", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -275,7 +275,7 @@ namespace inheritUser.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("inheritUser.Models.Emp", null)
+                    b.HasOne("HRMS_Project.Models.Employee", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -290,7 +290,7 @@ namespace inheritUser.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("inheritUser.Models.Emp", null)
+                    b.HasOne("HRMS_Project.Models.Employee", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -299,7 +299,7 @@ namespace inheritUser.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("inheritUser.Models.Emp", null)
+                    b.HasOne("HRMS_Project.Models.Employee", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace inheritUser.Data.Migrations
+namespace HRMS_Project.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

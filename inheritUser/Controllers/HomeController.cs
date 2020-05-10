@@ -5,9 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using inheritUser.Models;
+using HRMS_Project.Models;
+using HRMS_Project.Models.ViewModels;
 
-namespace inheritUser.Controllers
+namespace HRMS_Project.Controllers
 {
     public class HomeController : Controller
     {

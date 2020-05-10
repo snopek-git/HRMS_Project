@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace inheritUser.Data.Migrations
+namespace HRMS_Project.Data.Migrations
 {
     public partial class Extend_IdentityUser : Migration
     {
@@ -27,11 +27,11 @@ namespace inheritUser.Data.Migrations
                 maxLength: 6,
                 nullable: true);
 
-            migrationBuilder.AddColumn<int>(
-                name: "IdEmployee",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: 0);
+            //migrationBuilder.AddColumn<int>(
+            //    name: "IdEmployee",
+            //    table: "AspNetUsers",
+            //    nullable: false,
+            //    defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "IdManager",
@@ -79,9 +79,9 @@ namespace inheritUser.Data.Migrations
                 name: "IdCardNumber",
                 table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "IdEmployee",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "IdEmployee",
+            //    table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
                 name: "IdManager",
