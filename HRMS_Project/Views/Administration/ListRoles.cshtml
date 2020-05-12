@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<IdentityRole>
 
 @{
-    ViewData["Title"] = "All Roles";
+    ViewData["Title"] = "Role użytkowników";
 }
 
-<h1>All Roles:</h1>
+<h1>Role użytkowników:</h1>
 
 @if (Model.Any())
 {
@@ -12,7 +12,7 @@
     {
         <div class="card">
             <div class="card-header">
-                Role id: @role.Id
+                ID roli: @role.Id
             </div>
             <div class="card-body">
                 <h5>
@@ -21,10 +21,10 @@
             </div>
             <div class="card-footer">
                 <a class="btn btn-primary" style="width:auto" asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id">
-                    Edit
+                    Edytuj
                 </a>
                 <a href="#" class="btn btn-danger" style="width:auto">
-                    Delete
+                    Usuń
                 </a>
             </div>
         </div>
@@ -39,7 +39,7 @@ else
         </div>
         <div class="card-body">
             <a class="btn btn-primary" style="width:auto" asp-controller="Administration" asp-action="CreateRole">
-                Create role
+                Dodaj rolę
             </a>
         </div>
     </div>
