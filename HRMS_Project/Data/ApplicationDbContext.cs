@@ -33,7 +33,7 @@ namespace HRMS_Project.Data
             {
 
 
-                //entity.Property(e => e.IdEmployee).ValueGeneratedNever();
+                //entity.Property(e => e.IdEmployee).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
