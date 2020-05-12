@@ -1,18 +1,18 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Panel administracyjny";
 }
 
-<h1>Amin panel</h1>
+<h1>Panel administracyjny</h1>
 
 <div class="card" style="width: 18rem;">
     <div class="card-body">
         <a asp-controller="Administration" asp-action="ListRoles">
-            <h5 class="card-title">User roles</h5>
+            <h5 class="card-title">Role użytkowników</h5>
         </a>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a class="card-link" asp-area="" asp-controller="Administration" asp-action="CreateRole">Add role</a>
-        <a href="#" class="card-link">Assign role</a>
+        <p class="card-text">Zarządzanie rolami użytkowników.</p>
+        <a class="card-link" asp-area="" asp-controller="Administration" asp-action="CreateRole">Dodaj rolę</a>
+        <a asp-controller="Administration" asp-action="ListRoles" class="card-link">Wyświetl role</a>
     </div>
 </div>
 
