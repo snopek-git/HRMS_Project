@@ -15,15 +15,16 @@ namespace HRMS_Project.Data
         }
 
         public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<Job> Job { get; set; }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Data Source=db-mssql;Initial Catalog=s15885;Integrated Security=True");
-//            }
-//        }
+        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //        {
+        //            if (!optionsBuilder.IsConfigured)
+        //            {
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+        //                optionsBuilder.UseSqlServer("Data Source=db-mssql;Initial Catalog=s15885;Integrated Security=True");
+        //            }
+        //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,7 +34,7 @@ namespace HRMS_Project.Data
             {
 
 
-                //entity.Property(e => e.IdEmployee).ValueGeneratedOnAdd();
+                entity.Property(e => e.IdEmployee).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
@@ -53,6 +54,18 @@ namespace HRMS_Project.Data
                     .HasMaxLength(11);
 
                 entity.Property(e => e.SecondName).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Job>(entity =>
+            {
+                entity.HasKey(e => e.IdJob)
+                    .HasName("Job_pk");
+
+                entity.Property(e => e.IdJob).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.JobName)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
         }
 

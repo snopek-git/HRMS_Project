@@ -185,8 +185,8 @@ namespace HRMS_Project.Data.Migrations
                         .HasColumnType("nvarchar(6)")
                         .HasMaxLength(6);
 
-                    //b.Property<int>("IdEmployee")
-                    //    .HasColumnType("int");
+                    b.Property<int>("IdEmployee")
+                        .HasColumnType("int");
 
                     b.Property<int?>("IdManager")
                         .HasColumnType("int");
