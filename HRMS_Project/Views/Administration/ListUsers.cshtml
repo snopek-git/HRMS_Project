@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<Employee>
 
 @{
-    ViewBag.Title = "Lista użytkowników";
+    ViewBag.Title = "Lista pracowników";
 }
 
-<h1>Lista użytkowników</h1>
+<h1>Lista pracowników</h1>
 
 @if (Model.Any())
 {
     <a asp-action="Register" asp-controller="Account"
        class="btn btn-primary mb-3" style="width:auto">
-        Dodaj nowego użytkownika
+        Dodaj nowego pracownika
     </a>
 
     foreach (var user in Model)
@@ -23,8 +23,9 @@
                 <h5 class="card-title">@user.FirstName @user.LastName</h5>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn btn-danger">Edit</a>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id" 
+                   class="btn btn-primary">Edytuj</a>
+                <a href="#" class="btn btn-danger">Usuń</a>
             </div>
         </div>
     }
@@ -33,15 +34,15 @@ else
 {
     <div class="card">
         <div class="card-header">
-            Brak użytkowników.
+            Brak pracowników.
         </div>
         <div class="card-body">
             <h5 class="card-title">
-                Use the button below to create a user
+                Użyj poniższego przycisku w celu dodania nowego pracownika
             </h5>
             <a class="btn btn-primary" style="width:auto"
                asp-controller="Account" asp-action="Register">
-                Dodaj nowego użytkownika
+                Dodaj
             </a>
         </div>
     </div>
