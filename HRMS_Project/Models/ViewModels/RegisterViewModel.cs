@@ -52,5 +52,8 @@ namespace HRMS_Project.Models.ViewModels
         [Display(Name = "Manager")]
         public int IdManager { get; set; }
 
+        [Display(Name = "Uprawnienia")]
+        public int IdRole { get; set; }
+
     }
 }
