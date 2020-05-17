@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HRMS_Project.Controllers
 {
+    [Authorize]
     public class AdministrationController : Controller
     {
 

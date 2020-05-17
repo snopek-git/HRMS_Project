@@ -21,7 +21,14 @@ namespace HRMS_Project.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account"); //View("/Views/Account/Login");
+            }
         }
 
         public IActionResult Privacy()
