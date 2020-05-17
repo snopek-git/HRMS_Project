@@ -202,5 +202,87 @@ namespace HRMS_Project.Controllers
 
             return RedirectToAction("EditRole", new { Id = roleId });
         }
+
+        [HttpGet]
+        public IActionResult ListUsers()
+        {
+            var users = employeeUserManager.Users;
+            return View(users);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string id)
+        {
+            var user = await employeeUserManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"Użytkownik z Id = {id} nie istnieje";
+                return View("NotFound");
+            }
+
+            //var userClaims = await employeeUserManager.GetClaimsAsync(user);
+
+
+            var userRoles = await employeeUserManager.GetRolesAsync(user);
+
+            var model = new EditUserViewModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                SecondName = user.SecondName,
+                LastName = user.LastName,
+                Pesel = user.Pesel,
+                BDate = user.BirthDate,
+                PhoneNumber = user.PhoneNumber,
+                IdCardNumber = user.IdCardNumber,
+                IdJob = user.IdJob,
+                //IdManager = (int)user.IdManager,
+                Roles = userRoles
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(EditUserViewModel model)
+        {
+            var user = await employeeUserManager.FindByIdAsync(model.Id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"Pracownik z Id = {model.Id} nie istnieje";
+                return View("NotFound");
+            }
+            else
+            {
+                user.Email = model.Email;
+                user.FirstName = model.FirstName;
+                user.SecondName = model.SecondName;
+                user.LastName = model.LastName;
+                user.Pesel = model.Pesel;
+                user.BirthDate = model.BDate;
+                user.PhoneNumber = model.PhoneNumber;
+                user.IdCardNumber = model.IdCardNumber;
+                user.IdJob = model.IdJob;
+                //IdManager = (int)user.IdManager,
+
+                var result = await employeeUserManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+        }
+
     }
 }
