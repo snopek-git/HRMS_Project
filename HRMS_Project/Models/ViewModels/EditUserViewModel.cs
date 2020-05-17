@@ -37,7 +37,7 @@ namespace HRMS_Project.Models.ViewModels
 
         public int IdJob { get; set; }
 
-        //public int IdManager { get; set; }
+        public int IdManager { get; set; }
 
     }
 }

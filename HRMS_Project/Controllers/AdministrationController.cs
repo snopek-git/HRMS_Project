@@ -230,7 +230,7 @@ namespace HRMS_Project.Controllers
             {
                 Id = user.Id,
                 Email = user.Email,
-                FirstName = user.UserName,
+                FirstName = user.FirstName,
                 SecondName = user.SecondName,
                 LastName = user.LastName,
                 Pesel = user.Pesel,
