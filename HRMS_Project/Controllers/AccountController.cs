@@ -32,8 +32,8 @@ namespace HRMS_Project.Controllers
         public IActionResult Register()
         {
             ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName");
-            ViewData["IdManager"] = new SelectList(context.Employee, "IdManager", "LastName");
-            ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
+            ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "LastName");
+            //ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
             return View();
         }
 
@@ -53,8 +53,8 @@ namespace HRMS_Project.Controllers
                     BirthDate = model.BDate,
                     PhoneNumber = model.PhoneNumber,
                     IdCardNumber = model.IdCardNumber,
-                    IdJob = model.IdJob
-                    //IdManager = model.IdManager
+                    IdJob = model.IdJob,
+                    IdManager = model.IdManager
                     
 
                 };
@@ -62,14 +62,14 @@ namespace HRMS_Project.Controllers
 
                 //ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName", model.IdJob);
                 //ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "EmailAddress", model.IdManager);
-                //ViewData["IdRole"] = new SelectList(context.Role, "IdRole", "RoleName", employee.IdRole);
+                //ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name", model.IdRole);
 
                 if (result.Succeeded)
                 {
                     //await signInManager.SignInAsync(user, isPersistent: false); //Logowanie od razu po rejestracji
 
-                    var role = await roleManager.FindByIdAsync(model.IdRole.ToString());
-                    var roleResult = userManager.AddToRoleAsync(user, role.Name);
+                    //var role = await roleManager.FindByIdAsync(model.IdRole.ToString());
+                    //var roleResult = userManager.AddToRoleAsync(user, role.Name);
 
                     return RedirectToAction("index", "home");
                 }

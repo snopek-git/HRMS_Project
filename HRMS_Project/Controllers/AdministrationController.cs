@@ -268,6 +268,7 @@ namespace HRMS_Project.Controllers
                 user.PhoneNumber = model.PhoneNumber;
                 user.IdCardNumber = model.IdCardNumber;
                 user.IdJob = model.IdJob;
+                user.IdEmployee = model.IdEmployee;
                 //IdManager = (int)user.IdManager,
 
                 var result = await employeeUserManager.UpdateAsync(user);

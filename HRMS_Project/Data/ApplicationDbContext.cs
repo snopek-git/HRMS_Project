@@ -4,6 +4,7 @@ using System.Text;
 using HRMS_Project.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HRMS_Project.Data
 {
@@ -34,7 +35,8 @@ namespace HRMS_Project.Data
             {
 
 
-                entity.Property(e => e.IdEmployee).ValueGeneratedOnAdd();
+                entity.Property(e => e.IdEmployee).ValueGeneratedOnAdd()
+                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
