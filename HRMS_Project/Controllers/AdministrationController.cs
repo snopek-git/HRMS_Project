@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HRMS_Project.Controllers
 {
+    [Authorize]
     public class AdministrationController : Controller
     {
 
@@ -266,6 +268,7 @@ namespace HRMS_Project.Controllers
                 user.PhoneNumber = model.PhoneNumber;
                 user.IdCardNumber = model.IdCardNumber;
                 user.IdJob = model.IdJob;
+                user.IdEmployee = model.IdEmployee;
                 //IdManager = (int)user.IdManager,
 
                 var result = await employeeUserManager.UpdateAsync(user);

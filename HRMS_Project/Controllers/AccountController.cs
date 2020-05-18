@@ -1,6 +1,7 @@
 ﻿using HRMS_Project.Data;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace HRMS_Project.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<Employee> userManager;
@@ -30,8 +32,8 @@ namespace HRMS_Project.Controllers
         public IActionResult Register()
         {
             ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName");
-            ViewData["IdManager"] = new SelectList(context.Employee, "IdManager", "LastName");
-            ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
+            ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "LastName");
+            //ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
             return View();
         }
 
@@ -51,8 +53,8 @@ namespace HRMS_Project.Controllers
                     BirthDate = model.BDate,
                     PhoneNumber = model.PhoneNumber,
                     IdCardNumber = model.IdCardNumber,
-                    IdJob = model.IdJob
-                    //IdManager = model.IdManager
+                    IdJob = model.IdJob,
+                    IdManager = model.IdManager
                     
 
                 };
@@ -60,14 +62,14 @@ namespace HRMS_Project.Controllers
 
                 //ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName", model.IdJob);
                 //ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "EmailAddress", model.IdManager);
-                //ViewData["IdRole"] = new SelectList(context.Role, "IdRole", "RoleName", employee.IdRole);
+                //ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name", model.IdRole);
 
                 if (result.Succeeded)
                 {
                     //await signInManager.SignInAsync(user, isPersistent: false); //Logowanie od razu po rejestracji
 
-                    var role = await roleManager.FindByIdAsync(model.IdRole.ToString());
-                    var roleResult = userManager.AddToRoleAsync(user, role.Name);
+                    //var role = await roleManager.FindByIdAsync(model.IdRole.ToString());
+                    //var roleResult = userManager.AddToRoleAsync(user, role.Name);
 
                     return RedirectToAction("index", "home");
                 }
@@ -76,6 +78,34 @@ namespace HRMS_Project.Controllers
                 {
                     ModelState.AddModelError("", error.Description);
                 }
+            }
+
+            return View(model);
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login()
+        {            
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {                
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+                if (result.Succeeded)
+                {                    
+                    return RedirectToAction("index", "home");
+                }
+
+                ModelState.AddModelError("", "Błędna próba logowania");
+                
             }
 
             return View(model);

@@ -10,50 +10,50 @@ namespace HRMS_Project.Models.ViewModels
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Adres E-mail:")]
         public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Hasło")]
+        [Display(Name = "Hasło:")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Potwierdź hasło")]
+        [Display(Name = "Potwierdź hasło:")]
         [Compare("Password", ErrorMessage = "Hasła do siebie nie pasują.")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "Pierwsze imie")]
+        [Display(Name = "Pierwsze imie:")]
         public string FirstName { get; set; }
 
-        [Display(Name = "Drugie imie")]
+        [Display(Name = "Drugie imie:")]
         public string SecondName { get; set; }
 
-        [Display(Name = "Nazwisko")]
+        [Display(Name = "Nazwisko:")]
         public string LastName { get; set; }
 
-        [Display(Name = "PESEL")]
+        [Display(Name = "PESEL:")]
         public string Pesel { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Data urodzenia")]
+        [Display(Name = "Data urodzenia:")]
         public DateTime BDate { get; set; }
 
-        [Display(Name = "Numer telefonu")]
+        [Display(Name = "Numer telefonu:")]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "Numer karty ID")]
+        [Display(Name = "Numer karty ID:")]
         public string IdCardNumber { get; set; }
 
-        [Display(Name = "Stanowisko")]
+        [Display(Name = "Stanowisko:")]
         public int IdJob { get; set; }
 
-        [Display(Name = "Manager")]
+        [Display(Name = "Manager:")]
         public int IdManager { get; set; }
 
-        [Display(Name = "Uprawnienia")]
-        public int IdRole { get; set; }
+        //[Display(Name = "Uprawnienia:")]
+        //public int IdRole { get; set; }
 
     }
 }
