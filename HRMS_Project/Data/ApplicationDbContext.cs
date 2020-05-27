@@ -15,6 +15,9 @@ namespace HRMS_Project.Data
         {
         }
 
+        public virtual DbSet<Benefit> Benefit { get; set; }
+        public virtual DbSet<Contract> Contract { get; set; }
+        public virtual DbSet<ContractBenefit> ContractBenefit { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Job> Job { get; set; }
 
@@ -31,12 +34,61 @@ namespace HRMS_Project.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Benefit>(entity =>
+            {
+                entity.HasKey(e => e.IdBenefit)
+                    .HasName("Benefit_pk");
+
+                entity.Property(e => e.IdBenefit).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Price).HasColumnType("decimal(6, 2)");
+            });
+
+            modelBuilder.Entity<Contract>(entity =>
+            {
+                entity.HasKey(e => e.IdContract)
+                    .HasName("Contract_pk");
+
+                entity.Property(e => e.IdContract).ValueGeneratedNever();
+
+                entity.Property(e => e.ContractNumber).ValueGeneratedOnAdd()
+                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+                entity.Property(e => e.ContractEnd).HasColumnType("date");
+
+                entity.Property(e => e.ContractStart).HasColumnType("date");
+
+                entity.Property(e => e.Salary).HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany(p => p.Contract)
+                    .HasForeignKey(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Contract_Employee");
+            });
+
+            modelBuilder.Entity<ContractBenefit>(entity =>
+            {
+                entity.HasKey(e => new { e.IdBenefitContract, e.IdBenefit, e.IdContract })
+                    .HasName("ContractBenefit_pk");
+
+                entity.Property(e => e.IdBenefit).HasColumnName("IdBenefit");
+
+                entity.Property(e => e.IdContract).HasColumnName("IdContract");
+
+                entity.Property(e => e.ExpiryDate).HasColumnType("date");
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+            });
+
             modelBuilder.Entity<Employee>(entity =>
             {
-
-
                 entity.Property(e => e.IdEmployee).ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
@@ -56,6 +108,7 @@ namespace HRMS_Project.Data
                     .HasMaxLength(11);
 
                 entity.Property(e => e.SecondName).HasMaxLength(50);
+
             });
 
             modelBuilder.Entity<Job>(entity =>

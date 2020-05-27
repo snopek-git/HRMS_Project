@@ -8,6 +8,16 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200518192520_IdEmployee_Identity_Repair.cs" />
     <Compile Remove="Data\Migrations\20200518192520_IdEmployee_Identity_Repair.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200525161013_AddContracts.cs" />
+    <Compile Remove="Data\Migrations\20200525161013_AddContracts.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200525192911_AddContract.cs" />
+    <Compile Remove="Data\Migrations\20200525192911_AddContract.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200526184900_AddContract.cs" />
+    <Compile Remove="Data\Migrations\20200526184900_AddContract.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200526194004_AddContract.cs" />
+    <Compile Remove="Data\Migrations\20200526194004_AddContract.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200526195253_AddContract2.cs" />
+    <Compile Remove="Data\Migrations\20200526195253_AddContract2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

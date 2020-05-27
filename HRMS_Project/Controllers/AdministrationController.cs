@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HRMS_Project.Data;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HRMS_Project.Controllers
@@ -17,16 +19,22 @@ namespace HRMS_Project.Controllers
 
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<Employee> employeeUserManager;
-        public AdministrationController (RoleManager<IdentityRole> roleManager, UserManager<Employee> employeeUserManager)
+        private readonly ApplicationDbContext context;
+        public AdministrationController (RoleManager<IdentityRole> roleManager, UserManager<Employee> employeeUserManager, ApplicationDbContext context)
         {
             this.roleManager = roleManager;
             this.employeeUserManager = employeeUserManager;
+            this.context = context;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
+        //=============================================//
+        //================ Role ===============//
+        //=============================================//
 
         [HttpGet]
         public IActionResult CreateRole()
@@ -205,6 +213,10 @@ namespace HRMS_Project.Controllers
             return RedirectToAction("EditRole", new { Id = roleId });
         }
 
+
+        //=============================================//
+        //================ Pracownicy ==============//
+        //=============================================//
         [HttpGet]
         public IActionResult ListUsers()
         {
@@ -287,5 +299,14 @@ namespace HRMS_Project.Controllers
             }
         }
 
+        //=============================================//
+        //================ Umowy ==============//
+        //=============================================//
+        [HttpGet]
+        public async Task<IActionResult> ListContracts()
+        {
+            var listOfContracts = context.Contract.Include(e => e.IdEmployeeNavigation);
+            return View(await listOfContracts.ToListAsync());
+        }
     }
 }
