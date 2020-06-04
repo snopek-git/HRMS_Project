@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HRMS_Project.Data.Migrations
 {
-    public partial class AddContract : Migration
+    public partial class AddContractModule : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,12 +22,38 @@ namespace HRMS_Project.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ContractStatus",
+                columns: table => new
+                {
+                    IdContractStatus = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StatusName = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("ContractStatus_pk", x => x.IdContractStatus);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContractType",
+                columns: table => new
+                {
+                    IdContractType = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ContractType = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("ContractType_pk", x => x.IdContractType);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Contract",
                 columns: table => new
                 {
-                    IdContract = table.Column<int>(nullable: false),
-                    ContractNumber = table.Column<int>(nullable: false)
+                    IdContract = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ContractNumber = table.Column<int>(nullable: false),
                     Salary = table.Column<decimal>(type: "decimal(10, 2)", nullable: false),
                     ContractStart = table.Column<DateTime>(type: "date", nullable: false),
                     ContractEnd = table.Column<DateTime>(type: "date", nullable: false),
@@ -38,6 +64,18 @@ namespace HRMS_Project.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("Contract_pk", x => x.IdContract);
+                    table.ForeignKey(
+                        name: "Contract_ContractStatus",
+                        column: x => x.IdContractStatus,
+                        principalTable: "ContractStatus",
+                        principalColumn: "IdContractStatus",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "Contract_ContractType",
+                        column: x => x.IdContractType,
+                        principalTable: "ContractType",
+                        principalColumn: "IdContractType",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "Contract_Employee",
                         column: x => x.IdEmployee,
@@ -50,7 +88,8 @@ namespace HRMS_Project.Data.Migrations
                 name: "ContractBenefit",
                 columns: table => new
                 {
-                    IdBenefitContract = table.Column<int>(nullable: false),
+                    IdBenefitContract = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdBenefit = table.Column<int>(nullable: false),
                     IdContract = table.Column<int>(nullable: false),
                     StartDate = table.Column<DateTime>(type: "date", nullable: false),
@@ -74,6 +113,16 @@ namespace HRMS_Project.Data.Migrations
                         principalColumn: "IdContract",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contract_IdContractStatus",
+                table: "Contract",
+                column: "IdContractStatus");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contract_IdContractType",
+                table: "Contract",
+                column: "IdContractType");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contract_IdEmployee",
@@ -101,6 +150,12 @@ namespace HRMS_Project.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Contract");
+
+            migrationBuilder.DropTable(
+                name: "ContractStatus");
+
+            migrationBuilder.DropTable(
+                name: "ContractType");
         }
     }
 }

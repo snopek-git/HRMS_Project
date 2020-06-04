@@ -29,10 +29,11 @@
 <br />
 <div class="card" style="width: 18rem;">
     <div class="card-body">
-        <a asp-controller="Administration" asp-action="ListContracts">
+        <a asp-controller="Contract" asp-action="ListAllContracts">
             <h5 class="card-title">Umowy</h5>
         </a>
         <p class="card-text">Zarządzanie umowami.</p>
-        <a asp-controller="Administration" asp-action="ListContracts" class="card-link">Wyświetl umowy</a>
+        <a asp-controller="Administration" asp-action="CreateContract" class="card-link">Stwórz umowę</a><br />
+        <a asp-controller="Contract" asp-action="ListAllContracts" class="card-link">Wyświetl umowy</a>
     </div>
 </div>

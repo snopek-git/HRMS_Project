@@ -6,8 +6,10 @@ using HRMS_Project.Data;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -302,11 +304,244 @@ namespace HRMS_Project.Controllers
         //=============================================//
         //================ Umowy ==============//
         //=============================================//
-        [HttpGet]
-        public async Task<IActionResult> ListContracts()
-        {
-            var listOfContracts = context.Contract.Include(e => e.IdEmployeeNavigation);
-            return View(await listOfContracts.ToListAsync());
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> ListContracts()
+        //{
+        //    var listOfContracts = context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation);
+        //    return View(await listOfContracts.ToListAsync());
+        //}
+
+        //[HttpGet]
+        //public async Task<IActionResult> ContractDetails(int ? id)
+        //{
+        //    if(id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var contract = await context.Contract
+        //                                    .Include(c => c.IdEmployeeNavigation)
+        //                                    .Include(c => c.IdContractStatusNavigation)
+        //                                    .Include(c => c.IdContractTypeNavigation)
+        //                                    .FirstOrDefaultAsync(m => m.IdContract == id);
+        //    if(contract == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(contract);
+        //}
+
+        //[HttpGet]
+        //public IActionResult CreateContract()
+        //{
+        //    ViewData["IdContractStatus"] = new SelectList(context.ContractStatus, "IdContractStatus", "StatusName");
+        //    ViewData["IdContractType"] = new SelectList(context.ContractType, "IdContractType", "ContractTypeName");
+        //    ViewData["IdEmployee"] = new SelectList(context.Employee, "Id", "Email");
+        //    //ViewData["Benefits"] = context.Benefit;
+
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateContract(Contract contract)
+        //{
+
+        //    ViewData["IdContractStatus"] = new SelectList(context.ContractStatus, "IdContractStatus", "StatusName");
+        //    ViewData["IdContractType"] = new SelectList(context.ContractType, "IdContractType", "ContractTypeName");
+        //    ViewData["IdEmployee"] = new SelectList(context.Employee, "Id", "Email");
+        //    if (ModelState.IsValid)
+        //    {
+        //        context.Add(contract);
+
+        //        //Adding Benefits To Contract
+        //        //foreach(int idBenefit in IdsBenefits)
+        //        //{
+        //        //    ContractBenefit contractBenefit = new ContractBenefit();
+        //        //    contractBenefit.IdContract = contract.IdContract;
+        //        //    contractBenefit.IdBenefit = idBenefit;
+        //        //    context.ContractBenefit.Add(contractBenefit);
+        //        //}
+
+        //        await context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(ListContracts));
+        //    }
+        //    return View(contract);
+        //}
+
+        //[HttpGet]
+        //public async Task<IActionResult> EditContract(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var contract = await context.Contract.FindAsync(id);
+
+        //    if(contract == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var result = from b in context.Benefit
+        //                 select new
+        //                 {
+        //                     b.IdBenefit,
+        //                     b.Name,
+        //                     IsSelected = ((from cb in context.ContractBenefit
+        //                                    where(cb.IdContract == id) & (cb.IdBenefit == b.IdBenefit)
+        //                                    select cb).Count() > 0)
+        //                 };
+
+        //    var editContractViewModel = new EditContractViewModel();
+
+        //    /*editContractViewModel.IdContract = id.Value;
+        //    editContractViewModel.Salary = contract.Salary;
+        //    editContractViewModel.ContractStart = contract.ContractStart;
+        //    editContractViewModel.ContractEnd = contract.ContractEnd;*/
+        //    editContractViewModel.Contract = contract;
+
+        //    var benefitCheckBox = new List<BenefitCheckBoxViewModel>();
+
+        //    foreach (var item in result)
+        //    {
+        //        //var benefitCheckBoxViewModel = new BenefitCheckBoxViewModel
+        //        //{
+        //        //    IdBenefit = benefit.IdBenefit,
+        //        //    BenefitName = benefit.Name
+        //        //};
+        //        benefitCheckBox.Add(new BenefitCheckBoxViewModel{ IdBenefit = item.IdBenefit, BenefitName = item.Name, IsSelected = item.IsSelected});
+        //    }
+
+
+
+        //    ViewData["IdContractStatus"] = new SelectList(context.ContractStatus, "IdContractStatus", "StatusName");
+        //    ViewData["IdContractType"] = new SelectList(context.ContractType, "IdContractType", "ContractTypeName");
+        //    ViewData["IdEmployee"] = new SelectList(context.Employee, "Id", "Email");
+        //    //ViewData["Benefits"] = benefitCheckBox; //context.Benefit;
+
+        //    editContractViewModel.Benefits = benefitCheckBox;
+
+        //    return View(editContractViewModel);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditContract(EditContractViewModel editContract)//int id, Contract contract, int[] IdsBenefits)
+        //{
+        //    //var result = from b in context.Benefit
+        //    //             select new
+        //    //             {
+        //    //                 b.IdBenefit,
+        //    //                 b.Name,
+        //    //                 IsSelected = ((from cb in context.ContractBenefit
+        //    //                                where (cb.IdContract == id) & (cb.IdBenefit == b.IdBenefit)
+        //    //                                select cb).Count() > 0)
+        //    //             };
+
+        //    //var benefitCheckBox = new List<BenefitCheckBoxViewModel>();
+
+        //    //foreach (var item in result)
+        //    //{
+        //    //    benefitCheckBox.Add(new BenefitCheckBoxViewModel { IdBenefit = item.IdBenefit, BenefitName = item.Name, IsSelected = item.IsSelected });
+        //    //}
+
+        //    ViewData["IdContractStatus"] = new SelectList(context.ContractStatus, "IdContractStatus", "StatusName");
+        //    ViewData["IdContractType"] = new SelectList(context.ContractType, "IdContractType", "ContractTypeName");
+        //    ViewData["IdEmployee"] = new SelectList(context.Employee, "Id", "Email");
+        //    //ViewData["Benefits"] = benefitCheckBox;
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            context.Update(editContract.Contract);
+        //            //Adding Benefits To Contract
+        //            //foreach (int idBenefit in IdsBenefits)
+        //            //{
+        //            //    ContractBenefit contractBenefit = new ContractBenefit
+        //            //    {
+        //            //        IdContract = contract.IdContract,
+        //            //        IdBenefit = idBenefit
+        //            //    };
+        //            //    context.ContractBenefit.Add(contractBenefit);
+        //            //}
+
+        //            foreach(var item in context.ContractBenefit)
+        //            {
+        //                if(item.IdContract == editContract.Contract.IdContract)
+        //                {
+        //                    context.Entry(item).State = EntityState.Deleted;
+        //                }
+        //            }
+
+        //            foreach (var item in editContract.Benefits)
+        //            {
+        //                if (item.IsSelected)
+        //                {
+        //                    context.ContractBenefit.Add(new ContractBenefit()
+        //                    {
+        //                        IdContract = editContract.Contract.IdContract,
+        //                        IdBenefit = item.IdBenefit
+        //                    });
+        //                }
+        //            }
+
+
+
+        //            await context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!ContractExists(editContract.Contract.IdContract))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(ListContracts));
+        //    }
+
+        //    return View(editContract);
+        //}
+
+        //public async Task<IActionResult> DeleteContract(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var contract = await context.Contract
+        //        .Include(c => c.IdContractStatusNavigation)
+        //        .Include(c => c.IdContractTypeNavigation)
+        //        .Include(c => c.IdEmployeeNavigation)
+        //        .FirstOrDefaultAsync(m => m.IdContract == id);
+        //    if (contract == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(contract);
+        //}
+
+        //[HttpPost, ActionName("DeleteContract")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var contract = await context.Contract.FindAsync(id);
+        //    context.Contract.Remove(contract);
+        //    await context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        //private bool ContractExists(int id)
+        //{
+        //    return context.Contract.Any(e => e.IdContract == id);
+        //}
     }
 }

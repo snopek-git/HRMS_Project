@@ -18,6 +18,8 @@ namespace HRMS_Project.Data
         public virtual DbSet<Benefit> Benefit { get; set; }
         public virtual DbSet<Contract> Contract { get; set; }
         public virtual DbSet<ContractBenefit> ContractBenefit { get; set; }
+        public virtual DbSet<ContractStatus> ContractStatus { get; set; }
+        public virtual DbSet<ContractType> ContractType { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Job> Job { get; set; }
 
@@ -50,19 +52,33 @@ namespace HRMS_Project.Data
 
             modelBuilder.Entity<Contract>(entity =>
             {
+                
+
+                entity.Property(e => e.IdContract).ValueGeneratedOnAdd()
+                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
                 entity.HasKey(e => e.IdContract)
                     .HasName("Contract_pk");
 
-                entity.Property(e => e.IdContract).ValueGeneratedNever();
-
-                entity.Property(e => e.ContractNumber).ValueGeneratedOnAdd()
-                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                entity.Property(e => e.ContractNumber);
 
                 entity.Property(e => e.ContractEnd).HasColumnType("date");
 
                 entity.Property(e => e.ContractStart).HasColumnType("date");
 
                 entity.Property(e => e.Salary).HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.IdContractStatusNavigation)
+                    .WithMany(p => p.Contract)
+                    .HasForeignKey(d => d.IdContractStatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Contract_ContractStatus");
+
+                entity.HasOne(d => d.IdContractTypeNavigation)
+                    .WithMany(p => p.Contract)
+                    .HasForeignKey(d => d.IdContractType)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Contract_ContractType");
 
                 entity.HasOne(d => d.IdEmployeeNavigation)
                     .WithMany(p => p.Contract)
@@ -83,6 +99,37 @@ namespace HRMS_Project.Data
                 entity.Property(e => e.ExpiryDate).HasColumnType("date");
 
                 entity.Property(e => e.StartDate).HasColumnType("date");
+            });
+
+            modelBuilder.Entity<ContractStatus>(entity =>
+            {
+                
+
+                entity.Property(e => e.IdContractStatus).ValueGeneratedOnAdd()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+                entity.HasKey(e => e.IdContractStatus)
+                    .HasName("ContractStatus_pk");
+
+                entity.Property(e => e.StatusName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<ContractType>(entity =>
+            {
+               
+
+                entity.Property(e => e.IdContractType).ValueGeneratedOnAdd()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+                entity.HasKey(e => e.IdContractType)
+                    .HasName("ContractType_pk");
+
+                entity.Property(e => e.ContractTypeName)
+                    .IsRequired()
+                    .HasColumnName("ContractType")
+                    .HasMaxLength(100);
             });
 
             modelBuilder.Entity<Employee>(entity =>

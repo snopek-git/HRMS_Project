@@ -18,6 +18,24 @@
     <Compile Remove="Data\Migrations\20200526194004_AddContract.Designer.cs" />
     <Compile Remove="Data\Migrations\20200526195253_AddContract2.cs" />
     <Compile Remove="Data\Migrations\20200526195253_AddContract2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200526195955_AddContract.cs" />
+    <Compile Remove="Data\Migrations\20200526195955_AddContract.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200527170437_ContractDetails.cs" />
+    <Compile Remove="Data\Migrations\20200527170437_ContractDetails.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200527170647_ContractDetails.cs" />
+    <Compile Remove="Data\Migrations\20200527170647_ContractDetails.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200527171326_ContractDetails.cs" />
+    <Compile Remove="Data\Migrations\20200527171326_ContractDetails.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200527171518_ContractDetails.cs" />
+    <Compile Remove="Data\Migrations\20200527171518_ContractDetails.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200527171809_ContractDetails.cs" />
+    <Compile Remove="Data\Migrations\20200527171809_ContractDetails.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200527172304_ContractDetails.cs" />
+    <Compile Remove="Data\Migrations\20200527172304_ContractDetails.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200527172414_ContractDetailsFK.cs" />
+    <Compile Remove="Data\Migrations\20200527172414_ContractDetailsFK.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200529172144_AddContractModule.cs" />
+    <Compile Remove="Data\Migrations\20200529172144_AddContractModule.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +44,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
   </ItemGroup>
 
 </Project>

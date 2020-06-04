@@ -1,4 +1,9 @@
 ﻿@inject SignInManager<Employee> SignInManager
+@inject UserManager<Employee> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,13 +35,20 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Contract" asp-action="ListContracts" asp-route-id="@user.Id">
+                                    Umowy
+                                </a>
+                            </li>
+                            @*@if (this.User.IsInRole("Administrator"))
+                            {*@
+                            <li class="nav-item">
                                 <a class="btn btn-info" asp-area="" asp-controller="Administration" asp-action="Index">
                                     <b>Admin</b>
                                 </a>
                             </li>
                         }
                         else { }
-                        </ul>
+                    </ul>
                 </div>
             </div>
         </nav>

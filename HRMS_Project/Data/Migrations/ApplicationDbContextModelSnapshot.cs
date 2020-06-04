@@ -43,15 +43,15 @@ namespace HRMS_Project.Data.Migrations
             modelBuilder.Entity("HRMS_Project.Models.Contract", b =>
                 {
                     b.Property<int>("IdContract")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("ContractEnd")
                         .HasColumnType("date");
 
                     b.Property<int>("ContractNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ContractStart")
                         .HasColumnType("date");
@@ -71,6 +71,10 @@ namespace HRMS_Project.Data.Migrations
                     b.HasKey("IdContract")
                         .HasName("Contract_pk");
 
+                    b.HasIndex("IdContractStatus");
+
+                    b.HasIndex("IdContractType");
+
                     b.HasIndex("IdEmployee");
 
                     b.ToTable("Contract");
@@ -79,7 +83,9 @@ namespace HRMS_Project.Data.Migrations
             modelBuilder.Entity("HRMS_Project.Models.ContractBenefit", b =>
                 {
                     b.Property<int>("IdBenefitContract")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("IdBenefit")
                         .HasColumnName("IdBenefit")
@@ -109,6 +115,43 @@ namespace HRMS_Project.Data.Migrations
                     b.HasIndex("ContractIdContract");
 
                     b.ToTable("ContractBenefit");
+                });
+
+            modelBuilder.Entity("HRMS_Project.Models.ContractStatus", b =>
+                {
+                    b.Property<int>("IdContractStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("StatusName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("IdContractStatus")
+                        .HasName("ContractStatus_pk");
+
+                    b.ToTable("ContractStatus");
+                });
+
+            modelBuilder.Entity("HRMS_Project.Models.ContractType", b =>
+                {
+                    b.Property<int>("IdContractType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ContractTypeName")
+                        .IsRequired()
+                        .HasColumnName("ContractType")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("IdContractType")
+                        .HasName("ContractType_pk");
+
+                    b.ToTable("ContractType");
                 });
 
             modelBuilder.Entity("HRMS_Project.Models.Employee", b =>
@@ -368,6 +411,18 @@ namespace HRMS_Project.Data.Migrations
 
             modelBuilder.Entity("HRMS_Project.Models.Contract", b =>
                 {
+                    b.HasOne("HRMS_Project.Models.ContractStatus", "IdContractStatusNavigation")
+                        .WithMany("Contract")
+                        .HasForeignKey("IdContractStatus")
+                        .HasConstraintName("Contract_ContractStatus")
+                        .IsRequired();
+
+                    b.HasOne("HRMS_Project.Models.ContractType", "IdContractTypeNavigation")
+                        .WithMany("Contract")
+                        .HasForeignKey("IdContractType")
+                        .HasConstraintName("Contract_ContractType")
+                        .IsRequired();
+
                     b.HasOne("HRMS_Project.Models.Employee", "IdEmployeeNavigation")
                         .WithMany("Contract")
                         .HasForeignKey("IdEmployee")
