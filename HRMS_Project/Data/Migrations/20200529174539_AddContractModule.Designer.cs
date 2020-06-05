@@ -4,14 +4,16 @@ using HRMS_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRMS_Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200529174539_AddContractModule")]
+    partial class AddContractModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,55 +21,6 @@ namespace HRMS_Project.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-			modelBuilder.Entity("HRMS_Project.Models.AbsenceType", b =>
-                {
-                    b.Property<int>("IdAbsenceType")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AbsenceTypeName")
-                        .IsRequired()
-                        .HasColumnName("AbsenceTypeName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdAbsenceType")
-                        .HasName("AbsenceType_pk");
-
-                    b.ToTable("AbsenceType");
-                });
-
-            modelBuilder.Entity("HRMS_Project.Models.AvailableAbsence", b =>
-                {
-                    b.Property<int>("IdAvailableAbsence")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AvailableDays")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdAbsenceType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdEmployee")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("UsedAbsence")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.HasKey("IdAvailableAbsence")
-                        .HasName("AvailableAbsence_pk");
-
-                    b.HasIndex("IdAbsenceType");
-
-                    b.HasIndex("IdEmployee");
-
-                    b.ToTable("AvailableAbsence");
-                });
-				
             modelBuilder.Entity("HRMS_Project.Models.Benefit", b =>
                 {
                     b.Property<int>("IdBenefit")
@@ -352,21 +305,6 @@ namespace HRMS_Project.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-                });
-				
-			modelBuilder.Entity("HRMS_Project.Models.AvailableAbsence", b =>
-                {
-                    b.HasOne("HRMS_Project.Models.AbsenceType", "IdAbsenceTypeNavigation")
-                        .WithMany("AvailableAbsence")
-                        .HasForeignKey("IdAbsenceType")
-                        .HasConstraintName("AvailableAbsence_AbsenceType")
-                        .IsRequired();
-
-                    b.HasOne("HRMS_Project.Models.Employee", "IdEmployeeNavigation")
-                        .WithMany("AvailableAbsence")
-                        .HasForeignKey("IdEmployee")
-                        .HasConstraintName("AvailableAbsence_Emp")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

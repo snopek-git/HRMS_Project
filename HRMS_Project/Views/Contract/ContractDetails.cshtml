@@ -1,0 +1,62 @@
+﻿@model HRMS_Project.Models.Contract
+
+@{
+    ViewData["Title"] = "Szczegóły umowy";
+}
+
+<h1>Szczegóły umowy</h1>
+
+<div>
+    <h4>Umowa</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Numer umowy:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContractNumber)
+        </dd>
+        <dt class="col-sm-2">
+            Pracownik:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdEmployeeNavigation.FirstName) @Html.DisplayFor(model => model.IdEmployeeNavigation.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            Wynagrodzenie:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Salary) PLN brutto
+        </dd>
+        <dt class="col-sm-2">
+            Początek:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContractStart)
+        </dd>
+        <dt class="col-sm-2">
+            Koniec:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContractEnd)
+        </dd>
+        <dt class="col-sm-2">
+            Status:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdContractStatusNavigation.StatusName)
+        </dd>
+        <dt class="col-sm-2">
+            Rodzaj:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdContractTypeNavigation.ContractTypeName)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteContract" >
+        <input type="hidden" asp-for="IdContract" />
+        <input type="submit" value="Usuń" class="btn btn-danger" /> |
+        <a asp-action="ListAllContracts">Powrót do listy</a>
+    </form>
+</div>

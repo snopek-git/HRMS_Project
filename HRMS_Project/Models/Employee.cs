@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HRMS_Project.Models
@@ -24,6 +25,9 @@ namespace HRMS_Project.Models
         public int? IdManager { get; set; }
         public bool IsActive { get; set; }
 
+        public ICollection<Contract> Contract { get; set; }
+
         public ICollection<AvailableAbsence> AvailableAbsence { get; set; }
+
     }
 }

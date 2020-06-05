@@ -1,0 +1,128 @@
+﻿@model HRMS_Project.Models.ViewModels.EditContractViewModel
+
+@{
+    ViewData["Title"] = "Edycja umowy";
+}
+
+<h1>Edytowanie umowy</h1>
+
+<hr />
+
+<form asp-action="EditContract" class="mt-3">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Contract.IdContract" />
+    <div class="form-group row">
+        <label asp-for="Contract.IdEmployee" class="col-sm-2 col-form-label">Pracownik:</label>
+        <div class="col-sm-10">
+            <select asp-for="Contract.IdEmployee" class="form-control" asp-items="ViewBag.IdEmployee"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label  asp-for="Contract.Salary" class="col-sm-2 col-form-label">Wynagrodzenie brutto:</label>
+        <div class="col-sm-10">
+            <input type="number" asp-for="Contract.Salary" class="form-control">
+            <span asp-validation-for="Contract.Salary" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Contract.ContractStart" class="col-sm-2 col-form-label">Początek:</label>
+        <div class="col-sm-10">
+            <input asp-for="Contract.ContractStart" class="form-control">
+            <span asp-validation-for="Contract.ContractStart" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Contract.ContractEnd" class="col-sm-2 col-form-label">Koniec:</label>
+        <div class="col-sm-10">
+            <input asp-for="Contract.ContractEnd" class="form-control">
+            <span asp-validation-for="Contract.ContractEnd" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Contract.IdContractType" class="col-sm-2 col-form-label">Typ:</label>
+        <div class="col-sm-10">
+            <select asp-for="Contract.IdContractType" class="form-control" asp-items="ViewBag.IdContractType"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Contract.IdContractStatus" class="col-sm-2 col-form-label">Status:</label>
+        <div class="col-sm-10">
+            <select asp-for="Contract.IdContractStatus" class="form-control" asp-items="ViewBag.IdContractStatus"></select>
+        </div>
+    </div>
+    <div>
+            <ul style="list-style-type:none;">
+                @*foreach(var benefit in Model.Benefits)*@
+                @for(int i = 0; i < Model.Benefits.Count(); i++)
+                {
+                <li>
+                    @*<h6><input type="checkbox" checked="@" name="Benefits" value="@benefit.IdBenefit" /> @benefit.BenefitName </h6>*@
+                <h5>
+                    
+                    @Html.EditorFor(m => Model.Benefits[i].IsSelected)
+                    @Html.DisplayFor(m => Model.Benefits[i].BenefitName)
+
+                    @Html.HiddenFor(m => Model.Benefits[i].BenefitName)
+                    @Html.HiddenFor(m => Model.Benefits[i].IdBenefit)
+                </h5>
+                </li>
+                }
+            </ul>
+        </div>
+
+    @*<div class="row">
+            <div class="col-md-4">
+                <form asp-action="EditContract">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdContract" />
+                    <div class="form-group">
+                        <label asp-for="ContractNumber" class="control-label">Numer umowy:</label>
+                        <input asp-for="ContractNumber" class="form-control" />
+                        <span asp-validation-for="ContractNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Salary" class="control-label">Wynagrodzenie:</label>
+                        <input asp-for="Salary" class="form-control" />
+                        <span asp-validation-for="Salary" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContractStart" class="control-label">Początek:</label>
+                        <input asp-for="ContractStart" class="form-control" />
+                        <span asp-validation-for="ContractStart" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContractEnd" class="control-label">Koniec:</label>
+                        <input asp-for="ContractEnd" class="form-control" />
+                        <span asp-validation-for="ContractEnd" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdContractType" class="control-label">Typ:</label>
+                        <select asp-for="IdContractType" class="form-control" asp-items="ViewBag.IdContractType"></select>
+                        <span asp-validation-for="IdContractType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdContractStatus" class="control-label">Status:</label>
+                        <select asp-for="IdContractStatus" class="form-control" asp-items="ViewBag.IdContractStatus"></select>
+                        <span asp-validation-for="IdContractStatus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IdEmployee" class="control-label">Pracownik:</label>
+                        <select asp-for="IdEmployee" class="form-control" asp-items="ViewBag.IdEmployee"></select>
+                        <span asp-validation-for="IdEmployee" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Zapisz" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        <input type="submit" value="Zapisz" class="btn btn-primary" /> | <a asp-action="ListContracts">Powrót do listy</a>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
