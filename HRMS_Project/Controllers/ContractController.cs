@@ -102,7 +102,7 @@ namespace HRMS_Project.Controllers
                 //}
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(ListContracts));
+                return RedirectToAction(nameof(ListAllContracts));
             }
             return View(contract);
         }
