@@ -33,7 +33,7 @@ namespace HRMS_Project.Controllers
         {
             ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName");
             ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "LastName");
-            ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
+            //ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
             return View();
         }
 
@@ -68,8 +68,8 @@ namespace HRMS_Project.Controllers
                 {
                     //await signInManager.SignInAsync(user, isPersistent: false); //Logowanie od razu po rejestracji
 
-                    var role = await roleManager.FindByIdAsync(model.IdRole);
-                    var roleResult = await userManager.AddToRoleAsync(user, role.Name);
+                    //var role = await roleManager.FindByIdAsync(model.IdRole.ToString());
+                    //var roleResult = userManager.AddToRoleAsync(user, role.Name);
 
                     return RedirectToAction("index", "home");
                 }

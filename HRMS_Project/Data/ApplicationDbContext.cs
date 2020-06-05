@@ -22,15 +22,8 @@ namespace HRMS_Project.Data
         public virtual DbSet<ContractType> ContractType { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Job> Job { get; set; }
-
-        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //        {
-        //            if (!optionsBuilder.IsConfigured)
-        //            {
-        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-        //                optionsBuilder.UseSqlServer("Data Source=db-mssql;Initial Catalog=s15885;Integrated Security=True");
-        //            }
-        //        }
+        public virtual DbSet<AvailableAbsence> AvailableAbsence { get; set; }
+        public virtual DbSet<AbsenceType> AbsenceType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -169,6 +162,52 @@ namespace HRMS_Project.Data
                     .IsRequired()
                     .HasMaxLength(50);
             });
+
+            /*
+             *
+             **********ABSENCE
+             * 
+             */
+
+            modelBuilder.Entity<AbsenceType>(entity =>
+            {
+                entity.HasKey(e => e.IdAbsenceType)
+                    .HasName("AbsenceType_pk");
+
+                entity.Property(e => e.IdAbsenceType).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.AbsenceTypeName)
+                    .IsRequired()
+                    .HasColumnName("AbsenceTypeName");
+            });
+
+            modelBuilder.Entity<AvailableAbsence>(entity =>
+            {
+                entity.HasKey(e => e.IdAvailableAbsence)
+                    .HasName("AvailableAbsence_pk");
+
+                entity.Property(e => e.IdAvailableAbsence).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.AvailableDays);
+
+                entity.Property(e => e.IdEmployee)
+                    .IsRequired();
+
+                entity.Property(e => e.UsedAbsence).HasDefaultValue(0);
+
+                entity.HasOne(d => d.IdAbsenceTypeNavigation)
+                    .WithMany(p => p.AvailableAbsence)
+                    .HasForeignKey(d => d.IdAbsenceType)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("AvailableAbsence_AbsenceType");
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany(p => p.AvailableAbsence)
+                    .HasForeignKey(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("AvailableAbsence_Emp");
+            });
+
         }
 
     }

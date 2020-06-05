@@ -20,12 +20,14 @@
                 </h5>
             </div>
             <div class="card-footer">
-                <a class="btn btn-primary" style="width:auto" asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id">
-                    Edytuj
-                </a>
-                <a href="#" class="btn btn-danger" style="width:auto">
-                    Usuń
-                </a>
+                <form method="post" asp-action="DeleteRole" asp-route-id="@role.Id">
+                    <a class="btn btn-primary" style="width:auto" asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id">
+                        Edytuj
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        Usuń
+                    </button>
+                </form>
             </div>
         </div>
     }

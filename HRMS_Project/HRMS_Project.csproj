@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200518192520_IdEmployee_Identity_Repair.cs" />
     <Compile Remove="Data\Migrations\20200518192520_IdEmployee_Identity_Repair.Designer.cs" />
+
     <Compile Remove="Data\Migrations\20200525161013_AddContracts.cs" />
     <Compile Remove="Data\Migrations\20200525161013_AddContracts.Designer.cs" />
     <Compile Remove="Data\Migrations\20200525192911_AddContract.cs" />
@@ -36,6 +37,16 @@
     <Compile Remove="Data\Migrations\20200527172414_ContractDetailsFK.Designer.cs" />
     <Compile Remove="Data\Migrations\20200529172144_AddContractModule.cs" />
     <Compile Remove="Data\Migrations\20200529172144_AddContractModule.Designer.cs" />
+
+    <Compile Remove="Data\Migrations\20200530124530_Absence.cs" />
+    <Compile Remove="Data\Migrations\20200530124530_Absence.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200530125817_Absence.cs" />
+    <Compile Remove="Data\Migrations\20200530125817_Absence.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200530131045_Absence.cs" />
+    <Compile Remove="Data\Migrations\20200530131045_Absence.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200530135445_AddAbsence.cs" />
+    <Compile Remove="Data\Migrations\20200530135445_AddAbsence.Designer.cs" />
+
   </ItemGroup>
 
   <ItemGroup>
