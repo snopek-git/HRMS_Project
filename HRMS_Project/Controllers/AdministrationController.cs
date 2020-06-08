@@ -329,5 +329,113 @@ namespace HRMS_Project.Controllers
             }
         }
 
+
+        //=============================================//
+        //================ Benefity ==============//
+        //=============================================//
+
+        public async Task<IActionResult> ListBenefits()
+        {
+            return View(await context.Benefit.ToListAsync());
+        }
+
+        public IActionResult CreateBenefit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateBenefit(Benefit benefit)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Add(benefit);
+                await context.SaveChangesAsync();
+                return RedirectToAction(nameof(ListBenefits));
+            }
+            return View(benefit);
+        }
+
+        public async Task<IActionResult> EditBenefit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var benefit = await context.Benefit.FindAsync(id);
+            if (benefit == null)
+            {
+                return NotFound();
+            }
+            return View(benefit);
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditBenefit(int id, Benefit benefit)
+        {
+            if (id != benefit.IdBenefit)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    context.Update(benefit);
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BenefitExists(benefit.IdBenefit))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(ListBenefits));
+            }
+            return View(benefit);
+        }
+
+        public async Task<IActionResult> DeleteBenefit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var benefit = await context.Benefit
+                .FirstOrDefaultAsync(m => m.IdBenefit == id);
+            if (benefit == null)
+            {
+                return NotFound();
+            }
+
+            return View(benefit);
+        }
+
+        // POST: Benefits/Delete/5
+        [HttpPost, ActionName("DeleteBenefit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var benefit = await context.Benefit.FindAsync(id);
+            context.Benefit.Remove(benefit);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(ListBenefits));
+        }
+
+        private bool BenefitExists(int id)
+        {
+            return context.Benefit.Any(e => e.IdBenefit == id);
+        }
     }
 }

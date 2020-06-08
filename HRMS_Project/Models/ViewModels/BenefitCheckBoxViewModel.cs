@@ -9,6 +9,8 @@ namespace HRMS_Project.Models.ViewModels
     {
         public int IdBenefit { get; set; }
         public string BenefitName { get; set; }
+
+        public decimal Price { get; set; }
         public bool IsSelected { get; set; }
 
     }
