@@ -67,7 +67,35 @@ namespace HRMS_Project.Controllers
                 return NotFound();
             }
 
-            return View(contract);
+            var result = from b in _context.Benefit
+                         select new
+                         {
+                             b.IdBenefit,
+                             b.Name,
+                             IsSelected = ((from cb in _context.ContractBenefit
+                                            where (cb.IdContract == id) & (cb.IdBenefit == b.IdBenefit)
+                                            select cb).Count() > 0)
+                         };
+
+            var editContractViewModel = new EditContractViewModel();
+
+            editContractViewModel.Contract = contract;
+
+            var benefitCheckBox = new List<BenefitCheckBoxViewModel>();
+
+            foreach (var item in result)
+            {
+                //var benefitCheckBoxViewModel = new BenefitCheckBoxViewModel
+                //{
+                //    IdBenefit = benefit.IdBenefit,
+                //    BenefitName = benefit.Name
+                //};
+                benefitCheckBox.Add(new BenefitCheckBoxViewModel { IdBenefit = item.IdBenefit, BenefitName = item.Name, IsSelected = item.IsSelected });
+            }
+
+            editContractViewModel.Benefits = benefitCheckBox;
+
+            return View(editContractViewModel);
         }
 
         [HttpGet]
@@ -127,6 +155,7 @@ namespace HRMS_Project.Controllers
                          {
                              b.IdBenefit,
                              b.Name,
+                             b.Price,
                              IsSelected = ((from cb in _context.ContractBenefit
                                             where (cb.IdContract == id) & (cb.IdBenefit == b.IdBenefit)
                                             select cb).Count() > 0)
@@ -149,7 +178,7 @@ namespace HRMS_Project.Controllers
                 //    IdBenefit = benefit.IdBenefit,
                 //    BenefitName = benefit.Name
                 //};
-                benefitCheckBox.Add(new BenefitCheckBoxViewModel { IdBenefit = item.IdBenefit, BenefitName = item.Name, IsSelected = item.IsSelected });
+                benefitCheckBox.Add(new BenefitCheckBoxViewModel { IdBenefit = item.IdBenefit, BenefitName = item.Name, Price = item.Price, IsSelected = item.IsSelected });
             }
 
 
@@ -241,7 +270,7 @@ namespace HRMS_Project.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(ListContracts));
+                return RedirectToAction(nameof(ListAllContracts));
             }
 
             return View(editContract);

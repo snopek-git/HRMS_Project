@@ -34,5 +34,6 @@ namespace HRMS_Project.Models.ViewModels
         public Contract Contract { get; set; }
 
         public List<BenefitCheckBoxViewModel> Benefits { get; set; }
+
     }
 }

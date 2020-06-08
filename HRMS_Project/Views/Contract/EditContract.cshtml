@@ -50,25 +50,26 @@
             <select asp-for="Contract.IdContractStatus" class="form-control" asp-items="ViewBag.IdContractStatus"></select>
         </div>
     </div>
-    <div>
-            <ul style="list-style-type:none;">
-                @*foreach(var benefit in Model.Benefits)*@
-                @for(int i = 0; i < Model.Benefits.Count(); i++)
-                {
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Benefity:</label>
+            <ul style="list-style-type:none">
+            @*foreach(var benefit in Model.Benefits)*@
+            @for (int i = 0; i < Model.Benefits.Count(); i++)
+            {
                 <li>
                     @*<h6><input type="checkbox" checked="@" name="Benefits" value="@benefit.IdBenefit" /> @benefit.BenefitName </h6>*@
-                <h5>
-                    
-                    @Html.EditorFor(m => Model.Benefits[i].IsSelected)
-                    @Html.DisplayFor(m => Model.Benefits[i].BenefitName)
+                    <h5>
 
-                    @Html.HiddenFor(m => Model.Benefits[i].BenefitName)
-                    @Html.HiddenFor(m => Model.Benefits[i].IdBenefit)
-                </h5>
+                        @Html.EditorFor(m => Model.Benefits[i].IsSelected)
+                        @Html.DisplayFor(m => Model.Benefits[i].BenefitName) @Html.DisplayFor(m => Model.Benefits[i].Price)
+
+                        @Html.HiddenFor(m => Model.Benefits[i].BenefitName)
+                        @Html.HiddenFor(m => Model.Benefits[i].IdBenefit)
+                    </h5>
                 </li>
-                }
+            }
             </ul>
-        </div>
+    </div>
 
     @*<div class="row">
             <div class="col-md-4">
@@ -118,7 +119,7 @@
         </div>*@
 
     <div class="form-group">
-        <input type="submit" value="Zapisz" class="btn btn-primary" /> | <a asp-action="ListContracts">Powrót do listy</a>
+        <input type="submit" value="Zapisz" class="btn btn-primary" /> | <a asp-action="ListAllContracts">Powrót do listy</a>
     </div>
 </form>
 

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<HRMS_Project.Models.Benefit>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista benefitów</h1>
+
+<p>
+    <a class="btn btn-info" asp-action="CreateBenefit">Dodaj nowy benefit</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nazwa:
+            </th>
+            <th>
+                Cena:
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a class="btn btn-info" asp-action="EditBenefit" asp-route-id="@item.IdBenefit">Edytuj</a> |
+                    <a class="btn btn-danger" asp-action="DeleteBenefit" asp-route-id="@item.IdBenefit">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

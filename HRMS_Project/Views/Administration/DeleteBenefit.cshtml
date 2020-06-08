@@ -1,0 +1,33 @@
+﻿@model HRMS_Project.Models.Benefit
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Usuwanie benefitu</h1>
+
+<h3>Czy na pewno usunąć benefit @Html.DisplayFor(model => model.Name)?</h3>
+<div>
+    <h4>Benefit @Html.DisplayFor(model => model.Name)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nazwa:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Cena w PLN:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteBenefit">
+        <input type="hidden" asp-for="IdBenefit" />
+        <input type="submit" value="Usuń" class="btn btn-danger" /> |
+        <a asp-action="ListBenefits">Powrót do listy benefitów</a>
+    </form>
+</div>
