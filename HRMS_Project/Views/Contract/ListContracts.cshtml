@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Contract>
+@inject UserManager<Employee> UserManager
+
+@{
+    ViewData["Title"] = "Umowy";
+}
+
+<h1>Umowy</h1>
+
+@*<p>
+    <a class="btn btn-info" asp-action="CreateContract">Stwórz nową umowę</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                    Numer umowy
+                </th>*@
+            <th>
+                Pracownik
+            </th>
+            <th>
+                Wynagrodzenie
+            </th>
+            <th>
+                Data zawarcia
+            </th>
+            <th>
+                Data zakończenia
+            </th>
+            <th>
+                Rodzaj
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Akcje
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ContractNumber)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdEmployeeNavigation.LastName) @Html.DisplayFor(modelItem => item.IdEmployeeNavigation.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.IdContractTypeNavigation.ContractTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.IdContractStatusNavigation.StatusName)
+                </td>
+                <td>
+                    @if (this.User.IsInRole("Administrator"))
+                    {
+                        <a class="btn btn-info" asp-action="EditContract" asp-route-id="@item.IdContract">Edytuj</a>
+                        <a class="btn btn-danger" asp-action="DeleteContract" asp-route-id="@item.IdContract">Usuń</a>
+                    }
+                    <a class="btn btn-info" asp-action="ContractDetails" asp-route-id="@item.IdContract">Szczegóły</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

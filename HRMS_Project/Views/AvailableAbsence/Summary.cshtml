@@ -1,0 +1,63 @@
+﻿@model AbsenceViewModel
+
+@{
+    ViewData["Title"] = "Dostępne urlopy";
+}
+
+<h1>Dostępne urlopy</h1>
+
+@if (Model.AvailableAbsence.Any())
+{
+    <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Typ urlopu
+                    </th>
+                    <th>
+                        Dostępne dni
+                    </th>
+                    <th>
+                        Wykorzystane dni
+                    </th>
+                    <th>
+                        ID pracownika
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AvailableAbsence)
+                {
+                    <tr>
+                        <td>
+                            @Model.AbsenceType.Find(a => a.IdAbsenceType == item.IdAbsenceType).AbsenceTypeName
+                        </td>
+                        <td>
+                            @item.AvailableDays
+                        </td>
+                        <td>
+                            @item.UsedAbsence
+                        </td>
+                        <td>
+                            @Model.Employee.FirstName
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    <div>
+        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
+            Twoje wnioski
+        </a>
+        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
+            Złóż wniosek
+        </a>
+    </div>
+
+}
+else
+{
+    <h3>Brak dostępnych urlopów</h3>
+}
+

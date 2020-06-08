@@ -4,14 +4,16 @@ using HRMS_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRMS_Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200601194931_AddAbsence")]
+    partial class AddAbsence
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,10 +21,11 @@ namespace HRMS_Project.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-			modelBuilder.Entity("HRMS_Project.Models.AbsenceType", b =>
+            modelBuilder.Entity("HRMS_Project.Models.AbsenceType", b =>
                 {
                     b.Property<int>("IdAbsenceType")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AbsenceTypeName")
@@ -66,141 +69,6 @@ namespace HRMS_Project.Data.Migrations
                     b.HasIndex("IdEmployee");
 
                     b.ToTable("AvailableAbsence");
-                });
-				
-            modelBuilder.Entity("HRMS_Project.Models.Benefit", b =>
-                {
-                    b.Property<int>("IdBenefit")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(6, 2)");
-
-                    b.HasKey("IdBenefit")
-                        .HasName("Benefit_pk");
-
-                    b.ToTable("Benefit");
-                });
-
-            modelBuilder.Entity("HRMS_Project.Models.Contract", b =>
-                {
-                    b.Property<int>("IdContract")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ContractEnd")
-                        .HasColumnType("date");
-
-                    b.Property<int>("ContractNumber")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ContractStart")
-                        .HasColumnType("date");
-
-                    b.Property<int>("IdContractStatus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdContractType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdEmployee")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(10, 2)");
-
-                    b.HasKey("IdContract")
-                        .HasName("Contract_pk");
-
-                    b.HasIndex("IdContractStatus");
-
-                    b.HasIndex("IdContractType");
-
-                    b.HasIndex("IdEmployee");
-
-                    b.ToTable("Contract");
-                });
-
-            modelBuilder.Entity("HRMS_Project.Models.ContractBenefit", b =>
-                {
-                    b.Property<int>("IdBenefitContract")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("IdBenefit")
-                        .HasColumnName("IdBenefit")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdContract")
-                        .HasColumnName("IdContract")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BenefitIdBenefit")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ContractIdContract")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("date");
-
-                    b.HasKey("IdBenefitContract", "IdBenefit", "IdContract")
-                        .HasName("ContractBenefit_pk");
-
-                    b.HasIndex("BenefitIdBenefit");
-
-                    b.HasIndex("ContractIdContract");
-
-                    b.ToTable("ContractBenefit");
-                });
-
-            modelBuilder.Entity("HRMS_Project.Models.ContractStatus", b =>
-                {
-                    b.Property<int>("IdContractStatus")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("StatusName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("IdContractStatus")
-                        .HasName("ContractStatus_pk");
-
-                    b.ToTable("ContractStatus");
-                });
-
-            modelBuilder.Entity("HRMS_Project.Models.ContractType", b =>
-                {
-                    b.Property<int>("IdContractType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ContractTypeName")
-                        .IsRequired()
-                        .HasColumnName("ContractType")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("IdContractType")
-                        .HasName("ContractType_pk");
-
-                    b.ToTable("ContractType");
                 });
 
             modelBuilder.Entity("HRMS_Project.Models.Employee", b =>
@@ -353,21 +221,6 @@ namespace HRMS_Project.Data.Migrations
 
                     b.ToTable("AspNetRoles");
                 });
-				
-			modelBuilder.Entity("HRMS_Project.Models.AvailableAbsence", b =>
-                {
-                    b.HasOne("HRMS_Project.Models.AbsenceType", "IdAbsenceTypeNavigation")
-                        .WithMany("AvailableAbsence")
-                        .HasForeignKey("IdAbsenceType")
-                        .HasConstraintName("AvailableAbsence_AbsenceType")
-                        .IsRequired();
-
-                    b.HasOne("HRMS_Project.Models.Employee", "IdEmployeeNavigation")
-                        .WithMany("AvailableAbsence")
-                        .HasForeignKey("IdEmployee")
-                        .HasConstraintName("AvailableAbsence_Emp")
-                        .IsRequired();
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -473,35 +326,19 @@ namespace HRMS_Project.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HRMS_Project.Models.Contract", b =>
+            modelBuilder.Entity("HRMS_Project.Models.AvailableAbsence", b =>
                 {
-                    b.HasOne("HRMS_Project.Models.ContractStatus", "IdContractStatusNavigation")
-                        .WithMany("Contract")
-                        .HasForeignKey("IdContractStatus")
-                        .HasConstraintName("Contract_ContractStatus")
-                        .IsRequired();
-
-                    b.HasOne("HRMS_Project.Models.ContractType", "IdContractTypeNavigation")
-                        .WithMany("Contract")
-                        .HasForeignKey("IdContractType")
-                        .HasConstraintName("Contract_ContractType")
+                    b.HasOne("HRMS_Project.Models.AbsenceType", "IdAbsenceTypeNavigation")
+                        .WithMany("AvailableAbsence")
+                        .HasForeignKey("IdAbsenceType")
+                        .HasConstraintName("AvailableAbsence_AbsenceType")
                         .IsRequired();
 
                     b.HasOne("HRMS_Project.Models.Employee", "IdEmployeeNavigation")
-                        .WithMany("Contract")
+                        .WithMany("AvailableAbsence")
                         .HasForeignKey("IdEmployee")
-                        .HasConstraintName("Contract_Employee");
-                });
-
-            modelBuilder.Entity("HRMS_Project.Models.ContractBenefit", b =>
-                {
-                    b.HasOne("HRMS_Project.Models.Benefit", "Benefit")
-                        .WithMany("ContractBenefit")
-                        .HasForeignKey("BenefitIdBenefit");
-
-                    b.HasOne("HRMS_Project.Models.Contract", "Contract")
-                        .WithMany("ContractBenefit")
-                        .HasForeignKey("ContractIdContract");
+                        .HasConstraintName("AvailableAbsence_Emp")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

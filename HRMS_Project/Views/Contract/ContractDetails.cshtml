@@ -1,0 +1,93 @@
+﻿@model HRMS_Project.Models.ViewModels.EditContractViewModel
+@inject UserManager<Employee> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@{
+    ViewData["Title"] = "Szczegóły umowy";
+}
+
+<h1>Szczegóły umowy</h1>
+
+<div>
+    <h4>Umowa</h4>
+    <hr />
+    <dl class="row">
+        @*<dt class="col-sm-2">
+            Numer umowy:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContractNumber)
+        </dd>*@
+        <dt class="col-sm-2">
+            Pracownik:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contract.IdEmployeeNavigation.FirstName) @Html.DisplayFor(model => model.Contract.IdEmployeeNavigation.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            Wynagrodzenie brutto:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contract.Salary) PLN brutto
+        </dd>
+        <dt class="col-sm-2">
+            Wynagrodzenie netto:
+        </dt>
+        <dd class="col-sm-10">
+            @*@Html.DisplayFor(model => model.Contract.Salary * model.VAT)*@ ??? PLN netto
+        </dd>
+        <dt class="col-sm-2">
+            Początek:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contract.ContractStart)
+        </dd>
+        <dt class="col-sm-2">
+            Koniec:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contract.ContractEnd)
+        </dd>
+        <dt class="col-sm-2">
+            Status:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contract.IdContractStatusNavigation.StatusName)
+        </dd>
+        <dt class="col-sm-2">
+            Rodzaj:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contract.IdContractTypeNavigation.ContractTypeName)
+        </dd>
+        <dt class="col-sm-2">
+            Benefity:
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var item in Model.Benefits)
+            {
+                if (item.IsSelected)
+                {
+                    @item.BenefitName <text>, </text>
+
+                }
+            }
+        </dd>
+    </dl>
+
+    @if (this.User.IsInRole("Administrator") || this.User.IsInRole("PracownikHR"))
+    {
+        <form asp-action="DeleteContract">
+            <input type="hidden" asp-for="Contract.IdContract" />
+            <input type="submit" value="Usuń" class="btn btn-danger" /> |
+            <a asp-action="ListAllContracts">Powrót do listy umów</a>
+        </form>
+    }
+    else
+    {
+        <a asp-action="ListContracts" asp-route-id="@user.Id">Powrót do listy umów</a>
+    }
+</div>

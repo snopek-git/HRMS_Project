@@ -15,7 +15,7 @@
         <a asp-controller="Administration" asp-action="ListRoles" class="card-link">Wyświetl role</a>
     </div>
 </div>
-
+<br />
 <div class="card" style="width: 18rem;">
     <div class="card-body">
         <a asp-controller="Administration" asp-action="ListUsers">
@@ -24,6 +24,45 @@
         <p class="card-text">Zarządzanie pracownikami.</p>
         <a class="card-link" asp-area="" asp-controller="Account" asp-action="Register">Dodaj pracownika</a>
         <!--<a asp-controller="Administration" asp-action="ListRoles" class="card-link">Wyświetl role</a>-->
+    </div>
+</div>
+
+<br />
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <a asp-controller="Contract" asp-action="ListAllContracts">
+            <h5 class="card-title">Umowy</h5>
+        </a>
+        <p class="card-text">Zarządzanie umowami.</p>
+        <a asp-controller="Administration" asp-action="CreateContract" class="card-link">Stwórz umowę</a><br />
+        <a asp-controller="Contract" asp-action="ListAllContracts" class="card-link">Wyświetl umowy</a>
+    </div>
+</div>
+
+<br />
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <a asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence">
+            <h5 class="card-title">Urlopy</h5>
+        </a>
+        <p class="card-text">Zarządzanie urlopami.</p>
+        @*<a class="card-link" asp-area="" asp-controller="Account" asp-action="Register">Dodaj urlopy</a>*@
+        <a asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence" class="card-link">Lista urlopów</a>
+
+    </div>
+</div>
+
+<br />
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <a asp-controller="Administration" asp-action="ListBenefits">
+            <h5 class="card-title">Benefity</h5>
+        </a>
+        <p class="card-text">Zarządzanie benefitami.</p>
+        <a asp-controller="Administration" asp-action="CreateBenefit" class="card-link">Stwórz benfit</a><br />
+        <a asp-controller="Administration" asp-action="ListBenefits" class="card-link">Wyświetl benefity</a>
     </div>
 </div>
 

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<AvailableAbsence>
+
+@{
+    ViewData["Title"] = "Lista urlopów";
+}
+
+<h1>Lista wszystkich dostępnych urlopów</h1>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID urlopu
+                </th>
+                <th>
+                    Typ urlopu
+                </th>
+                <th>
+                    Dostępne dni
+                </th>
+                <th>
+                    Wykorzystane dni
+                </th>
+                <th>
+                    ID pracownika
+                </th>
+                <th>
+                    Akcja
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.IdAvailableAbsence
+                    </td>
+                    <td>
+                        @item.IdAbsenceType
+                    </td>
+                    <td>
+                        @item.AvailableDays
+                    </td>
+                    <td>
+                        @item.UsedAbsence
+                    </td>
+                    <td>
+                        @item.IdEmployee
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
+                            Edytuj
+                        </a>
+                        <a class="btn btn-danger" style="width:auto" asp-controller="" asp-action="">
+                            Usuń
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
+            Dodaj urlop
+        </a>
+        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
+            Dodaj rodzaj urlopu
+        </a>
+    </div>
+
+}
+else
+{
+    <h3>Brak dostępnych urlopów</h3>
+}
