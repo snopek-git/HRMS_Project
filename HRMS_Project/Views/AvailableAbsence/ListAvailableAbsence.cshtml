@@ -1,18 +1,31 @@
-﻿@model IEnumerable<AvailableAbsence>
+﻿@model AbsenceViewModel
+@inject UserManager<Employee> UserManager
 
 @{
     ViewData["Title"] = "Lista urlopów";
 }
 
 <h1>Lista wszystkich dostępnych urlopów</h1>
+<hr />
 
-@if (Model.Any())
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="CreateAvailableAbsence">
+        Dodaj urlop
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
+        Dodaj rodzaj urlopu
+    </a>
+</div>
+
+<br />
+
+@if (Model.AvailableAbsence.Any())
 {
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    ID urlopu
+                    Pracownik
                 </th>
                 <th>
                     Typ urlopu
@@ -24,7 +37,7 @@
                     Wykorzystane dni
                 </th>
                 <th>
-                    ID pracownika
+                    Numer karty pracownika
                 </th>
                 <th>
                     Akcja
@@ -32,14 +45,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.AvailableAbsence)
             {
                 <tr>
                     <td>
-                        @item.IdAvailableAbsence
+                        @UserManager.FindByIdAsync(item.IdEmployee).Result.FirstName @UserManager.FindByIdAsync(item.IdEmployee).Result.LastName
                     </td>
                     <td>
-                        @item.IdAbsenceType
+                        @Model.AbsenceType.Find(a => a.IdAbsenceType == item.IdAbsenceType).AbsenceTypeName
                     </td>
                     <td>
                         @item.AvailableDays
@@ -48,29 +61,22 @@
                         @item.UsedAbsence
                     </td>
                     <td>
-                        @item.IdEmployee
+                        @UserManager.FindByIdAsync(item.IdEmployee).Result.IdCardNumber
                     </td>
                     <td>
-                        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
-                            Edytuj
-                        </a>
-                        <a class="btn btn-danger" style="width:auto" asp-controller="" asp-action="">
-                            Usuń
-                        </a>
+                        <form method="post" asp-action="DeleteAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">
+                            <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="EditAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">
+                                Edytuj
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                Usuń
+                            </button>
+                        </form>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
-    <div>
-        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
-            Dodaj urlop
-        </a>
-        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
-            Dodaj rodzaj urlopu
-        </a>
-    </div>
 
 }
 else
