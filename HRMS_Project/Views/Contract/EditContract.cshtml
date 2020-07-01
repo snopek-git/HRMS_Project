@@ -71,53 +71,6 @@
             </ul>
     </div>
 
-    @*<div class="row">
-            <div class="col-md-4">
-                <form asp-action="EditContract">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="IdContract" />
-                    <div class="form-group">
-                        <label asp-for="ContractNumber" class="control-label">Numer umowy:</label>
-                        <input asp-for="ContractNumber" class="form-control" />
-                        <span asp-validation-for="ContractNumber" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Salary" class="control-label">Wynagrodzenie:</label>
-                        <input asp-for="Salary" class="form-control" />
-                        <span asp-validation-for="Salary" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ContractStart" class="control-label">Początek:</label>
-                        <input asp-for="ContractStart" class="form-control" />
-                        <span asp-validation-for="ContractStart" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ContractEnd" class="control-label">Koniec:</label>
-                        <input asp-for="ContractEnd" class="form-control" />
-                        <span asp-validation-for="ContractEnd" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="IdContractType" class="control-label">Typ:</label>
-                        <select asp-for="IdContractType" class="form-control" asp-items="ViewBag.IdContractType"></select>
-                        <span asp-validation-for="IdContractType" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="IdContractStatus" class="control-label">Status:</label>
-                        <select asp-for="IdContractStatus" class="form-control" asp-items="ViewBag.IdContractStatus"></select>
-                        <span asp-validation-for="IdContractStatus" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="IdEmployee" class="control-label">Pracownik:</label>
-                        <select asp-for="IdEmployee" class="form-control" asp-items="ViewBag.IdEmployee"></select>
-                        <span asp-validation-for="IdEmployee" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Zapisz" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
-        </div>*@
-
     <div class="form-group">
         <input type="submit" value="Zapisz" class="btn btn-primary" /> | <a asp-action="ListAllContracts">Powrót do listy</a>
     </div>
