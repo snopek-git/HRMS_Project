@@ -21,7 +21,7 @@
                         Wykorzystane dni
                     </th>
                     <th>
-                        ID pracownika
+                        Dostępność
                     </th>
                 </tr>
             </thead>
@@ -39,7 +39,11 @@
                             @item.UsedAbsence
                         </td>
                         <td>
-                            @Model.Employee.FirstName
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: @(100-(item.UsedAbsence*100)/item.AvailableDays)%" aria-valuemin="0" aria-valuemax="100">
+                                    @(100-(item.UsedAbsence*100)/item.AvailableDays)%
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 }
