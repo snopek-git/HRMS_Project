@@ -8,6 +8,7 @@ using HRMS_Project.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRMS_Project.Controllers
@@ -67,33 +68,41 @@ namespace HRMS_Project.Controllers
                 return NotFound();
             }
 
-            var result = from b in _context.Benefit
+            var nettoSalary = Decimal.Multiply(contract.Salary , 0.77M);
+            
+
+            var benefits = from b in _context.Benefit
                          select new
                          {
                              b.IdBenefit,
                              b.Name,
+                             b.Price,
                              IsSelected = ((from cb in _context.ContractBenefit
                                             where (cb.IdContract == id) & (cb.IdBenefit == b.IdBenefit)
                                             select cb).Count() > 0)
                          };
 
+            decimal benefitsValue = 0.0M;
+
             var editContractViewModel = new EditContractViewModel();
 
             editContractViewModel.Contract = contract;
+            editContractViewModel.NettoSalary = nettoSalary;
 
             var benefitCheckBox = new List<BenefitCheckBoxViewModel>();
 
-            foreach (var item in result)
+            foreach (var item in benefits)
             {
-                //var benefitCheckBoxViewModel = new BenefitCheckBoxViewModel
-                //{
-                //    IdBenefit = benefit.IdBenefit,
-                //    BenefitName = benefit.Name
-                //};
                 benefitCheckBox.Add(new BenefitCheckBoxViewModel { IdBenefit = item.IdBenefit, BenefitName = item.Name, IsSelected = item.IsSelected });
+                if(item.IsSelected == true)
+                {
+                    benefitsValue += item.Price;
+                }
             }
 
             editContractViewModel.Benefits = benefitCheckBox;
+            editContractViewModel.BenefitsValue = benefitsValue;
+            editContractViewModel.FinalSalary = nettoSalary - benefitsValue;
 
             return View(editContractViewModel);
         }

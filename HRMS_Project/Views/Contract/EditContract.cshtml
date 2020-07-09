@@ -27,14 +27,14 @@
     <div class="form-group row">
         <label asp-for="Contract.ContractStart" class="col-sm-2 col-form-label">Początek:</label>
         <div class="col-sm-10">
-            <input asp-for="Contract.ContractStart" class="form-control">
+            <input type="date" asp-format="{0:yyyy-MM-dd}" asp-for="Contract.ContractStart" class="form-control">
             <span asp-validation-for="Contract.ContractStart" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="Contract.ContractEnd" class="col-sm-2 col-form-label">Koniec:</label>
         <div class="col-sm-10">
-            <input asp-for="Contract.ContractEnd" class="form-control">
+            <input type="date" asp-format="{0:yyyy-MM-dd}" asp-for="Contract.ContractEnd" class="form-control">
             <span asp-validation-for="Contract.ContractEnd" class="text-danger"></span>
         </div>
     </div>
@@ -61,7 +61,7 @@
                     <h5>
 
                         @Html.EditorFor(m => Model.Benefits[i].IsSelected)
-                        @Html.DisplayFor(m => Model.Benefits[i].BenefitName) @Html.DisplayFor(m => Model.Benefits[i].Price)
+                        @Html.DisplayFor(m => Model.Benefits[i].BenefitName) @Html.DisplayFor(m => Model.Benefits[i].Price) PLN
 
                         @Html.HiddenFor(m => Model.Benefits[i].BenefitName)
                         @Html.HiddenFor(m => Model.Benefits[i].IdBenefit)
