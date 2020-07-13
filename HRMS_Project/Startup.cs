@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using HRMS_Project.Models;
+using System.Globalization;
 
 namespace HRMS_Project
 {
@@ -71,6 +72,12 @@ namespace HRMS_Project
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            var cultureInfo = new CultureInfo("en-US");
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
         }
     }
 }

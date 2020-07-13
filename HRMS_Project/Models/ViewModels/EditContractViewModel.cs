@@ -35,5 +35,11 @@ namespace HRMS_Project.Models.ViewModels
 
         public List<BenefitCheckBoxViewModel> Benefits { get; set; }
 
+        public decimal NettoSalary;
+
+        public decimal BenefitsValue;
+
+        public decimal FinalSalary;
+
     }
 }

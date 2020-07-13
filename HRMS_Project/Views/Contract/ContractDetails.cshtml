@@ -37,7 +37,7 @@
             Wynagrodzenie netto:
         </dt>
         <dd class="col-sm-10">
-            @*@Html.DisplayFor(model => model.Contract.Salary * model.VAT)*@ ??? PLN netto
+            @Html.DisplayFor(model => model.NettoSalary) PLN netto
         </dd>
         <dt class="col-sm-2">
             Początek:
@@ -75,6 +75,18 @@
 
                 }
             }
+        </dd>
+        <dt class="col-sm-2">
+            Wartość Benefitów:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BenefitsValue) PLN
+        </dd>
+        <dt class="col-sm-2">
+            Kwota do wypłaty:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FinalSalary) PLN
         </dd>
     </dl>
 
