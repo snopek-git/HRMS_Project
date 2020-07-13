@@ -16,8 +16,8 @@
                 <input asp-for="RoleName" class="form-control" />
                 <span asp-validation-for="RoleName" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Dodaj</button>
-            <button asp-controller="Administration" asp-action="Index" class="btn btn-danger">Anuluj</button>
+            <button type="submit" class="btn btn-primary">Dodaj</button> | 
+            <a asp-controller="Administration" asp-action="ListRoles">Powrót do listy</a>
         </form>
     </div>
 </div>
