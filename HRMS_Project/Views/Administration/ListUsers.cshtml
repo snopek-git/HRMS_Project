@@ -4,12 +4,15 @@
     ViewBag.Title = "Lista pracowników";
 }
 
-<h1>Lista pracowników</h1>
+<h1>Pracownicy</h1>
+<hr />
 
 <a asp-action="Register" asp-controller="Account"
    class="btn btn-primary mb-3" style="width:auto">
     Dodaj nowego pracownika
 </a>
+
+<br />
 
 @if (Model.Any())
 {
@@ -52,8 +55,8 @@
                     </td>
                     <td>
                         <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id"
-                           class="btn btn-primary">Edytuj</a>
-                        <a href="#" class="btn btn-danger">Usuń</a>
+                           class="btn btn-primary btn-sm">Edytuj</a>
+                        <a href="#" class="btn btn-danger btn-sm">Usuń</a>
                     </td>
                 </tr>
             }

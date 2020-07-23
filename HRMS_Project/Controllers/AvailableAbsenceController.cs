@@ -120,13 +120,13 @@ namespace HRMS_Project.Controllers
         {
 
             var availableAbsence = await _context.AvailableAbsence.FindAsync(id);
-            
-            if(availableAbsence == null)
+
+            if (availableAbsence == null)
             {
                 return NotFound();
             }
 
-            var absenceType = await _context.AbsenceType.ToListAsync();
+            var absenceType = await _context.AbsenceType.FindAsync(availableAbsence.IdAbsenceType);
 
             var model = new EditAvailableAbsenceViewModel
             {
@@ -135,6 +135,58 @@ namespace HRMS_Project.Controllers
             };
 
             return View(model);
+        }
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> EditAvailableAbsence(int id)
+        //{
+
+        //    var model = await _context.AvailableAbsence.FindAsync(id);
+
+        //    if (model == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(model);
+        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAvailableAbsence(int id, AvailableAbsence availableAbsence)
+        {
+            if (id != availableAbsence.IdAvailableAbsence)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(availableAbsence);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AvailableAbsenceExists(availableAbsence.IdAvailableAbsence))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(ListAvailableAbsence));
+            }
+            return View(availableAbsence);
+        }
+
+        private bool AvailableAbsenceExists(int id)
+        {
+            return _context.AvailableAbsence.Any(e => e.IdAvailableAbsence == id);
         }
     }
 }

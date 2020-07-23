@@ -1,0 +1,25 @@
+﻿@model HRMS_Project.Models.AbsenceType
+
+@{
+    ViewData["Title"] = "Edytuj rodzaj urlopu";
+}
+
+<h1>Edytuj rodzaj urlopu</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditAbsenceType">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdAbsenceType" />
+            <div class="form-group">
+                <label asp-for="AbsenceTypeName" class="control-label">Nazwa:</label>
+                <input asp-for="AbsenceTypeName" class="form-control" />
+                <span asp-validation-for="AbsenceTypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz" class="btn btn-primary" /> | <a asp-action="ListAbsenceType">Powrót do listy benefitów</a>
+            </div>
+        </form>
+    </div>
+</div>

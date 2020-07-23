@@ -4,19 +4,23 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Lista benefitów</h1>
+<h1>Benefity</h1>
+<hr />
 
-<p>
-    <a class="btn btn-info" asp-action="CreateBenefit">Dodaj nowy benefit</a>
-</p>
+<div>
+    <a class="btn btn-primary" asp-action="CreateBenefit">Dodaj nowy benefit</a>
+</div>
+
+<br />
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                Nazwa:
+                Nazwa
             </th>
             <th>
-                Cena:
+                Cena
             </th>
             <th></th>
         </tr>
@@ -32,8 +36,8 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    <a class="btn btn-info" asp-action="EditBenefit" asp-route-id="@item.IdBenefit">Edytuj</a> |
-                    <a class="btn btn-danger" asp-action="DeleteBenefit" asp-route-id="@item.IdBenefit">Usuń</a>
+                    <a class="btn btn-primary btn-sm" asp-action="EditBenefit" asp-route-id="@item.IdBenefit">Edytuj</a>
+                    <a class="btn btn-danger btn-sm" asp-action="DeleteBenefit" asp-route-id="@item.IdBenefit">Usuń</a>
                 </td>
             </tr>
         }

@@ -7,6 +7,8 @@
 
 <h1>Umowy</h1>
 
+<hr />
+
 @*<p>
     <a class="btn btn-info" asp-action="CreateContract">Stwórz nową umowę</a>
 </p>*@
@@ -68,8 +70,8 @@
                 <td>
                     @if (this.User.IsInRole("Administrator"))
                     {
-                        <a class="btn btn-info" asp-action="EditContract" asp-route-id="@item.IdContract">Edytuj</a>
-                        <a class="btn btn-danger" asp-action="DeleteContract" asp-route-id="@item.IdContract">Usuń</a>
+                        <a class="btn btn-primary btn-sm" asp-action="EditContract" asp-route-id="@item.IdContract">Edytuj</a>
+                        <a class="btn btn-danger btn-sm" asp-action="DeleteContract" asp-route-id="@item.IdContract">Usuń</a>
                     }
                     <a class="btn btn-info" asp-action="ContractDetails" asp-route-id="@item.IdContract">Szczegóły</a>
 

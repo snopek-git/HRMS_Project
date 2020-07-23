@@ -6,9 +6,13 @@
 
 <h1>Role użytkowników</h1>
 
+<hr />
+
 <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Administration" asp-action="CreateRole">
-    Dodaj rolę
+    Dodaj nową rolę
 </a>
+
+<br />
 
 @if (Model.Any())
 {
@@ -32,10 +36,10 @@
                     </td>
                     <td>
                         <form method="post" asp-action="DeleteRole" asp-route-id="@role.Id">
-                            <a class="btn btn-primary" style="width:auto" asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id">
+                            <a class="btn btn-primary btn-sm" style="width:auto" asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id">
                                 Edytuj
                             </a>
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-danger btn-sm">
                                 Usuń
                             </button>
                         </form>

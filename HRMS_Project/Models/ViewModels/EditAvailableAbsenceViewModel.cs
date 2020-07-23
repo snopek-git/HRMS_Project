@@ -8,7 +8,7 @@ namespace HRMS_Project.Models.ViewModels
     public class EditAvailableAbsenceViewModel
     {
         public AvailableAbsence AvailableAbsence { get; set; }
-        public List<AbsenceType> AbsenceType { get; set;} 
+        public AbsenceType AbsenceType { get; set;} 
 
     }
 }
