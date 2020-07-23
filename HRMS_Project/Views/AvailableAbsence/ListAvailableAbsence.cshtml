@@ -5,15 +5,15 @@
     ViewData["Title"] = "Lista urlopów";
 }
 
-<h1>Lista wszystkich dostępnych urlopów</h1>
+<h1>Dostępne urlopy pracowników</h1>
 <hr />
 
 <div>
     <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="CreateAvailableAbsence">
-        Dodaj urlop
+        Dodaj nowy urlop
     </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
-        Dodaj rodzaj urlopu
+    <a class="btn btn-primary" style="width:auto" asp-controller="AbsenceType" asp-action="CreateAbsenceType">
+        Dodaj nowy rodzaj urlopu
     </a>
 </div>
 
@@ -28,7 +28,7 @@
                     Pracownik
                 </th>
                 <th>
-                    Typ urlopu
+                    Rodzaj urlopu
                 </th>
                 <th>
                     Dostępne dni
@@ -65,10 +65,10 @@
                     </td>
                     <td>
                         <form method="post" asp-action="DeleteAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">
-                            <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="EditAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">
+                            <a class="btn btn-primary btn-sm" style="width:auto" asp-controller="AvailableAbsence" asp-action="EditAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">
                                 Edytuj
                             </a>
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-danger btn-sm">
                                 Usuń
                             </button>
                         </form>
