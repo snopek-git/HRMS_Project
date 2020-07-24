@@ -27,6 +27,8 @@ namespace HRMS_Project.Models
 
         public ICollection<Contract> Contract { get; set; }
 
+        public ICollection<Request> Request { get; set; }
+
         public ICollection<AvailableAbsence> AvailableAbsence { get; set; }
 
     }

@@ -1,0 +1,87 @@
+﻿@model HRMS_Project.Models.ViewModels.RequestDetailsViewModel
+@inject UserManager<Employee> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@{
+    ViewData["Title"] = "Szczegóły wniosku";
+}
+
+<h1>Szczegóły wniosku</h1>
+
+<hr />
+
+<div>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            Numer:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Request.RequestNumber
+        </dd>
+        <dt class="col-sm-2">
+            Rodzaj:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.RequestType.RequestTypeName
+        </dd>
+        <dt class="col-sm-2">
+            Data:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.RequestDate)
+        </dd>
+        <dt class="col-sm-2">
+            Data od:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.StartDate)
+        </dd>
+        <dt class="col-sm-2">
+            Data do:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Request.EndDate)
+        </dd>
+        <dt class="col-sm-2">
+            Liczba jednostek:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Request.Quantity
+        </dd>
+        <dt class="col-sm-2">
+            Osoba wnioskująca:
+        </dt>
+        <dd class="col-sm-10">
+            @user.FirstName @user.LastName
+        </dd>
+        <dt class="col-sm-2">
+            Przełożony:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Manager.FirstName @Model.Manager.LastName
+        </dd>
+        <dt class="col-sm-2">
+            Status:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.RequestStatus.StatusName
+        </dd>
+    </dl>
+
+    @if (this.User.IsInRole("Administrator") || this.User.IsInRole("PracownikHR"))
+    {
+        <form asp-action="DeleteRequest">
+            <input type="hidden" asp-for="Request.IdRequest" />
+            <input type="submit" value="Usuń" class="btn btn-danger" /> |
+            <a asp-action="ListRequest">Powrót do listy wniosków</a>
+        </form>
+    }
+    else
+    {
+        <a asp-action="ListRequest" asp-route-id="@user.Id">Powrót do listy wniosków</a>
+    }
+</div>
