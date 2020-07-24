@@ -98,6 +98,7 @@ namespace HRMS_Project.Controllers
             return View(availableAbsence);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> DeleteAvailableAbsence(int id)
         {
@@ -137,20 +138,6 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
-
-        //[HttpGet]
-        //public async Task<IActionResult> EditAvailableAbsence(int id)
-        //{
-
-        //    var model = await _context.AvailableAbsence.FindAsync(id);
-
-        //    if (model == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(model);
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
