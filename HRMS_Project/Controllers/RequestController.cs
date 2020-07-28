@@ -51,29 +51,38 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> PendingRequest(string id)
-        //{
+        [HttpGet]
+        public async Task<IActionResult> PendingRequest(int id)
+        {
 
-        //    var request = await _context.Request
-        //                                .Where(a => a.IdEmployee == id)
-        //                                .ToListAsync();
+            var employeeList = await userManager.Users.Where(e => e.IdManager == id).ToListAsync();
 
-        //    var requestType = await _context.RequestType
-        //                                .ToListAsync();
+            var idList = new List<string>();
 
-        //    var requestStatus = await _context.RequestStatus
-        //                                .ToListAsync();
+            foreach (var user in employeeList)
+            {
+                idList.Add(user.Id);
+            }
 
-        //    var model = new RequestViewModel
-        //    {
-        //        Request = request,
-        //        RequestType = requestType,
-        //        RequestStatus = requestStatus
-        //    };
+            var request = await _context.Request
+                                   .Where(r => idList.Contains(r.IdEmployee))
+                                   .ToListAsync();
 
-        //    return View(model);
-        //}
+            var requestType = await _context.RequestType
+                                        .ToListAsync();
+
+            var requestStatus = await _context.RequestStatus
+                                        .ToListAsync();
+
+            var model = new RequestViewModel
+            {
+                Request = request,
+                RequestType = requestType,
+                RequestStatus = requestStatus
+            };
+
+            return View(model);
+        }
 
 
         [HttpGet]
@@ -107,7 +116,38 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
-        //Do poprawy --> przekierwouje do strony "ListRequest" bez wskazania idEmployee
+        [HttpGet]
+        public async Task<IActionResult> PendingRequestDetails(int id)
+        {
+
+            var request = await _context.Request.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            var requestType = await _context.RequestType.FindAsync(request.IdRequestType);
+
+            var requestStatus = await _context.RequestStatus.FindAsync(request.IdRequestStatus);
+
+            var user = await userManager.FindByIdAsync(request.IdEmployee);
+
+            var manager = userManager.Users.First(e => e.IdManager == user.IdManager);
+
+            var model = new RequestDetailsViewModel
+            {
+                Request = request,
+                RequestStatus = requestStatus,
+                RequestType = requestType,
+                Manager = manager
+
+            };
+
+            return View(model);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> DeleteRequest(int id)
         {
@@ -121,7 +161,7 @@ namespace HRMS_Project.Controllers
             {
                 _context.Request.Remove(request);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("ListRequest", "Request", request.IdEmployee); //SPRAWDZIĆ!!!!!!
+                return RedirectToAction("ListRequest", new { id = request.IdEmployee });
             }
         }
 
