@@ -46,6 +46,8 @@
     <Compile Remove="Data\Migrations\20200530131045_Absence.Designer.cs" />
     <Compile Remove="Data\Migrations\20200530135445_AddAbsence.cs" />
     <Compile Remove="Data\Migrations\20200530135445_AddAbsence.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200723191210_Request.cs" />
+    <Compile Remove="Data\Migrations\20200723191210_Request.Designer.cs" />
 
   </ItemGroup>
 

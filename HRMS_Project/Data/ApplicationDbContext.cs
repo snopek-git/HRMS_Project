@@ -24,6 +24,9 @@ namespace HRMS_Project.Data
         public virtual DbSet<Job> Job { get; set; }
         public virtual DbSet<AvailableAbsence> AvailableAbsence { get; set; }
         public virtual DbSet<AbsenceType> AbsenceType { get; set; }
+        public virtual DbSet<Request> Request { get; set; }
+        public virtual DbSet<RequestStatus> RequestStatus { get; set; }
+        public virtual DbSet<RequestType> RequestType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -94,6 +97,7 @@ namespace HRMS_Project.Data
                 entity.Property(e => e.StartDate).HasColumnType("date");
             });
 
+
             modelBuilder.Entity<ContractStatus>(entity =>
             {
                 
@@ -122,6 +126,82 @@ namespace HRMS_Project.Data
                 entity.Property(e => e.ContractTypeName)
                     .IsRequired()
                     .HasColumnName("ContractType")
+                    .HasMaxLength(100);
+            });
+
+
+            //**********REQUEST
+
+
+            modelBuilder.Entity<Request>(entity =>
+            {
+
+
+                entity.Property(e => e.IdRequest).ValueGeneratedOnAdd()
+                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+                entity.HasKey(e => e.IdRequest)
+                    .HasName("Request_pk");
+
+                entity.Property(e => e.RequestNumber).IsRequired();
+
+                entity.Property(e => e.RequestDate).HasColumnType("date").IsRequired();
+
+                entity.Property(e => e.StartDate).HasColumnType("date").IsRequired();
+
+                entity.Property(e => e.EndDate).HasColumnType("date").IsRequired();
+
+                entity.Property(e => e.Quantity);
+
+                entity.Property(e => e.ManagerComment).HasColumnType("nvarchar(max)");
+
+                entity.Property(e => e.EmployeeComment).HasColumnType("nvarchar(max)");
+
+                entity.HasOne(d => d.IdRequestStatusNavigation)
+                    .WithMany(p => p.Request)
+                    .HasForeignKey(d => d.IdRequestStatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Request_RequestStatus");
+
+                entity.HasOne(d => d.IdRequestTypeNavigation)
+                    .WithMany(p => p.Request)
+                    .HasForeignKey(d => d.IdRequestType)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Request_RequestType");
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany(p => p.Request)
+                    .HasForeignKey(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Request_Employee");
+            });
+
+            modelBuilder.Entity<RequestStatus>(entity =>
+            {
+
+
+                entity.Property(e => e.IdRequestStatus).ValueGeneratedOnAdd()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+                entity.HasKey(e => e.IdRequestStatus)
+                    .HasName("RequestStatus_pk");
+
+                entity.Property(e => e.StatusName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<RequestType>(entity =>
+            {
+                entity.Property(e => e.IdRequestType).ValueGeneratedOnAdd()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+                entity.HasKey(e => e.IdRequestType)
+                    .HasName("RequestType_pk");
+
+                entity.Property(e => e.RequestTypeName)
+                    .IsRequired()
+                    .HasColumnName("RequestType")
                     .HasMaxLength(100);
             });
 

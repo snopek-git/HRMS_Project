@@ -1,0 +1,84 @@
+﻿@model RequestViewModel
+@inject UserManager<Employee> UserManager
+
+@{
+    ViewData["Title"] = "Wnioski pracowników";
+
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<h1>Wnioski Twoich pracowników</h1>
+
+@if (Model.Request.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Numer
+                </th>
+                <th>
+                    Pracownik
+                </th>
+                <th>
+                    Rodzaj
+                </th>
+                <th>
+                    Od
+                </th>
+                <th>
+                    Do
+                </th>
+                <th>
+                    Akcja
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Request)
+            {
+                <tr>
+                    <td>
+                        @item.RequestNumber
+                    </td>
+                    <td>
+                        @item.IdEmployeeNavigation.FirstName @item.IdEmployeeNavigation.LastName
+                        @*@UserManager.Users.First(e => e.Id == item.IdEmployee).FirstName @UserManager.Users.First(e => e.Id == item.IdEmployee).LastName*@
+                    </td>
+                    <td>
+                        @Model.RequestType.Find(r => r.IdRequestType == item.IdRequestType).RequestTypeName
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                            <a class="btn btn-info btn-sm" asp-controller="Request" asp-action="PendingRequestDetails" asp-route-id="@item.IdRequest">
+                                Szczegóły
+                            </a>
+                            <button class="btn btn-primary btn-sm">
+                                &#10004; Zaakceptuj
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                &#10008; Odrzuć
+                            </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
+            Twoje urlopy
+        </a>
+    </div>
+
+}
+else
+{
+    <h3>Brak dostępnych wniosków</h3>
+}
+

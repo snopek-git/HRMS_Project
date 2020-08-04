@@ -1,7 +1,10 @@
 ﻿@model AbsenceViewModel
+@inject UserManager<Employee> UserManager
 
 @{
     ViewData["Title"] = "Dostępne urlopy";
+
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <h1>Dostępne urlopy</h1>
@@ -9,49 +12,49 @@
 @if (Model.AvailableAbsence.Any())
 {
     <table class="table">
-            <thead>
+        <thead>
+            <tr>
+                <th>
+                    Typ urlopu
+                </th>
+                <th>
+                    Dostępne dni
+                </th>
+                <th>
+                    Wykorzystane dni
+                </th>
+                <th>
+                    Dostępność
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AvailableAbsence)
+            {
                 <tr>
-                    <th>
-                        Typ urlopu
-                    </th>
-                    <th>
-                        Dostępne dni
-                    </th>
-                    <th>
-                        Wykorzystane dni
-                    </th>
-                    <th>
-                        Dostępność
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.AvailableAbsence)
-                {
-                    <tr>
-                        <td>
-                            @Model.AbsenceType.Find(a => a.IdAbsenceType == item.IdAbsenceType).AbsenceTypeName
-                        </td>
-                        <td>
-                            @item.AvailableDays
-                        </td>
-                        <td>
-                            @item.UsedAbsence
-                        </td>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: @(100-(item.UsedAbsence*100)/item.AvailableDays)%" aria-valuemin="0" aria-valuemax="100">
-                                    @(100-(item.UsedAbsence*100)/item.AvailableDays)%
-                                </div>
+                    <td>
+                        @Model.AbsenceType.Find(a => a.IdAbsenceType == item.IdAbsenceType).AbsenceTypeName
+                    </td>
+                    <td>
+                        @item.AvailableDays
+                    </td>
+                    <td>
+                        @item.UsedAbsence
+                    </td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: @(100-(item.UsedAbsence*100)/item.AvailableDays)%" aria-valuemin="0" aria-valuemax="100">
+                                @(100-(item.UsedAbsence*100)/item.AvailableDays)%
                             </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
     <div>
-        <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">
+        <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">
             Twoje wnioski
         </a>
         <a class="btn btn-primary" style="width:auto" asp-controller="" asp-action="">

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<AbsenceType>
+
+@{
+    ViewData["Title"] = "Rodzaje urlopów";
+}
+
+<h1>Pomyślnie zaktualizowano rodzaje urlopów &#10004;</h1>
+
+<hr />
+
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="CreateAvailableAbsence">
+        Dodaj nowy urlop
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="AbsenceType" asp-action="CreateAbsenceType">
+        Dodaj nowy rodzaj urlopu
+    </a> |
+    <a asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence">Powrót do listy urlopów</a>
+</div>
+
+<br />
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Rodzaj urlopu
+                </th>
+                <th>
+                    Akcja
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.AbsenceTypeName
+                    </td>
+                    <td>
+                        <form method="post" asp-action="DeleteAbsenceType" asp-route-id="@item.IdAbsenceType">
+                            <a class="btn btn-primary btn-sm" style="width:auto" asp-controller="AbsenceType" asp-action="EditAbsenceType" asp-route-id="@item.IdAbsenceType">
+                                Edytuj
+                            </a>
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Usuń
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <h3>Brak dostępnych rodzajów urlopów</h3>
+}

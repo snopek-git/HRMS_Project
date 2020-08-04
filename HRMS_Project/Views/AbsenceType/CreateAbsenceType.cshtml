@@ -1,0 +1,32 @@
+﻿@model HRMS_Project.Models.AbsenceType
+
+@{
+    ViewData["Title"] = "Dodaj nowy rodzaj urlop";
+}
+
+<h1>Dodawanie nowego rodzaju urlopu</h1>
+
+
+<hr />
+
+<form asp-action="CreateAbsenceType" class="mt-3">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group row">
+        <label asp-for="AbsenceTypeName" class="col-sm-2 col-form-label">Nowy rodzaj urlopu:</label>
+        <div class="col-sm-10">
+            <input asp-for="AbsenceTypeName" class="form-control">
+            <span asp-validation-for="AbsenceTypeName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Dodaj" class="btn btn-primary" /> |
+        <a asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence">Powrót do listy urlopów</a>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
