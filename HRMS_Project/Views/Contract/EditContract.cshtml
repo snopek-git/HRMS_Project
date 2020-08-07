@@ -72,7 +72,8 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Zapisz" class="btn btn-primary" /> | <a asp-action="ListAllContracts">Powrót do listy</a>
+        <input type="submit" value="Zapisz" class="btn btn-primary" /> | @*<a asp-action="ListAllContracts">Powrót do listy</a>*@
+        <a href="#" onclick="history.go(-1)">Powrót do listy umów</a>
     </div>
 </form>
 

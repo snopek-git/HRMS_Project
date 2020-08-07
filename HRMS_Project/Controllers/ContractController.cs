@@ -68,7 +68,7 @@ namespace HRMS_Project.Controllers
                 return NotFound();
             }
 
-            var nettoSalary = Decimal.Multiply(contract.Salary , 0.77M);
+            var nettoSalary = Decimal.Multiply(contract.Salary , 0.696M);
             
 
             var benefits = from b in _context.Benefit

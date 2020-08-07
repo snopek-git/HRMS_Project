@@ -58,6 +58,7 @@
     <form asp-action="DeleteContract">
         <input type="hidden" asp-for="IdContract" />
         <input type="submit" value="Usuń" class="btn btn-danger" /> |
-        <a asp-action="ListContracts">Powrót do listy</a>
+        @*<a asp-action="ListContracts">Powrót do listy</a>*@
+        <a href="#" onclick="history.go(-1)">Powrót do listy umów</a>
     </form>
 </div>

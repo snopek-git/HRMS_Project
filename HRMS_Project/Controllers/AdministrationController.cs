@@ -437,5 +437,9 @@ namespace HRMS_Project.Controllers
         {
             return context.Benefit.Any(e => e.IdBenefit == id);
         }
+        public IActionResult Reports()
+        {
+            return View();
+        }
     }
 }
