@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HRMS_Project.Data;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,6 +30,7 @@ namespace HRMS_Project.Controllers
             return View();
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         public async Task<IActionResult> ListAllContracts()
         {
             var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation);
@@ -107,6 +109,7 @@ namespace HRMS_Project.Controllers
             return View(editContractViewModel);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public IActionResult CreateContract()
         {
@@ -118,6 +121,7 @@ namespace HRMS_Project.Controllers
             return View();
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateContract(Contract contract)
         {
@@ -144,6 +148,7 @@ namespace HRMS_Project.Controllers
             return View(contract);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> EditContract(int? id)
         {
@@ -202,6 +207,7 @@ namespace HRMS_Project.Controllers
             return View(editContractViewModel);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditContract(EditContractViewModel editContract)//int id, Contract contract, int[] IdsBenefits)
@@ -285,6 +291,7 @@ namespace HRMS_Project.Controllers
             return View(editContract);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         public async Task<IActionResult> DeleteContract(int? id)
         {
             if (id == null)
@@ -305,6 +312,7 @@ namespace HRMS_Project.Controllers
             return View(contract);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost, ActionName("DeleteContract")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

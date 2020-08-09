@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HRMS_Project.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "PracownikHR, Administrator")]
     public class AdministrationController : Controller
     {
 
