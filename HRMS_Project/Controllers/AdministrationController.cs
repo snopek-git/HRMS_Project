@@ -15,7 +15,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HRMS_Project.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "PracownikHR, Administrator")]
     public class AdministrationController : Controller
     {
 
@@ -436,6 +436,10 @@ namespace HRMS_Project.Controllers
         private bool BenefitExists(int id)
         {
             return context.Benefit.Any(e => e.IdBenefit == id);
+        }
+        public IActionResult Reports()
+        {
+            return View();
         }
     }
 }

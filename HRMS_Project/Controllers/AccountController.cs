@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace HRMS_Project.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "PracownikHR, Administrator")]
     public class AccountController : Controller
     {
         private readonly UserManager<Employee> userManager;
@@ -32,8 +32,19 @@ namespace HRMS_Project.Controllers
         public IActionResult Register()
         {
             ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName");
-            ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "LastName");
+            //ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "LastName");
             ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
+
+            var query = from e in context.Employee
+                        where e.IdJob == 1
+                        select new
+                        {
+                            IdManager = e.IdEmployee,
+                            Name = e.LastName + ' ' + e.FirstName
+                        };
+
+            ViewData["IdManager"] = new SelectList(query, "IdManager", "Name");
+
             return View();
         }
 

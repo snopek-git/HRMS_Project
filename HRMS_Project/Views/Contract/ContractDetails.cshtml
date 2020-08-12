@@ -18,11 +18,11 @@
     <hr />
     <dl class="row">
         @*<dt class="col-sm-2">
-            Numer umowy:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ContractNumber)
-        </dd>*@
+                Numer umowy:
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ContractNumber)
+            </dd>*@
         <dt class="col-sm-2">
             Pracownik:
         </dt>
@@ -85,7 +85,7 @@
             @Html.DisplayFor(model => model.BenefitsValue) PLN
         </dd>
         <dt class="col-sm-2">
-            Kwota do wypłaty:
+            Przewidywana kwota do wypłaty:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FinalSalary) PLN
@@ -97,11 +97,14 @@
         <form asp-action="DeleteContract">
             <input type="hidden" asp-for="Contract.IdContract" />
             <input type="submit" value="Usuń" class="btn btn-danger" /> |
-            <a asp-action="ListAllContracts">Powrót do listy umów</a>
+            @*<a asp-action="ListAllContracts">Powrót do listy umów</a>*@
+            <a href="#" onclick="history.go(-1)">Powrót do listy umów</a>
         </form>
     }
     else
     {
-        <a asp-action="ListContracts" asp-route-id="@user.Id">Powrót do listy umów</a>
+        @*<a asp-action="ListContracts" asp-route-id="@user.Id">Powrót do listy umów</a>*@
+        <a href="#" onclick="history.go(-1)">Powrót do listy umów</a>
     }
+
 </div>

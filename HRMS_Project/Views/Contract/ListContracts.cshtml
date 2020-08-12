@@ -3,15 +3,17 @@
 
 @{
     ViewData["Title"] = "Umowy";
+
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <h1>Umowy</h1>
 
 <hr />
 
-@*<p>
-    <a class="btn btn-info" asp-action="CreateContract">Stwórz nową umowę</a>
-</p>*@
+<p>
+    <a class="btn btn-info" asp-controller="ReportPaymentSlip" asp-action="CreateReport" asp-route-id="@user.Id" target="_blank">Wygeneruj pasek wynagrodzenia</a>
+</p>
 <table class="table">
     <thead>
         <tr>

@@ -1,0 +1,51 @@
+﻿@inject UserManager<Employee> UserManager
+@{
+    ViewData["Title"] = "Raporty";
+
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<h1>Raporty</h1>
+
+<br />
+
+<div class="card-deck">
+    <div class="card">
+
+        <div class="card-body">
+            <h3 class="card-title">
+                <a asp-area="" asp-controller="ReportAllEmployees" asp-action="CreateReport" target="_blank">
+                    <img class="card-img-top" src="https://cdn0.iconfinder.com/data/icons/flat-design-business-set-4/24/people-vendors-256.png" alt="Card image cap" width="2">
+                    Raport pracowników
+                </a>
+            </h3>
+            <p class="card-text">Wygeneruj raport wszystkich pracowników firmy.</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">
+                <a asp-area="" asp-controller="ReportAllAbsences" asp-action="CreateReport" target="_blank">
+                    <img class="card-img-top" src="https://cdn1.iconfinder.com/data/icons/summer-123/512/island-256.png" alt="Card image cap">
+                    Raport urlopowy
+                </a>
+            </h3>
+            <p class="card-text">Wygeneruj raport urlopowy wszystkich pracowników firmy.</p>
+        </div>
+    </div>
+    <div class="card">
+
+        <div class="card-body">
+            <h3 class="card-title">
+                <a asp-area="" asp-controller="ReportLastMonthPayment" asp-action="CreateReport" asp-route-id="" target="_blank">
+                    <img class="card-img-top" src="https://cdn0.iconfinder.com/data/icons/business-381/500/business-work_2-256.png" alt="Card image cap">
+                    Raport Wynagrodzeń
+                    <br />za ostatni miesiąc
+                </a>
+            </h3>
+
+
+            <p class="card-text">Wygeneruj raport wynagrodzeń za ostatni miesiąc rozliczeniowy.</p>
+        </div>
+    </div>
+</div>

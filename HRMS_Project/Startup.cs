@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using HRMS_Project.Models;
 using System.Globalization;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace HRMS_Project
 {
@@ -40,6 +42,8 @@ namespace HRMS_Project
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
         }
 
