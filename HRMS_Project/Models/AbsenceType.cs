@@ -11,6 +11,7 @@ namespace HRMS_Project.Models
         public AbsenceType()
         {
             AvailableAbsence = new HashSet<AvailableAbsence>();
+            Request = new HashSet<Request>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,5 +19,7 @@ namespace HRMS_Project.Models
         public string AbsenceTypeName { get; set; }
 
         public virtual ICollection<AvailableAbsence> AvailableAbsence { get; set; }
+
+        public virtual ICollection<Request> Request { get; set; }
     }
 }
