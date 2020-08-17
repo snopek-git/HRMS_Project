@@ -21,7 +21,7 @@
                     Pracownik
                 </th>
                 <th>
-                    Rodzaj
+                    Rodzaj urlopu
                 </th>
                 <th>
                     Od
@@ -46,7 +46,8 @@
                         @*@UserManager.Users.First(e => e.Id == item.IdEmployee).FirstName @UserManager.Users.First(e => e.Id == item.IdEmployee).LastName*@
                     </td>
                     <td>
-                        @Model.RequestType.Find(r => r.IdRequestType == item.IdRequestType).RequestTypeName
+                        @item.IdAbsenceTypeNavigation.AbsenceTypeName
+                        @*@Model.RequestType.Find(r => r.IdRequestType == item.IdRequestType).RequestTypeName*@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartDate)
@@ -58,12 +59,12 @@
                             <a class="btn btn-info btn-sm" asp-controller="Request" asp-action="PendingRequestDetails" asp-route-id="@item.IdRequest">
                                 Szczegóły
                             </a>
-                            <button class="btn btn-primary btn-sm">
+                            <a class="btn btn-primary btn-sm" asp-controller="Request" asp-action="ApproveRequest" asp-route-id="@item.IdRequest">
                                 &#10004; Zaakceptuj
-                            </button>
-                            <button class="btn btn-danger btn-sm">
+                            </a>
+                            <a class="btn btn-danger btn-sm" asp-controller="Request" asp-action="DeclineRequest" asp-route-id="@item.IdRequest">
                                 &#10008; Odrzuć
-                            </button>
+                            </a>
                     </td>
                 </tr>
             }

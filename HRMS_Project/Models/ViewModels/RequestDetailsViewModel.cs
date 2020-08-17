@@ -11,5 +11,6 @@ namespace HRMS_Project.Models.ViewModels
         public RequestType RequestType { get; set; }
         public RequestStatus RequestStatus { get; set; }
         public Employee Manager { get; set; }
+        public AbsenceType AbsenceType { get; set; }
     }
 }

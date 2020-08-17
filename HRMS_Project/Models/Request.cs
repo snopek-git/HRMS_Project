@@ -38,8 +38,13 @@ namespace HRMS_Project.Models
 
         public string ManagerComment { get; set; }
 
+        public int AbsenceTypeRef { get; set; }
+
         public RequestType IdRequestTypeNavigation { get; set; }
         public RequestStatus IdRequestStatusNavigation { get; set; }
         public Employee IdEmployeeNavigation { get; set; }
+
+        [ForeignKey("AbsenceTypeRef")]
+        public AbsenceType IdAbsenceTypeNavigation { get; set; }
     }
 }

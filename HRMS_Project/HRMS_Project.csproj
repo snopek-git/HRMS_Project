@@ -48,6 +48,18 @@
     <Compile Remove="Data\Migrations\20200530135445_AddAbsence.Designer.cs" />
     <Compile Remove="Data\Migrations\20200723191210_Request.cs" />
     <Compile Remove="Data\Migrations\20200723191210_Request.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200814093408_RequestAbsenceType.cs" />
+    <Compile Remove="Data\Migrations\20200814093408_RequestAbsenceType.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200814094514_RequestAbsenceType.cs" />
+    <Compile Remove="Data\Migrations\20200814094514_RequestAbsenceType.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200814094703_RequestAbsenceType.cs" />
+    <Compile Remove="Data\Migrations\20200814094703_RequestAbsenceType.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200814094803_RequestAbsenceType.cs" />
+    <Compile Remove="Data\Migrations\20200814094803_RequestAbsenceType.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200814102017_RequestAbsenceType.cs" />
+    <Compile Remove="Data\Migrations\20200814102017_RequestAbsenceType.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200814110845_RequestAbsenceType.cs" />
+    <Compile Remove="Data\Migrations\20200814110845_RequestAbsenceType.Designer.cs" />
 
   </ItemGroup>
 
