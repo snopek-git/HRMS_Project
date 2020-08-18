@@ -10,5 +10,6 @@ namespace HRMS_Project.Models.ViewModels
         public List<Request> Request { get; set; }
         public List<RequestType> RequestType { get; set; }
         public List<RequestStatus> RequestStatus { get; set; }
+        public List<AbsenceType> AbsenceType { get; set; }
     }
 }

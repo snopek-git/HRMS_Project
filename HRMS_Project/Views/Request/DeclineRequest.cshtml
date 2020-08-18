@@ -1,0 +1,25 @@
+﻿@inject UserManager<Employee> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@{
+    ViewData["Title"] = "Wniosek odrzucony";
+}
+
+<h1>Odrzucenie wniosku</h1>
+
+<hr />
+<div class="alert alert-success" role="alert">
+    Pomyślnie odrzucono wniosek.
+</div>
+
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="PendingRequest" asp-route-id="@user.IdEmployee">
+        Oczekujące wnioski
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest">
+        Złóż nowy wniosek
+    </a>
+</div>
