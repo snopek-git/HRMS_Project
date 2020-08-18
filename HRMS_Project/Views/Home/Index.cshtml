@@ -13,15 +13,15 @@
 <br />
 <div class="card-deck">
     <div class="card">
-        <img class="card-img-top" src="https://cdn1.iconfinder.com/data/icons/instagram-ui-colored/48/JD-15-512.png" alt="Card image cap">
+        <img class="card-img-top" src="https://cdn4.iconfinder.com/data/icons/success-filloutline/64/contract-agreement-document-pen-certification-256.png" alt="Card image cap">
         <div class="card-body">
 
             <h5 class="card-title">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index">
-                    Profil użytkownika
+                <a asp-area="" asp-controller="Contract" asp-action="ListContracts" asp-route-id="@user.Id">
+                    Twoje umowy
                 </a>
             </h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">Przejdź do modułu swoich umów i sprawdź ich szczegóły.</p>
         </div>
     </div>
     <div class="card">
@@ -32,18 +32,18 @@
                     Urlopy
                  </a>
             </h5>
-            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            <p class="card-text">Przejdź do modułu urlopowego i zobacz swoje dostępne dni do wykorzystania.</p>
         </div>
     </div>
     <div class="card">
-        <img class="card-img-top" src="https://cdn2.iconfinder.com/data/icons/flat-icons-web/40/Copy-512.png" alt="Card image cap">
+        <img class="card-img-top" src="https://cdn0.iconfinder.com/data/icons/miscellaneous-15-color-shadow/128/timesheet_countdown_overtime_schedule_timetable_timekeeping-256.png" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">
-                <a asp-area="" asp-controller="Contract" asp-action="ListContracts" asp-route-id="@user.Id">
-                    Umowy
+                <a asp-area="" asp-controller="" asp-action="" asp-route-id="">
+                    Nadgodziny
                 </a>
             </h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+            <p class="card-text">Przejdź do modułu nadgodzin i zgłoś swoją pracę po godzinach.</p>
         </div>
     </div>
 </div>

@@ -16,6 +16,14 @@
 
 <br />
 
+<form method="get" asp-action="ListAllContracts">
+    <p>
+        <input type="search" placeholder="Wyszukaj po nazwisku pracownika..." value="" name="search" style="width:300px;border-radius:4px" />
+        <input class="btn-primary mb-4" type="submit" value="Wyszukaj" style="border-radius:4px" />
+        <a asp-action="ListAllContracts"> | Usuń filtr</a>
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>

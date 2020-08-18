@@ -9,7 +9,7 @@ namespace HRMS_Project.Models.ViewModels
 {
     public class CreateRoleViewModel
     {
-        [Required]
+        [Required (ErrorMessage = "To pole jest wymagane")]
         public string RoleName { get; set; }
     }
 }

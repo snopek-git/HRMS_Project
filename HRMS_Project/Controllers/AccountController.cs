@@ -31,12 +31,13 @@ namespace HRMS_Project.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName");
+            ViewData["IdJob"] = new SelectList(context.Job.OrderBy(x => x.JobName), "IdJob", "JobName");
             //ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "LastName");
             ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
 
             var query = from e in context.Employee
                         where e.IdJob == 1
+                        orderby e.LastName
                         select new
                         {
                             IdManager = e.IdEmployee,
@@ -51,6 +52,21 @@ namespace HRMS_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName");
+            ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
+
+            var query = from e in context.Employee
+                        where e.IdJob == 1
+                        orderby e.LastName
+                        select new
+                        {
+                            IdManager = e.IdEmployee,
+                            Name = e.LastName + ' ' + e.FirstName
+                        };
+
+            ViewData["IdManager"] = new SelectList(query, "IdManager", "Name");
+
+
             if (ModelState.IsValid)
             {
                 var user = new Employee
@@ -70,10 +86,6 @@ namespace HRMS_Project.Controllers
 
                 };
                 var result = await userManager.CreateAsync(user, model.Password);                
-
-                //ViewData["IdJob"] = new SelectList(context.Job, "IdJob", "JobName", model.IdJob);
-                //ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "EmailAddress", model.IdManager);
-                //ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name", model.IdRole);
 
                 if (result.Succeeded)
                 {

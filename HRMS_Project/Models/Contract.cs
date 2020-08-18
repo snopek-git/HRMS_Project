@@ -18,12 +18,15 @@ namespace HRMS_Project.Models
         public int IdContract { get; set; }
         public int ContractNumber { get; set; }
 
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         public decimal Salary { get; set; }
 
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime ContractStart { get; set; }
 
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime ContractEnd { get; set; }

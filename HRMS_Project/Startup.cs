@@ -16,6 +16,7 @@ using HRMS_Project.Models;
 using System.Globalization;
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using Microsoft.CodeAnalysis.Options;
 
 namespace HRMS_Project
 {
@@ -41,7 +42,7 @@ namespace HRMS_Project
                 .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages().AddMvcOptions(options => { options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => "To pole jest wymagane"); });
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 

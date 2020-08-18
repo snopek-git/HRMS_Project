@@ -96,7 +96,7 @@ namespace HRMS_Project.Controllers
                 RoleName = role.Name
             };
 
-            foreach(var employee in employeeUserManager.Users)
+            foreach(var employee in employeeUserManager.Users.OrderBy(x => x.LastName))
             {
                 if(await employeeUserManager.IsInRoleAsync(employee, role.Name))
                 {
@@ -150,7 +150,7 @@ namespace HRMS_Project.Controllers
 
             var model = new List<UserRoleViewModel>();
 
-            foreach (var user in employeeUserManager.Users)
+            foreach (var user in employeeUserManager.Users.OrderBy(x => x.LastName))
             {
                 var userRoleViewModel = new UserRoleViewModel
                 {
@@ -169,6 +169,8 @@ namespace HRMS_Project.Controllers
 
                 model.Add(userRoleViewModel);
             }
+
+            model.OrderBy(x => x.UserName);
 
             return View(model);
         }
@@ -219,11 +221,26 @@ namespace HRMS_Project.Controllers
         //=============================================//
         //================ Pracownicy ==============//
         //=============================================//
-        [HttpGet]
+        //[HttpGet]
         public IActionResult ListUsers()
         {
             var users = employeeUserManager.Users;
-            return View(users);
+            return View(users.OrderBy(x => x.LastName));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListUsers(string search)
+        {
+            //ViewData["Emp"] = search;
+            var users = employeeUserManager.Users;
+
+            var query = from e in context.Employee select e;
+            if(!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(e => e.LastName.Contains(search) || e.FirstName.Contains(search) || e.Email.Contains(search));
+            }
+
+            return View(await query.OrderBy(x => x.LastName).AsNoTracking().ToListAsync());
         }
 
         [HttpGet]

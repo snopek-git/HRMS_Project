@@ -14,7 +14,7 @@ namespace HRMS_Project.Models.ViewModels
         }
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "Role name is required")]
+        [Required(ErrorMessage = "To pole jest wymagane")]
         public string RoleName { get; set; }
 
         public List<String> Users { get; set; }

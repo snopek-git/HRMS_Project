@@ -14,6 +14,14 @@
 
 <br />
 
+<form method="get" asp-action="ListUsers">
+    <p>
+        <input type="search" placeholder="Wyszukaj pracownika..." value="" name="search" style="width:250px;border-radius:4px" />
+        <input class="btn-primary mb-4" type="submit" value="Wyszukaj" style="border-radius:4px" />
+        <a asp-action="ListUsers"> | Usuń filtr</a>
+    </p>
+</form>
+
 @if (Model.Any())
 {
 
@@ -21,13 +29,16 @@
         <thead>
             <tr>
                 <th>
-                    Email
+                    Nazwisko
                 </th>
                 <th>
                     Imię
                 </th>
                 <th>
-                    Nazwisko
+                    Drugie imię
+                </th>
+                <th>
+                    Email
                 </th>
                 <th>
                     Numer karty
@@ -40,25 +51,28 @@
         <tbody>
             @foreach (var user in Model)
             {
-                <tr>
-                    <td>
-                        @user.Email
-                    </td>
-                    <td>
-                        @user.FirstName
-                    </td>
-                    <td>
-                        @user.LastName
-                    </td>
-                    <td>
-                        @user.IdCardNumber
-                    </td>
-                    <td>
-                        <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id"
-                           class="btn btn-primary btn-sm">Edytuj</a>
-                        <a href="#" class="btn btn-danger btn-sm">Usuń</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @user.LastName
+                </td>
+                <td>
+                    @user.FirstName
+                </td>
+                <td>
+                    @user.SecondName
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @user.IdCardNumber
+                </td>
+                <td>
+                    <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id"
+                       class="btn btn-primary btn-sm">Edytuj</a>
+                    <a href="#" class="btn btn-danger btn-sm">Usuń</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
