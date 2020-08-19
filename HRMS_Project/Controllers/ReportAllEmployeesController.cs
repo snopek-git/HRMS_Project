@@ -72,8 +72,8 @@ namespace HRMS_Project.Controllers
                                 <div class='header'><h1>Raport wszystkich pracowników firmy</h1></div>
                                 <table align='center'>
                                     <tr>
-                                        <th>Imie</th>
                                         <th>Nazwisko</th>
+                                        <th>Imię</th>
                                         <th>Data urodzenia</th>
                                         <th>Email</th>
                                     </tr>");
@@ -85,7 +85,7 @@ namespace HRMS_Project.Controllers
                                     <td>{1}</td>
                                     <td>{2}</td>
                                     <td>{3}</td>
-                                  </tr>", emp.FirstName, emp.LastName, emp.BirthDate, emp.Email);
+                                  </tr>", emp.LastName, emp.FirstName, emp.BirthDate.ToString("yyyy-MM-dd"), emp.Email);
             }
 
             sb.Append(@"

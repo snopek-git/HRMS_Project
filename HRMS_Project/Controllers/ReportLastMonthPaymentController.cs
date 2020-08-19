@@ -103,7 +103,7 @@ namespace HRMS_Project.Controllers
                                         <th>Wypłacona kwota</th>
                                     </tr>");
 
-            foreach (var p in LastMonthPayments)
+            foreach (var p in LastMonthPayments.OrderBy(x => x.Employee))
             {
                 sb.AppendFormat(@"<tr>
                                     <td>{0}</td>

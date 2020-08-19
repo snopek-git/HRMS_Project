@@ -100,7 +100,7 @@ namespace HRMS_Project.Controllers
             {
                 if(await employeeUserManager.IsInRoleAsync(employee, role.Name))
                 {
-                    model.Users.Add(employee.UserName);
+                    model.Users.Add(employee.LastName + " " + employee.FirstName);
                 }
             }
 
@@ -155,7 +155,7 @@ namespace HRMS_Project.Controllers
                 var userRoleViewModel = new UserRoleViewModel
                 {
                     UserId = user.Id,
-                    UserName = user.UserName
+                    UserName = user.LastName + " " + user.FirstName
                 };
 
                 if (await employeeUserManager.IsInRoleAsync(user, role.Name))
@@ -353,7 +353,7 @@ namespace HRMS_Project.Controllers
 
         public async Task<IActionResult> ListBenefits()
         {
-            return View(await context.Benefit.ToListAsync());
+            return View(await context.Benefit.OrderBy(x => x.Name).ToListAsync());
         }
 
         public IActionResult CreateBenefit()

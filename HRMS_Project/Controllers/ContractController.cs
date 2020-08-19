@@ -129,8 +129,16 @@ namespace HRMS_Project.Controllers
         {
             ViewData["IdContractStatus"] = new SelectList(_context.ContractStatus, "IdContractStatus", "StatusName");
             ViewData["IdContractType"] = new SelectList(_context.ContractType, "IdContractType", "ContractTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
             //ViewData["Benefits"] = context.Benefit;
+
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
 
             return View();
         }
@@ -142,7 +150,15 @@ namespace HRMS_Project.Controllers
 
             ViewData["IdContractStatus"] = new SelectList(_context.ContractStatus, "IdContractStatus", "StatusName");
             ViewData["IdContractType"] = new SelectList(_context.ContractType, "IdContractType", "ContractTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
+
             if (ModelState.IsValid)
             {
                 _context.Add(contract);
@@ -214,8 +230,16 @@ namespace HRMS_Project.Controllers
 
             ViewData["IdContractStatus"] = new SelectList(_context.ContractStatus, "IdContractStatus", "StatusName");
             ViewData["IdContractType"] = new SelectList(_context.ContractType, "IdContractType", "ContractTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
             //ViewData["Benefits"] = benefitCheckBox; //context.Benefit;
+
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
 
             editContractViewModel.Benefits = benefitCheckBox;
 
@@ -246,8 +270,15 @@ namespace HRMS_Project.Controllers
 
             ViewData["IdContractStatus"] = new SelectList(_context.ContractStatus, "IdContractStatus", "StatusName");
             ViewData["IdContractType"] = new SelectList(_context.ContractType, "IdContractType", "ContractTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
             //ViewData["Benefits"] = benefitCheckBox;
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
 
             if (ModelState.IsValid)
             {

@@ -8,12 +8,12 @@ namespace HRMS_Project.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required (ErrorMessage = "To pole jest wymagane")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required (ErrorMessage = "To pole jest wymagane")]
         [DataType(DataType.Password)]
         [Display(Name = "Hasło")]
         public string Password { get; set; }
