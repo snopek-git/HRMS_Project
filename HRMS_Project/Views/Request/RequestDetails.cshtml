@@ -90,12 +90,14 @@
         </dd>
     </dl>
 
-    @if (this.User.IsInRole("Administrator") || this.User.IsInRole("PracownikHR"))
+
+    @if (Model.Request.IdRequestStatus == 1 || Model.Request.IdRequestStatus == 2)
     {
-    <a asp-area="" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">Przejdź do Twoich wniosków</a>
+        <a class="btn btn-danger btn-sm" asp-controller="Request" asp-action="CancelRequest" asp-route-id="@Model.Request.IdRequest">
+            Wycofaj
+        </a>
     }
-    else
-    {
-        <a asp-action="ListRequest" asp-route-id="@user.Id">Powrót do listy wniosków</a>
-    }
+
+    <a asp-area="" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">Powrót do listy wniosków</a>
+
 </div>
