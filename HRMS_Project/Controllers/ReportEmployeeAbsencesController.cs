@@ -62,6 +62,7 @@ namespace HRMS_Project.Controllers
         public string GetHTMLString(string IdEmployee)
         {
             var absences = from r in _context.Request
+                           orderby r.StartDate, r.EndDate
                            where r.IdEmployee == IdEmployee
                            select new
                            {

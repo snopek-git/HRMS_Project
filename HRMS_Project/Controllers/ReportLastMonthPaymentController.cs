@@ -74,6 +74,8 @@ namespace HRMS_Project.Controllers
                                         select e.LastName + ' ' + e.FirstName).FirstOrDefault()
                         };
 
+            query.OrderBy(x => x.Employee);
+
             var LastMonthPayments = new List<ReportLastMonthPaymentViewModel>();
 
             foreach (var item in query)
@@ -92,7 +94,7 @@ namespace HRMS_Project.Controllers
                             <head>
                             </head>
                             <body>
-                                <div class='header'><h1>Raport urlopowy wszystkich pracowników</h1></div>
+                                <div class='header'><h1>Wypłaty wynagrodzeń za ostatni miesiąc</h1></div>
                                 <table align='center'>
                                     <tr>
                                         <th>Pracownik</th>
@@ -101,7 +103,7 @@ namespace HRMS_Project.Controllers
                                         <th>Wypłacona kwota</th>
                                     </tr>");
 
-            foreach (var p in LastMonthPayments)
+            foreach (var p in LastMonthPayments.OrderBy(x => x.Employee))
             {
                 sb.AppendFormat(@"<tr>
                                     <td>{0}</td>

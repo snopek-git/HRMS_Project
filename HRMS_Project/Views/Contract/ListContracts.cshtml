@@ -13,6 +13,7 @@
 
 <p>
     <a class="btn btn-info" asp-controller="ReportPaymentSlip" asp-action="CreateReport" asp-route-id="@user.Id" target="_blank">Wygeneruj pasek wynagrodzenia</a>
+    <a class="btn btn-info" asp-area="" asp-controller="Contract" asp-action="ListSubordinatesContracts" asp-route-id="@user.Id">Umowy podwładnych</a>
 </p>
 <table class="table">
     <thead>

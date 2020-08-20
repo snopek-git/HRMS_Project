@@ -75,7 +75,15 @@ namespace HRMS_Project.Controllers
         public IActionResult CreateAvailableAbsence()
         {
             ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType, "IdAbsenceType", "AbsenceTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee, "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee, "Id", "Email");
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
+
 
             return View();
         }

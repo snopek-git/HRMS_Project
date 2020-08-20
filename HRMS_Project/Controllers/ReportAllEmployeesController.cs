@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using DinkToPdf;
@@ -60,7 +61,7 @@ namespace HRMS_Project.Controllers
 
         public string GetHTMLString()
         {
-            var employees = _context.Employee;
+            var employees = _context.Employee.OrderBy(x => x.LastName);
 
             var sb = new StringBuilder();
             sb.Append(@"
@@ -68,11 +69,11 @@ namespace HRMS_Project.Controllers
                             <head>
                             </head>
                             <body>
-                                <div class='header'><h1>This is the generated PDF report!!!</h1></div>
+                                <div class='header'><h1>Raport wszystkich pracowników firmy</h1></div>
                                 <table align='center'>
                                     <tr>
-                                        <th>Imie</th>
                                         <th>Nazwisko</th>
+                                        <th>Imię</th>
                                         <th>Data urodzenia</th>
                                         <th>Email</th>
                                     </tr>");
@@ -84,7 +85,7 @@ namespace HRMS_Project.Controllers
                                     <td>{1}</td>
                                     <td>{2}</td>
                                     <td>{3}</td>
-                                  </tr>", emp.FirstName, emp.LastName, emp.BirthDate, emp.Email);
+                                  </tr>", emp.LastName, emp.FirstName, emp.BirthDate.ToString("yyyy-MM-dd"), emp.Email);
             }
 
             sb.Append(@"

@@ -58,10 +58,10 @@ namespace HRMS_Project.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> PendingRequest(int id)
+        public async Task<IActionResult> PendingRequest(string id)
         {
 
-            var employeeList = await userManager.Users.Where(e => e.IdManager == id).ToListAsync();
+            var employeeList = await userManager.Users.Where(e => e.IdManager == id).OrderBy(x => x.LastName).ToListAsync();
 
             var idList = new List<string>();
 

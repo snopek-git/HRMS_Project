@@ -31,10 +31,24 @@ namespace HRMS_Project.Controllers
         }
 
         [Authorize(Roles = "PracownikHR, Administrator")]
-        public async Task<IActionResult> ListAllContracts()
+        public IActionResult ListAllContracts()
         {
             var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation);
-            return View(await listOfContracts.ToListAsync());
+            return View(listOfContracts.ToList());
+        }
+
+        [Authorize(Roles = "PracownikHR, Administrator")]
+        [HttpGet]
+        public async Task<IActionResult> ListAllContracts(string search)
+        {
+            var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation);
+            if (!String.IsNullOrEmpty(search))
+            {
+                var listOfContract = listOfContracts.Where(s => s.IdEmployeeNavigation.LastName.Contains(search));
+                return View(await listOfContract.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
+            } else { 
+                return View(await listOfContracts.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
+                }
         }
 
         public async Task<IActionResult> ListContracts(string id)
@@ -49,6 +63,14 @@ namespace HRMS_Project.Controllers
 
             var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation)
                                                   .Where(e => e.IdEmployee == id).ToListAsync();
+            return View(await listOfContracts);
+        }
+
+        public async Task<IActionResult> ListSubordinatesContracts(string id)
+        {
+            var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation)
+                                                  .Where(e => e.IdEmployeeNavigation.IdManager == id).OrderBy(e => e.IdEmployeeNavigation.LastName).ToListAsync();
+
             return View(await listOfContracts);
         }
 
@@ -115,8 +137,16 @@ namespace HRMS_Project.Controllers
         {
             ViewData["IdContractStatus"] = new SelectList(_context.ContractStatus, "IdContractStatus", "StatusName");
             ViewData["IdContractType"] = new SelectList(_context.ContractType, "IdContractType", "ContractTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee, "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
             //ViewData["Benefits"] = context.Benefit;
+
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
 
             return View();
         }
@@ -128,7 +158,15 @@ namespace HRMS_Project.Controllers
 
             ViewData["IdContractStatus"] = new SelectList(_context.ContractStatus, "IdContractStatus", "StatusName");
             ViewData["IdContractType"] = new SelectList(_context.ContractType, "IdContractType", "ContractTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee, "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
+
             if (ModelState.IsValid)
             {
                 _context.Add(contract);
@@ -165,6 +203,7 @@ namespace HRMS_Project.Controllers
             }
 
             var result = from b in _context.Benefit
+                         orderby b.Name
                          select new
                          {
                              b.IdBenefit,
@@ -199,8 +238,16 @@ namespace HRMS_Project.Controllers
 
             ViewData["IdContractStatus"] = new SelectList(_context.ContractStatus, "IdContractStatus", "StatusName");
             ViewData["IdContractType"] = new SelectList(_context.ContractType, "IdContractType", "ContractTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee, "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
             //ViewData["Benefits"] = benefitCheckBox; //context.Benefit;
+
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
 
             editContractViewModel.Benefits = benefitCheckBox;
 
@@ -231,8 +278,15 @@ namespace HRMS_Project.Controllers
 
             ViewData["IdContractStatus"] = new SelectList(_context.ContractStatus, "IdContractStatus", "StatusName");
             ViewData["IdContractType"] = new SelectList(_context.ContractType, "IdContractType", "ContractTypeName");
-            ViewData["IdEmployee"] = new SelectList(_context.Employee, "Id", "Email");
+            //ViewData["IdEmployee"] = new SelectList(_context.Employee.OrderBy(x => x.LastName), "Id", "Email");
             //ViewData["Benefits"] = benefitCheckBox;
+            var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
+            {
+                Id = x.Id,
+                FullName = x.LastName + " " + x.FirstName
+            });
+
+            ViewData["IdEmployee"] = new SelectList(EmpQuery, "Id", "FullName");
 
             if (ModelState.IsValid)
             {

@@ -2,34 +2,16 @@
 @inject UserManager<Employee> UserManager
 
 @{
-    ViewData["Title"] = "Umowy";
+    ViewData["Title"] = "Umowy podwładnych";
 }
 
-<h1>Umowy</h1>
+<h1>Umowy podwładnych</h1>
 
 <hr />
-<div>
-    <a class="btn btn-primary" asp-action="CreateContract">
-        Dodaj nową umowę
-    </a>
-</div>
-
-<br />
-
-<form method="get" asp-action="ListAllContracts">
-    <p>
-        <input type="search" placeholder="Wyszukaj po nazwisku pracownika..." value="" name="search" style="width:300px;border-radius:4px" />
-        <input class="btn-primary mb-4" type="submit" value="Wyszukaj" style="border-radius:4px" />
-        <a asp-action="ListAllContracts"> | Usuń filtr</a>
-    </p>
-</form>
 
 <table class="table">
     <thead>
         <tr>
-            @*<th>
-                    Numer umowy
-                </th>*@
             <th>
                 Pracownik
             </th>
@@ -58,9 +40,6 @@
         @foreach (var item in Model)
         {
             <tr>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.ContractNumber)
-                    </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.IdEmployeeNavigation.LastName) @Html.DisplayFor(modelItem => item.IdEmployeeNavigation.FirstName)
                 </td>
@@ -81,10 +60,6 @@
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" asp-action="ContractDetails" asp-route-id="@item.IdContract">Szczegóły</a>
-                    @*@if (this.User.IsInRole("Administrator"))
-                    {*@
-                        <a class="btn btn-primary btn-sm" asp-action="EditContract" asp-route-id="@item.IdContract">Edytuj</a>
-                        <a class="btn btn-danger btn-sm" asp-action="DeleteContract" asp-route-id="@item.IdContract">Usuń</a>
 
                 </td>
             </tr>

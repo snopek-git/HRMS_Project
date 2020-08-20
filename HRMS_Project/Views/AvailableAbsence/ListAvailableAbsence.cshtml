@@ -49,7 +49,7 @@
             {
                 <tr>
                     <td>
-                        @UserManager.FindByIdAsync(item.IdEmployee).Result.FirstName @UserManager.FindByIdAsync(item.IdEmployee).Result.LastName
+                        @UserManager.FindByIdAsync(item.IdEmployee).Result.LastName @UserManager.FindByIdAsync(item.IdEmployee).Result.FirstName
                     </td>
                     <td>
                         @Model.AbsenceType.Find(a => a.IdAbsenceType == item.IdAbsenceType).AbsenceTypeName

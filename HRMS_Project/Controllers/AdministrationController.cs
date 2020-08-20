@@ -96,11 +96,11 @@ namespace HRMS_Project.Controllers
                 RoleName = role.Name
             };
 
-            foreach(var employee in employeeUserManager.Users)
+            foreach(var employee in employeeUserManager.Users.OrderBy(x => x.LastName))
             {
                 if(await employeeUserManager.IsInRoleAsync(employee, role.Name))
                 {
-                    model.Users.Add(employee.UserName);
+                    model.Users.Add(employee.LastName + " " + employee.FirstName);
                 }
             }
 
@@ -150,12 +150,12 @@ namespace HRMS_Project.Controllers
 
             var model = new List<UserRoleViewModel>();
 
-            foreach (var user in employeeUserManager.Users)
+            foreach (var user in employeeUserManager.Users.OrderBy(x => x.LastName))
             {
                 var userRoleViewModel = new UserRoleViewModel
                 {
                     UserId = user.Id,
-                    UserName = user.UserName
+                    UserName = user.LastName + " " + user.FirstName
                 };
 
                 if (await employeeUserManager.IsInRoleAsync(user, role.Name))
@@ -169,6 +169,8 @@ namespace HRMS_Project.Controllers
 
                 model.Add(userRoleViewModel);
             }
+
+            model.OrderBy(x => x.UserName);
 
             return View(model);
         }
@@ -219,11 +221,26 @@ namespace HRMS_Project.Controllers
         //=============================================//
         //================ Pracownicy ==============//
         //=============================================//
-        [HttpGet]
+        //[HttpGet]
         public IActionResult ListUsers()
         {
             var users = employeeUserManager.Users;
-            return View(users);
+            return View(users.OrderBy(x => x.LastName));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListUsers(string search)
+        {
+            //ViewData["Emp"] = search;
+            var users = employeeUserManager.Users;
+
+            var query = from e in context.Employee select e;
+            if(!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(e => e.LastName.Contains(search) || e.FirstName.Contains(search) || e.Email.Contains(search));
+            }
+
+            return View(await query.OrderBy(x => x.LastName).AsNoTracking().ToListAsync());
         }
 
         [HttpGet]
@@ -239,8 +256,20 @@ namespace HRMS_Project.Controllers
 
             //var userClaims = await employeeUserManager.GetClaimsAsync(user);
 
-
             var userRoles = await employeeUserManager.GetRolesAsync(user);
+
+            ViewData["IdJob"] = new SelectList(context.Job.OrderBy(x => x.JobName), "IdJob", "JobName");
+
+            var query = from e in context.Employee
+                        where e.IdJob == 1
+                        orderby e.LastName
+                        select new
+                        {
+                            IdManager = e.Id,
+                            Name = e.LastName + " " + e.FirstName
+                        };
+
+            ViewData["IdManager"] = new SelectList(query, "IdManager", "Name");
 
             var model = new EditUserViewModel
             {
@@ -254,9 +283,11 @@ namespace HRMS_Project.Controllers
                 PhoneNumber = user.PhoneNumber,
                 IdCardNumber = user.IdCardNumber,
                 IdJob = user.IdJob,
-                //IdManager = (int)user.IdManager,
+                IdManager = user.IdManager,
                 Roles = userRoles
             };
+
+
 
             return View(model);
         }
@@ -265,6 +296,19 @@ namespace HRMS_Project.Controllers
         public async Task<IActionResult> EditUser(EditUserViewModel model)
         {
             var user = await employeeUserManager.FindByIdAsync(model.Id);
+
+            ViewData["IdJob"] = new SelectList(context.Job.OrderBy(x => x.JobName), "IdJob", "JobName");
+
+            var query = from e in context.Employee
+                        where e.IdJob == 1
+                        orderby e.LastName
+                        select new
+                        {
+                            IdManager = e.IdEmployee,
+                            Name = e.LastName + ' ' + e.FirstName
+                        };
+
+            ViewData["IdManager"] = new SelectList(query, "IdManager", "Name");
 
             if (user == null)
             {
@@ -283,7 +327,7 @@ namespace HRMS_Project.Controllers
                 user.IdCardNumber = model.IdCardNumber;
                 user.IdJob = model.IdJob;
                 user.IdEmployee = model.IdEmployee;
-                //IdManager = (int)user.IdManager,
+                user.IdManager = model.IdManager;
 
                 var result = await employeeUserManager.UpdateAsync(user);
 
@@ -336,7 +380,7 @@ namespace HRMS_Project.Controllers
 
         public async Task<IActionResult> ListBenefits()
         {
-            return View(await context.Benefit.ToListAsync());
+            return View(await context.Benefit.OrderBy(x => x.Name).ToListAsync());
         }
 
         public IActionResult CreateBenefit()
