@@ -79,7 +79,7 @@ namespace HRMS_Project.Data
                 entity.HasOne(d => d.IdEmployeeNavigation)
                     .WithMany(p => p.Contract)
                     .HasForeignKey(d => d.IdEmployee)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("Contract_Employee");
             });
 
@@ -172,7 +172,7 @@ namespace HRMS_Project.Data
                 entity.HasOne(d => d.IdEmployeeNavigation)
                     .WithMany(p => p.Request)
                     .HasForeignKey(d => d.IdEmployee)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("Request_Employee");
             });
 
@@ -284,7 +284,7 @@ namespace HRMS_Project.Data
                 entity.HasOne(d => d.IdEmployeeNavigation)
                     .WithMany(p => p.AvailableAbsence)
                     .HasForeignKey(d => d.IdEmployee)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("AvailableAbsence_Emp");
             });
 
