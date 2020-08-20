@@ -47,7 +47,7 @@ namespace HRMS_Project.Controllers
                 var listOfContract = listOfContracts.Where(s => s.IdEmployeeNavigation.LastName.Contains(search));
                 return View(await listOfContract.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
             } else { 
-            return View(await listOfContracts.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
+                return View(await listOfContracts.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
                 }
         }
 
@@ -63,6 +63,14 @@ namespace HRMS_Project.Controllers
 
             var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation)
                                                   .Where(e => e.IdEmployee == id).ToListAsync();
+            return View(await listOfContracts);
+        }
+
+        public async Task<IActionResult> ListSubordinatesContracts(string id)
+        {
+            var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation)
+                                                  .Where(e => e.IdEmployeeNavigation.IdManager == id).OrderBy(e => e.IdEmployeeNavigation.LastName).ToListAsync();
+
             return View(await listOfContracts);
         }
 
