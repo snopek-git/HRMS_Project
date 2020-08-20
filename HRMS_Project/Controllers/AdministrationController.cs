@@ -345,6 +345,27 @@ namespace HRMS_Project.Controllers
             }
         }
 
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await employeeUserManager.FindByIdAsync(id);
+
+            if(user == null)
+            {
+                ViewBag.ErrorMessage = $"Użytkownik o Id = {id} nie istenieje";
+                return View("NotFound");
+            } else
+            {
+                var result = await employeeUserManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListUsers");
+                }
+
+                return View("ListUsers");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> DeleteRole(string id)
         {

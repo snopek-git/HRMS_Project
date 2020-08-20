@@ -60,6 +60,10 @@
     <Compile Remove="Data\Migrations\20200814102017_RequestAbsenceType.Designer.cs" />
     <Compile Remove="Data\Migrations\20200814110845_RequestAbsenceType.cs" />
     <Compile Remove="Data\Migrations\20200814110845_RequestAbsenceType.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200820185825_DeleteUser_Cascade.cs" />
+    <Compile Remove="Data\Migrations\20200820185825_DeleteUser_Cascade.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200820190147_DeleteUser_Cascade.cs" />
+    <Compile Remove="Data\Migrations\20200820190147_DeleteUser_Cascade.Designer.cs" />
 
   </ItemGroup>
 
