@@ -82,18 +82,17 @@
         </tbody>
     </table>
 
-    <div>
-        <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
-            Twoje urlopy
-        </a>
-        <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest">
-            Złóż wniosek
-        </a>
-    </div>
-
 }
 else
 {
     <h3>Brak dostępnych wniosków</h3>
 }
 
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
+        Twoje urlopy
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest">
+        Złóż wniosek
+    </a>
+</div>
