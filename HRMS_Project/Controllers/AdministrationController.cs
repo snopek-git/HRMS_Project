@@ -256,8 +256,20 @@ namespace HRMS_Project.Controllers
 
             //var userClaims = await employeeUserManager.GetClaimsAsync(user);
 
-
             var userRoles = await employeeUserManager.GetRolesAsync(user);
+
+            ViewData["IdJob"] = new SelectList(context.Job.OrderBy(x => x.JobName), "IdJob", "JobName");
+
+            var query = from e in context.Employee
+                        where e.IdJob == 1
+                        orderby e.LastName
+                        select new
+                        {
+                            IdManager = e.Id,
+                            Name = e.LastName + " " + e.FirstName
+                        };
+
+            ViewData["IdManager"] = new SelectList(query, "IdManager", "Name");
 
             var model = new EditUserViewModel
             {
@@ -271,9 +283,11 @@ namespace HRMS_Project.Controllers
                 PhoneNumber = user.PhoneNumber,
                 IdCardNumber = user.IdCardNumber,
                 IdJob = user.IdJob,
-                //IdManager = (int)user.IdManager,
+                IdManager = user.IdManager,
                 Roles = userRoles
             };
+
+
 
             return View(model);
         }
@@ -282,6 +296,19 @@ namespace HRMS_Project.Controllers
         public async Task<IActionResult> EditUser(EditUserViewModel model)
         {
             var user = await employeeUserManager.FindByIdAsync(model.Id);
+
+            ViewData["IdJob"] = new SelectList(context.Job.OrderBy(x => x.JobName), "IdJob", "JobName");
+
+            var query = from e in context.Employee
+                        where e.IdJob == 1
+                        orderby e.LastName
+                        select new
+                        {
+                            IdManager = e.IdEmployee,
+                            Name = e.LastName + ' ' + e.FirstName
+                        };
+
+            ViewData["IdManager"] = new SelectList(query, "IdManager", "Name");
 
             if (user == null)
             {
@@ -300,7 +327,7 @@ namespace HRMS_Project.Controllers
                 user.IdCardNumber = model.IdCardNumber;
                 user.IdJob = model.IdJob;
                 user.IdEmployee = model.IdEmployee;
-                //IdManager = (int)user.IdManager,
+                user.IdManager = model.IdManager;
 
                 var result = await employeeUserManager.UpdateAsync(user);
 

@@ -40,8 +40,8 @@ namespace HRMS_Project.Controllers
                         orderby e.LastName
                         select new
                         {
-                            IdManager = e.IdEmployee,
-                            Name = e.LastName + ' ' + e.FirstName
+                            IdManager = e.Id,
+                            Name = e.LastName + " " + e.FirstName
                         };
 
             ViewData["IdManager"] = new SelectList(query, "IdManager", "Name");
@@ -60,7 +60,7 @@ namespace HRMS_Project.Controllers
                         orderby e.LastName
                         select new
                         {
-                            IdManager = e.IdEmployee,
+                            IdManager = e.Id,
                             Name = e.LastName + ' ' + e.FirstName
                         };
 

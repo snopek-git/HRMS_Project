@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace HRMS_Project.Models
 {
@@ -22,7 +23,9 @@ namespace HRMS_Project.Models
         public string IdCardNumber { get; set; }
         public DateTime BirthDate { get; set; }
         public int IdJob { get; set; }
-        public int? IdManager { get; set; }
+
+        [AllowNull]
+        public string IdManager { get; set; }
         public bool IsActive { get; set; }
 
         public ICollection<Contract> Contract { get; set; }
