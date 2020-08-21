@@ -73,7 +73,7 @@ namespace HRMS_Project.Controllers
 
             //dodac warunek o statusie
             var request = await _context.Request
-                                   .Where(r => (idList.Contains(r.IdEmployee) && r.IdRequestStatus == 1))
+                                   .Where(r => (idList.Contains(r.IdEmployee) && r.IdRequestStatus == 1)) //dodać requestType == 1
                                    .ToListAsync();
 
             var requestType = await _context.RequestType
@@ -186,7 +186,9 @@ namespace HRMS_Project.Controllers
         [HttpGet]
         public IActionResult CreateRequest()
         {
+
             ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType, "IdAbsenceType", "AbsenceTypeName");
+            //ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType)
 
             return View();
         }
@@ -271,7 +273,7 @@ namespace HRMS_Project.Controllers
             {
                 _context.Update(request);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("ListRequest", new { id = request.IdEmployee });
+                return View();
             }
         }
 
@@ -312,6 +314,55 @@ namespace HRMS_Project.Controllers
                 await _context.SaveChangesAsync();
                 return View();
             }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeclineReason(int id)
+        {
+            var request = await _context.Request.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(request);
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeclineReason(int id, Request request)
+        {
+
+            if (id != request.IdRequest)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(request);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (request == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("DeclineRequest", new { id = request.IdRequest});
+            }
+            return View(request);
         }
 
     }

@@ -1,0 +1,36 @@
+﻿@model HRMS_Project.Models.Request
+
+@{
+    ViewData["Title"] = "Powód odrzucenia wniosku";
+}
+
+<h1>Proszę wsjazać powód odrzucenia wniosku</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DeclineReason">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdRequest" />
+            <input type="hidden" asp-for="RequestNumber" />
+            <input type="hidden" asp-for="IdRequestType" />
+            <input type="hidden" asp-for="IdRequestStatus" />
+            <input type="hidden" asp-for="AbsenceTypeRef" />
+            <input type="hidden" asp-for="IdEmployee" />
+            <input type="hidden" asp-for="StartDate" />
+            <input type="hidden" asp-for="EndDate" />
+            <input type="hidden" asp-for="EmployeeComment" />
+            <input type="hidden" asp-for="RequestDate" />
+            <input type="hidden" asp-for="Quantity" />
+
+            <div class="form-group">
+                <label asp-for="ManagerComment" class="control-label">Komentarz:</label>
+                <input asp-for="ManagerComment" class="form-control" />
+                <span asp-validation-for="ManagerComment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Odrzuć" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>

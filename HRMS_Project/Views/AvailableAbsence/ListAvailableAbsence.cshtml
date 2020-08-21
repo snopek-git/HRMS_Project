@@ -12,9 +12,9 @@
     <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="CreateAvailableAbsence">
         Dodaj nowy urlop
     </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="AbsenceType" asp-action="CreateAbsenceType">
+    @*<a class="btn btn-primary" style="width:auto" asp-controller="AbsenceType" asp-action="CreateAbsenceType">
         Dodaj nowy rodzaj urlopu
-    </a>
+    </a>*@
 </div>
 
 <br />
@@ -64,12 +64,12 @@
                         @UserManager.FindByIdAsync(item.IdEmployee).Result.IdCardNumber
                     </td>
                     <td>
-                        <form method="post" asp-action="DeleteAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">
+                        <form method="post" asp-action="ResetAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">
                             <a class="btn btn-primary btn-sm" style="width:auto" asp-controller="AvailableAbsence" asp-action="EditAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">
                                 Edytuj
                             </a>
                             <button type="submit" class="btn btn-danger btn-sm">
-                                Usuń
+                                Zresetuj
                             </button>
                         </form>
                     </td>
