@@ -82,12 +82,15 @@
         <dd class="col-sm-10">
             @Model.Request.EmployeeComment
         </dd>
-        <dt class="col-sm-2">
-            Komentarz managera:
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Request.ManagerComment
-        </dd>
+        @if (Model.Request.ManagerComment != null)
+        {
+            <dt class="col-sm-2">
+                Komentarz managera:
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Request.ManagerComment
+            </dd>
+        }
     </dl>
 
 
