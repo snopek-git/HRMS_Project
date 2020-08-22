@@ -34,5 +34,7 @@ namespace HRMS_Project.Models
 
         public ICollection<AvailableAbsence> AvailableAbsence { get; set; }
 
+        public ICollection<Overtime> Overtime { get; set; }
+
     }
 }

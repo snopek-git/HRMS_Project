@@ -49,9 +49,12 @@
                     </td>
                     <td>
                         <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: @(item.AvailableDays*100/(item.AvailableDays + item.UsedAbsence))%" aria-valuemin="0" aria-valuemax="100">
-                                @(item.AvailableDays*100/(item.AvailableDays + item.UsedAbsence))%
-                            </div>
+                            @if ((item.AvailableDays + item.UsedAbsence) != 0)
+                            {
+                                <div class="progress-bar bg-success" role="progressbar" style="width: @(item.AvailableDays*100/(item.AvailableDays + item.UsedAbsence))%" aria-valuemin="0" aria-valuemax="100">
+                                    @(item.AvailableDays*100/(item.AvailableDays + item.UsedAbsence))%
+                                </div>
+                            }
                         </div>
                     </td>
                 </tr>
@@ -59,18 +62,20 @@
         </tbody>
     </table>
 
-    <div>
-        <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">
-            Twoje wnioski
-        </a>
-        <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest">
-            Złóż wniosek
-        </a>
-    </div>
+
 
 }
 else
 {
     <h3>Brak dostępnych urlopów</h3>
 }
+
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">
+        Twoje wnioski
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest">
+        Złóż wniosek urlopowy
+    </a>
+</div>
 

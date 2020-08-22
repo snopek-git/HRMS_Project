@@ -73,7 +73,7 @@ namespace HRMS_Project.Controllers
 
             //dodac warunek o statusie
             var request = await _context.Request
-                                   .Where(r => (idList.Contains(r.IdEmployee) && r.IdRequestStatus == 1))
+                                   .Where(r => (idList.Contains(r.IdEmployee) && r.IdRequestStatus == 1)) //dodać requestType == 1
                                    .ToListAsync();
 
             var requestType = await _context.RequestType
@@ -114,7 +114,7 @@ namespace HRMS_Project.Controllers
 
             var user = await userManager.FindByIdAsync(request.IdEmployee);
 
-            var manager = userManager.Users.First(e => e.IdManager == user.IdManager);
+            var manager = userManager.Users.First(e => e.Id == user.IdManager);
 
             var absenceType = await _context.AbsenceType.FindAsync(request.AbsenceTypeRef);
 
@@ -148,7 +148,7 @@ namespace HRMS_Project.Controllers
 
             var user = await userManager.FindByIdAsync(request.IdEmployee);
 
-            var manager = userManager.Users.First(e => e.IdManager == user.IdManager);
+            var manager = userManager.Users.First(e => e.Id == user.IdManager);
 
             var absenceType = await _context.AbsenceType.FindAsync(request.AbsenceTypeRef);
 
@@ -186,7 +186,9 @@ namespace HRMS_Project.Controllers
         [HttpGet]
         public IActionResult CreateRequest()
         {
+
             ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType, "IdAbsenceType", "AbsenceTypeName");
+            //ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType)
 
             return View();
         }
@@ -271,7 +273,7 @@ namespace HRMS_Project.Controllers
             {
                 _context.Update(request);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("ListRequest", new { id = request.IdEmployee });
+                return View();
             }
         }
 
@@ -312,6 +314,160 @@ namespace HRMS_Project.Controllers
                 await _context.SaveChangesAsync();
                 return View();
             }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeclineReason(int id)
+        {
+            var request = await _context.Request.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(request);
+            }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeclineReason(int id, Request request)
+        {
+
+            if (id != request.IdRequest)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(request);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (request == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("DeclineRequest", new { id = request.IdRequest});
+            }
+            return View(request);
+        }
+
+        [HttpGet]
+        public IActionResult CreateOvertimeRequest()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOvertimeRequest(Request request)
+        {
+
+            request.RequestNumber = _context.Request.Max(r => r.IdRequest) + 1001;
+            request.RequestDate = DateTime.Today;
+            request.IdRequestType = 2;
+            request.IdRequestStatus = 1;
+
+
+
+            //Sprawdzanie czy wnioski nadgodzin na siebie nie nachodzą (sprawdzanie z wnioskami o statusie 1 lub 2)
+
+            var listOfOvertimeRequests = await _context.Request
+                                               .Where(r => (r.IdEmployee == request.IdEmployee && r.IdRequestStatus < 3 && r.IdRequestType == 2))
+                                               .ToListAsync();
+
+            foreach (Request r in listOfOvertimeRequests)
+            {
+
+                bool overlap = request.StartDate < r.EndDate && r.StartDate < request.EndDate;
+
+                if (overlap == true)
+                {
+                    return View("OverlappingOvertimeRequests");
+                }
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(request);
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ListRequest", new { id = request.IdEmployee });
+            }
+
+            return View(request);
+        }
+
+
+        [HttpGet]
+        public IActionResult CreateTakeOvertimeRequest()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTakeOvertimeRequest(Request request)
+        {
+
+            request.RequestNumber = _context.Request.Max(r => r.IdRequest) + 1001;
+            request.RequestDate = DateTime.Today;
+            request.IdRequestType = 3;
+            request.IdRequestStatus = 1;
+            request.EndDate = request.StartDate;
+
+            var currentOvertime = _context.Overtime
+                                          .Where(o => (o.IdEmployee == request.IdEmployee))
+                                          .OrderByDescending(o => o.ToBeSettledBefore)
+                                          .First()
+                                          .Quantity;
+
+            if (request.Quantity > currentOvertime)
+            {
+                return View("TooMuchOvertimeRequested");
+            }
+
+            //Sprawdzanie czy wnioski nadgodzin na siebie nie nachodzą (sprawdzanie z wnioskami o statusie 1 lub 2)
+
+            var listOfOvertimeRequests = await _context.Request
+                                               .Where(r => (r.IdEmployee == request.IdEmployee && r.IdRequestStatus < 3 && r.IdRequestType == 3))
+                                               .ToListAsync();
+
+            foreach (Request r in listOfOvertimeRequests)
+            {
+
+                bool overlap = r.StartDate == request.StartDate;
+
+                if (overlap == true)
+                {
+                    return View("OverlappingTakeOvertimeRequests");
+                }
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(request);
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ListRequest", new { id = request.IdEmployee });
+            }
+
+            return View(request);
         }
 
     }

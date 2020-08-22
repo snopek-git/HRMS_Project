@@ -64,6 +64,8 @@
     <Compile Remove="Data\Migrations\20200820185825_DeleteUser_Cascade.Designer.cs" />
     <Compile Remove="Data\Migrations\20200820190147_DeleteUser_Cascade.cs" />
     <Compile Remove="Data\Migrations\20200820190147_DeleteUser_Cascade.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200822082405_RequestAllowNull.cs" />
+    <Compile Remove="Data\Migrations\20200822082405_RequestAllowNull.Designer.cs" />
 
   </ItemGroup>
 

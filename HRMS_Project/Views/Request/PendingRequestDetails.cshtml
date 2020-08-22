@@ -28,12 +28,15 @@
         <dd class="col-sm-10">
             @Model.RequestType.RequestTypeName
         </dd>
-        <dt class="col-sm-2">
-            Rodzaj urlopu:
-        </dt>
-        <dd class="col-sm-10">
-            @Model.AbsenceType.AbsenceTypeName
-        </dd>
+        @if (Model.RequestType.IdRequestType == 1)
+        {
+            <dt class="col-sm-2">
+                Rodzaj urlopu:
+            </dt>
+            <dd class="col-sm-10">
+                @Model.AbsenceType.AbsenceTypeName
+            </dd>
+        }
         <dt class="col-sm-2">
             Data:
         </dt>
@@ -68,7 +71,7 @@
             Przełożony:
         </dt>
         <dd class="col-sm-10">
-            @user.FirstName @user.LastName
+            @Model.Manager.FirstName @Model.Manager.LastName
         </dd>
         <dt class="col-sm-2">
             Status:
@@ -82,11 +85,27 @@
         <dd class="col-sm-10">
             @Model.Request.EmployeeComment
         </dd>
+        @if (Model.Request.ManagerComment != null)
+        {
+            <dt class="col-sm-2">
+                Komentarz managera:
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Request.ManagerComment
+            </dd>
+        }
+
     </dl>
 
     @if (this.User.IsInRole("Administrator") || this.User.IsInRole("PracownikHR"))
     {
-        <a asp-area="" asp-controller="Request" asp-action="PendingRequest" asp-route-id="@user.IdEmployee">Przejdź do oczekujących wniosków</a>
+        <a class="btn btn-primary btn-sm" asp-controller="Request" asp-action="ApproveRequest" asp-route-id="@Model.Request.IdRequest">
+            &#10004; Zaakceptuj
+        </a>
+        <a class="btn btn-danger btn-sm"  asp-controller="Request" asp-action="DeclineReason" asp-route-id="@Model.Request.IdRequest">
+            &#10008; Odrzuć
+        </a>
+        <a asp-area="" asp-controller="Request" asp-action="PendingRequest" asp-route-id="@user.Id">Przejdź do oczekujących wniosków</a>
 
     }
     else

@@ -5,19 +5,19 @@
 }
 
 @{
-    ViewData["Title"] = "Wniosek zaakceptowany";
+    ViewData["Title"] = "Wniosek wycofany";
 }
 
-<h1>Akceptacja wniosku</h1>
+<h1>Wycofanie wniosku</h1>
 
 <hr />
 <div class="alert alert-success" role="alert">
-    Pomyślnie zaakceptowano wniosek.
+    Pomyślnie wycofano wniosek.
 </div>
 
 <div>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="PendingRequest" asp-route-id="@user.Id">
-        Oczekujące wnioski
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">
+        Twoje wnioski
     </a>
     <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest">
         Złóż nowy wniosek

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Overtime>
+
+@{
+    ViewData["Title"] = "Twoje nadgodziny";
+}
+
+<h1>Dostępne nadgodziny</h1>
+<hr />
+
+@if (Model.Any())
+{
+
+    @if (Model.Last().Quantity != 0)
+    {
+        <div class="alert alert-info">
+            Obecny stan Twoich nadgodzin to: @Model.Last().Quantity . Należy je wykorzystać do @Html.DisplayFor(modelItem => Model.Last().ToBeSettledBefore) .
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Obecny stan Twoich nadgodzin to: @Model.Last().Quantity .
+         </div>
+    }
+
+    <br />
+
+    <h3>Kwartalne rozliczenie nadgodzin</h3>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Liczba nadgodzin na koniec kwartału
+                </th>
+                <th>
+                    Ważne do
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Quantity
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToBeSettledBefore)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">
+        Nie posiadasz obecnie żadnych zarejestrowanych nadgodzin.
+    </div>
+}
+
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="" asp-route-id="">
+        Twoje wnioski
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateOvertimeRequest">
+        Złóż wniosek o nadgodziny
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateTakeOvertimeRequest">
+        Złóż wniosek o odbiór nadgodzin
+    </a>
+</div>
+

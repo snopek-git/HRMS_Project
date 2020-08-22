@@ -21,7 +21,7 @@
                     Pracownik
                 </th>
                 <th>
-                    Rodzaj urlopu
+                    Rodzaj wniosku
                 </th>
                 <th>
                     Od
@@ -43,11 +43,9 @@
                     </td>
                     <td>
                         @item.IdEmployeeNavigation.LastName @item.IdEmployeeNavigation.FirstName
-                        @*@UserManager.Users.First(e => e.Id == item.IdEmployee).FirstName @UserManager.Users.First(e => e.Id == item.IdEmployee).LastName*@
                     </td>
                     <td>
-                        @item.IdAbsenceTypeNavigation.AbsenceTypeName
-                        @*@Model.RequestType.Find(r => r.IdRequestType == item.IdRequestType).RequestTypeName*@
+                        @item.IdRequestTypeNavigation.RequestTypeName
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartDate)
@@ -56,26 +54,20 @@
                         @Html.DisplayFor(modelItem => item.EndDate)
                     </td>
                     <td>
-                            <a class="btn btn-info btn-sm" asp-controller="Request" asp-action="PendingRequestDetails" asp-route-id="@item.IdRequest">
-                                Szczegóły
-                            </a>
-                            <a class="btn btn-primary btn-sm" asp-controller="Request" asp-action="ApproveRequest" asp-route-id="@item.IdRequest">
-                                &#10004; Zaakceptuj
-                            </a>
-                            <a class="btn btn-danger btn-sm" asp-controller="Request" asp-action="DeclineRequest" asp-route-id="@item.IdRequest">
-                                &#10008; Odrzuć
-                            </a>
+                        <a class="btn btn-info btn-sm" asp-controller="Request" asp-action="PendingRequestDetails" asp-route-id="@item.IdRequest">
+                            Szczegóły
+                        </a>
+                        <a class="btn btn-primary btn-sm" asp-controller="Request" asp-action="ApproveRequest" asp-route-id="@item.IdRequest">
+                            &#10004; Zaakceptuj
+                        </a>
+                        <a class="btn btn-danger btn-sm" asp-controller="Request" asp-action="DeclineReason" asp-route-id="@item.IdRequest">
+                            &#10008; Odrzuć
+                        </a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
-    <div>
-        <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
-            Twoje urlopy
-        </a>
-    </div>
 
 }
 else
@@ -83,3 +75,8 @@ else
     <h3>Brak dostępnych wniosków</h3>
 }
 
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
+        Twoje urlopy
+    </a>
+</div>

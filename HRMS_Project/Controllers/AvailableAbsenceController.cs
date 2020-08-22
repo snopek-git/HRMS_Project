@@ -124,6 +124,26 @@ namespace HRMS_Project.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ResetAvailableAbsence(int id)
+        {
+            var availableAbsence = await _context.AvailableAbsence.FindAsync(id);
+
+            availableAbsence.AvailableDays = 0;
+            availableAbsence.UsedAbsence = 0;
+
+            if (availableAbsence == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _context.AvailableAbsence.Update(availableAbsence);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ListAvailableAbsence");
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> EditAvailableAbsence(int id)
         {
