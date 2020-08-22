@@ -18,7 +18,7 @@
                     Numer
                 </th>
                 <th>
-                    Rodzaj urlopu
+                    Rodzaj wniosku
                 </th>
                 <th>
                     Data
@@ -45,7 +45,7 @@
                         @item.RequestNumber
                     </td>
                     <td>
-                        @item.IdAbsenceTypeNavigation.AbsenceTypeName
+                        @item.IdRequestTypeNavigation.RequestTypeName
                         @*@Model.RequestType.Find(r => r.IdRequestType == item.IdRequestType).RequestTypeName*@
                     </td>
                     <td>
