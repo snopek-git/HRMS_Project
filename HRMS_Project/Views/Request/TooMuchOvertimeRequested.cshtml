@@ -1,0 +1,26 @@
+﻿@inject UserManager<Employee> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@{
+    ViewData["Title"] = "Wniosek nie może zostać przesłany";
+}
+
+<h1>Wniosek nie może zostać przesłany</h1>
+
+<hr />
+
+<div class="alert alert-danger" role="alert">
+    Niewystarczająca liczba dostępnych nadgodzin.
+</div>
+
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Overtime" asp-action="EmployeeOvertime" asp-route-id="@user.Id">
+        Dostępne nadgodziny
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateTakeOvertimeRequest">
+        Złóż nowy wniosek o odbiór nadgodzin
+    </a>
+</div>

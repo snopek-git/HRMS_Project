@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace HRMS_Project.Models
 
         public string ManagerComment { get; set; }
 
-        public int AbsenceTypeRef { get; set; }
+        public int? AbsenceTypeRef { get; set; }
 
         public RequestType IdRequestTypeNavigation { get; set; }
         public RequestStatus IdRequestStatusNavigation { get; set; }

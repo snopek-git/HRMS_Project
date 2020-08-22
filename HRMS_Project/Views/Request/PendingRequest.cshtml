@@ -21,7 +21,7 @@
                     Pracownik
                 </th>
                 <th>
-                    Rodzaj urlopu
+                    Rodzaj wniosku
                 </th>
                 <th>
                     Od
@@ -43,11 +43,9 @@
                     </td>
                     <td>
                         @item.IdEmployeeNavigation.LastName @item.IdEmployeeNavigation.FirstName
-                        @*@UserManager.Users.First(e => e.Id == item.IdEmployee).FirstName @UserManager.Users.First(e => e.Id == item.IdEmployee).LastName*@
                     </td>
                     <td>
-                        @item.IdAbsenceTypeNavigation.AbsenceTypeName
-                        @*@Model.RequestType.Find(r => r.IdRequestType == item.IdRequestType).RequestTypeName*@
+                        @item.IdRequestTypeNavigation.RequestTypeName
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartDate)

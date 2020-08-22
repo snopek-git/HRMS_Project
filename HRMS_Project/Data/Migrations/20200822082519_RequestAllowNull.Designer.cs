@@ -4,14 +4,16 @@ using HRMS_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRMS_Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200822082519_RequestAllowNull")]
+    partial class RequestAllowNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -328,33 +330,6 @@ namespace HRMS_Project.Data.Migrations
                     b.ToTable("Job");
                 });
 
-            modelBuilder.Entity("HRMS_Project.Models.Overtime", b =>
-                {
-                    b.Property<int>("IdOvertime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("IdEmployee")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Quantity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<DateTime>("ToBeSettledBefore")
-                        .HasColumnType("date");
-
-                    b.HasKey("IdOvertime")
-                        .HasName("Overtime_pk");
-
-                    b.HasIndex("IdEmployee");
-
-                    b.ToTable("Overtime");
-                });
-
             modelBuilder.Entity("HRMS_Project.Models.Request", b =>
                 {
                     b.Property<int>("IdRequest")
@@ -623,16 +598,6 @@ namespace HRMS_Project.Data.Migrations
                     b.HasOne("HRMS_Project.Models.Contract", "Contract")
                         .WithMany("ContractBenefit")
                         .HasForeignKey("ContractIdContract");
-                });
-
-            modelBuilder.Entity("HRMS_Project.Models.Overtime", b =>
-                {
-                    b.HasOne("HRMS_Project.Models.Employee", "IdEmployeeNavigation")
-                        .WithMany("Overtime")
-                        .HasForeignKey("IdEmployee")
-                        .HasConstraintName("Overtime_Emp")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("HRMS_Project.Models.Request", b =>

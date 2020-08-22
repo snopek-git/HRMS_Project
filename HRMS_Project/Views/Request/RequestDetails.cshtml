@@ -28,14 +28,18 @@
         <dd class="col-sm-10">
             @Model.RequestType.RequestTypeName
         </dd>
+        @if (Model.RequestType.IdRequestType == 1)
+        {
+            <dt class="col-sm-2">
+                Rodzaj urlopu:
+            </dt>
+            <dd class="col-sm-10">
+                @Model.AbsenceType.AbsenceTypeName
+            </dd>
+        }
+
         <dt class="col-sm-2">
-            Rodzaj urlopu:
-        </dt>
-        <dd class="col-sm-10">
-            @Model.AbsenceType.AbsenceTypeName
-        </dd>
-        <dt class="col-sm-2">
-            Data:
+            Data wniosku:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Request.RequestDate)
@@ -85,7 +89,7 @@
         @if (Model.Request.ManagerComment != null)
         {
             <dt class="col-sm-2">
-                Komentarz managera:
+                Komentarz przełożonego:
             </dt>
             <dd class="col-sm-10">
                 @Model.Request.ManagerComment

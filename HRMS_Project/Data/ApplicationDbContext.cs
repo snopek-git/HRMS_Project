@@ -27,6 +27,7 @@ namespace HRMS_Project.Data
         public virtual DbSet<Request> Request { get; set; }
         public virtual DbSet<RequestStatus> RequestStatus { get; set; }
         public virtual DbSet<RequestType> RequestType { get; set; }
+        public virtual DbSet<Overtime> Overtime { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -286,6 +287,29 @@ namespace HRMS_Project.Data
                     .HasForeignKey(d => d.IdEmployee)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("AvailableAbsence_Emp");
+            });
+
+            modelBuilder.Entity<Overtime>(entity =>
+            {
+                entity.HasKey(e => e.IdOvertime)
+                    .HasName("Overtime_pk");
+
+                entity.Property(e => e.IdOvertime).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.IdEmployee)
+                                      .IsRequired();
+
+                entity.Property(e => e.Quantity).HasDefaultValue(0);
+
+                entity.Property(e => e.ToBeSettledBefore)
+                                      .HasColumnType("date")
+                                      .IsRequired();
+
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany(p => p.Overtime)
+                    .HasForeignKey(d => d.IdEmployee)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("Overtime_Emp");
             });
 
         }
