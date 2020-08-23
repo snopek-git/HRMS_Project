@@ -63,7 +63,7 @@ namespace HRMS_Project.Controllers
         {
             var absences = from r in _context.Request
                            orderby r.StartDate, r.EndDate
-                           where r.IdEmployee == IdEmployee
+                           where r.IdEmployee == IdEmployee && r.IdRequestStatus == 2
                            select new
                            {
                                r.StartDate,
