@@ -33,7 +33,7 @@ namespace HRMS_Project.Controllers
         {
             ViewData["IdJob"] = new SelectList(context.Job.OrderBy(x => x.JobName), "IdJob", "JobName");
             //ViewData["IdManager"] = new SelectList(context.Employee, "IdEmployee", "LastName");
-            ViewData["IdRole"] = new SelectList(roleManager.Roles, "Id", "Name");
+            ViewData["IdRole"] = new SelectList(roleManager.Roles.Where(x => !x.Name.Equals("Administrator")).OrderBy(x => x.Name), "Id", "Name");
 
             var query = from e in context.Employee
                         where e.IdJob == 1

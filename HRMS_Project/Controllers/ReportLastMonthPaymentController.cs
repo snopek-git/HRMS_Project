@@ -94,7 +94,7 @@ namespace HRMS_Project.Controllers
                             <head>
                             </head>
                             <body>
-                                <div class='header'><h1>Wypłaty wynagrodzeń za ostatni miesiąc</h1></div>
+                                <div class='header' align='center'><h1>Wypłaty wynagrodzeń za ostatni miesiąc</h1></div>
                                 <table align='center'>
                                     <tr>
                                         <th>Pracownik</th>
@@ -110,7 +110,7 @@ namespace HRMS_Project.Controllers
                                     <td>{1}</td>
                                     <td>{2}</td>
                                     <td>{3}</td>
-                                  </tr>", p.Employee, p.Salary, GetBenefitsValue(p.IdEmployee), GetPaymentValue(p.Salary, p.IdEmployee));
+                                  </tr>", p.Employee, p.Salary.ToString("0.00"), GetBenefitsValue(p.IdEmployee).ToString("0.00"), GetPaymentValue(p.Salary, p.IdEmployee).ToString("0.00"));
             }
 
             sb.Append(@"

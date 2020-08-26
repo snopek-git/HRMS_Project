@@ -19,10 +19,12 @@ namespace HRMS_Project.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime RequestDate { get; set; }
 
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime StartDate { get; set; }
 
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime EndDate { get; set; }
@@ -33,6 +35,7 @@ namespace HRMS_Project.Models
 
         public string IdEmployee { get; set; }
 
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         public int Quantity { get; set; } //obliczane automatycznie: EndDate - StartDate
 
         public string EmployeeComment { get; set; }

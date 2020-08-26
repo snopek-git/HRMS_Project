@@ -63,7 +63,7 @@ namespace HRMS_Project.Controllers
         {
             var absences = from r in _context.Request
                            orderby r.StartDate, r.EndDate
-                           where r.IdEmployee == IdEmployee && r.IdRequestStatus == 2
+                           where r.IdEmployee == IdEmployee && r.IdRequestStatus == 2 && r.IdRequestType == 1 && r.StartDate.Year.ToString() == DateTime.Now.Year.ToString()
                            select new
                            {
                                r.StartDate,
@@ -71,9 +71,9 @@ namespace HRMS_Project.Controllers
                                Status = (from s in _context.RequestStatus
                                          where (s.IdRequestStatus == r.IdRequestStatus)
                                          select s.StatusName).FirstOrDefault(),
-                               Type = (from rt in _context.RequestType
-                                       where (rt.IdRequestType == r.IdRequestType)
-                                       select rt.RequestTypeName).FirstOrDefault()
+                               Type = (from rt in _context.AbsenceType
+                                       where (rt.IdAbsenceType == r.AbsenceTypeRef)
+                                       select rt.AbsenceTypeName).FirstOrDefault()
                            };
 
             var requestReport = new List<ReportRequestViewModel>();
@@ -101,7 +101,6 @@ namespace HRMS_Project.Controllers
                                         <th>Rodzaj urlopu</th>
                                         <th>Początek</th>
                                         <th>Koniec</th>
-                                        <th>Status</th>
                                     </tr>");
 
             foreach (var r in requestReport)
@@ -110,8 +109,7 @@ namespace HRMS_Project.Controllers
                                     <td>{0}</td>
                                     <td>{1}</td>
                                     <td>{2}</td>
-                                    <td>{3}</td>
-                                  </tr>", r.Type, r.StartDate.ToString("yyyy-MM-dd"), r.EndDate.ToString("yyyy-MM-dd"), r.Status);
+                                  </tr>", r.Type, r.StartDate.ToString("yyyy-MM-dd"), r.EndDate.ToString("yyyy-MM-dd"));
             }
 
             sb.Append(@"

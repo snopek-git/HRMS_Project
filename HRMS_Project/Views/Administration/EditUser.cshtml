@@ -80,7 +80,7 @@
     <div class="form-group row">
         <label asp-for="IdManager" class="col-sm-2 col-form-label">Przełożony:</label>
         <div class="col-sm-10">
-            <select asp-for="IdManager" class="form-control" asp-items="ViewBag.IdManager"></select>
+            <select asp-for="IdManager" class="form-control" asp-items="ViewBag.IdManager"><option> </option></select>
             <span asp-validation-for="IdManager" class="text-danger"></span>
         </div>
     </div>

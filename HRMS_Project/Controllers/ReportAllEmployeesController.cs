@@ -69,7 +69,7 @@ namespace HRMS_Project.Controllers
                             <head>
                             </head>
                             <body>
-                                <div class='header'><h1>Raport wszystkich pracowników firmy</h1></div>
+                                <div class='header' align='center'><h1>Raport wszystkich pracowników firmy</h1></div>
                                 <table align='center'>
                                     <tr>
                                         <th>Nazwisko</th>
