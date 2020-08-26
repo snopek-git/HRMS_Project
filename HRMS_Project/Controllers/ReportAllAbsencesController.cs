@@ -63,6 +63,7 @@ namespace HRMS_Project.Controllers
         {
             var absences = from r in _context.Request
                            orderby r.StartDate, r.EndDate
+                           where r.IdRequestStatus == 2 && r.IdRequestType == 1 && r.StartDate.Year.ToString() == DateTime.Now.Year.ToString()
                            select new
                            {
                                r.StartDate,
@@ -70,9 +71,9 @@ namespace HRMS_Project.Controllers
                                Employee = (from e in _context.Employee
                                            where (e.Id == r.IdEmployee)
                                            select e.LastName + ' ' + e.FirstName).FirstOrDefault(),
-                               Type = (from rt in _context.RequestType
-                                       where (rt.IdRequestType == r.IdRequestType)
-                                       select rt.RequestTypeName).FirstOrDefault()
+                               Type = (from rt in _context.AbsenceType
+                                       where (rt.IdAbsenceType == r.AbsenceTypeRef)
+                                       select rt.AbsenceTypeName).FirstOrDefault()
                            };
 
             var requestReport = new List<ReportRequestViewModel>();
@@ -89,19 +90,19 @@ namespace HRMS_Project.Controllers
             }
 
             var sb = new StringBuilder();
-            sb.Append(@"
+            sb.AppendFormat(@"
                         <html>
                             <head>
                             </head>
                             <body>
-                                <div class='header'><h1>Raport urlopowy wszystkich pracowników</h1></div>
+                                <div class='header' align='center'><h1>Raport urlopowy wszystkich pracowników na rok {0}</h1></div>
                                 <table align='center'>
                                     <tr>
                                         <th>Początek</th>
                                         <th>Koniec</th>
                                         <th>Rodzaj</th>
                                         <th>Pracownik</th>
-                                    </tr>");
+                                    </tr>", DateTime.Now.Year.ToString());
 
             foreach (var r in requestReport)
             {
