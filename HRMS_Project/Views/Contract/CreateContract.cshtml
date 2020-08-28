@@ -27,14 +27,14 @@
     <div class="form-group row">
         <label asp-for="ContractStart" class="col-sm-2 col-form-label">Początek:</label>
         <div class="col-sm-10">
-            <input asp-for="ContractStart" class="form-control">
+            <input asp-for="ContractStart" class="form-control" id="StartDateCheck">
             <span asp-validation-for="ContractStart" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="ContractEnd" class="col-sm-2 col-form-label">Koniec:</label>
         <div class="col-sm-10">
-            <input asp-for="ContractEnd" class="form-control">
+            <input asp-for="ContractEnd" class="form-control" id="EndDateCheck">
             <span asp-validation-for="ContractEnd" class="text-danger"></span>
         </div>
     </div>
@@ -99,6 +99,13 @@
     </div>
 </form>
     
+<script>
+    document.getElementById("StartDateCheck").onchange = function () {
+        var input = document.getElementById("EndDateCheck");
+        input.setAttribute("min", this.value);
+    }
+</script>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

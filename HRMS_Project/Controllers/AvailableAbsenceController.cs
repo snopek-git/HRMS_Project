@@ -35,10 +35,11 @@ namespace HRMS_Project.Controllers
         {
 
             var availableAbsence = await _context.AvailableAbsence
-                                        .ToListAsync();
+                                                 .OrderBy(a => a.IdEmployeeNavigation.LastName)
+                                                 .ToListAsync();
 
             var absenceType = await _context.AbsenceType
-                                        .ToListAsync();
+                                            .ToListAsync();
 
             var model = new AbsenceViewModel
             {
@@ -75,7 +76,7 @@ namespace HRMS_Project.Controllers
         public IActionResult CreateAvailableAbsence()
         {
             ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType, "IdAbsenceType", "AbsenceTypeName");
-            //ViewData["IdEmployee"] = new SelectList(_context.Employee, "Id", "Email");
+
             var EmpQuery = _context.Employee.OrderBy(x => x.LastName).Select(x => new
             {
                 Id = x.Id,
@@ -95,8 +96,26 @@ namespace HRMS_Project.Controllers
             ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType, "IdAbsenceType", "AbsenceTypeName");
             ViewData["IdEmployee"] = new SelectList(_context.Employee, "Id", "Email");
 
+            var existingAvailableAbsence = await _context.AvailableAbsence
+                                                         .Where(a => a.IdEmployee == availableAbsence.IdEmployee)
+                                                         .ToListAsync();
+
+            var availableAbsenceType = new List<int>();
+
+            foreach (AvailableAbsence aa in existingAvailableAbsence)
+            {
+                availableAbsenceType.Add(aa.IdAbsenceType);
+            }
+
+            if (availableAbsenceType.Contains(availableAbsence.IdAbsenceType))
+            {
+                return View("AbsenceAlreadyExists");
+            }
+
+
             if (ModelState.IsValid)
             {
+
                 _context.Add(availableAbsence);
 
                 await _context.SaveChangesAsync();
@@ -104,6 +123,11 @@ namespace HRMS_Project.Controllers
             }
 
             return View(availableAbsence);
+        }
+
+        public IActionResult AbsenceAlreadyExists()
+        {
+            return View();
         }
 
 

@@ -12,12 +12,10 @@ namespace HRMS_Project.Controllers
 {
     public class OvertimeController : Controller
     {
-        private readonly UserManager<Employee> userManager;
         private readonly ApplicationDbContext _context;
 
-        public OvertimeController (UserManager<Employee> userManager, ApplicationDbContext context)
+        public OvertimeController (ApplicationDbContext context)
         {
-            this.userManager = userManager;
             this._context = context;
         }
 
@@ -33,6 +31,7 @@ namespace HRMS_Project.Controllers
 
             var overtime = await _context.Overtime
                                         .Where(a => a.IdEmployee == id)
+                                        .OrderByDescending(a => a.ToBeSettledBefore)
                                         .ToListAsync();
 
 
@@ -57,6 +56,7 @@ namespace HRMS_Project.Controllers
 
                 overtime = await _context.Overtime
                                         .Where(a => a.IdEmployee == id)
+                                        .OrderByDescending(a => a.ToBeSettledBefore)
                                         .ToListAsync();
             }
 
