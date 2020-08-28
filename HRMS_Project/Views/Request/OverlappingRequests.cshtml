@@ -13,14 +13,14 @@
 <hr />
 
 <div class="alert alert-danger" role="alert">
-    W podanym przedziale dat masz już zaplanowany urlop.
+    Składałeś już inny wniosek pokrywający się ze wskazanym zakresem dat.
 </div>
 
 <div>
     <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
         Dostępne urlopy
     </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest">
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest" asp-route-id="@user.Id">
         Złóż nowy wniosek
     </a>
 </div>
