@@ -1,0 +1,23 @@
+﻿@inject UserManager<Employee> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@{
+    ViewData["Title"] = "Nie można dodać urlopu";
+}
+
+<h1>Urlop nie może zostać dodany</h1>
+
+<hr />
+
+<div class="alert alert-danger" role="alert">
+    Wskazany użytkownik posiada już ten rodzaj urlopu.
+</div>
+
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence">
+        Lista urlopów
+    </a>
+</div>

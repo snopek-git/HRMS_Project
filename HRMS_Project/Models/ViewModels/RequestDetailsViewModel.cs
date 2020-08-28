@@ -12,5 +12,7 @@ namespace HRMS_Project.Models.ViewModels
         public RequestStatus RequestStatus { get; set; }
         public Employee Manager { get; set; }
         public AbsenceType AbsenceType { get; set; }
+        public List<AvailableAbsence> AvailableAbsence { get; set; }
+        public Overtime Overtime { get; set; }
     }
 }

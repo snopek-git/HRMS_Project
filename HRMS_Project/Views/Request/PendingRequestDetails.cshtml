@@ -36,6 +36,21 @@
             <dd class="col-sm-10">
                 @Model.AbsenceType.AbsenceTypeName
             </dd>
+            <dt class="col-sm-2">
+                Dostępne dni:
+            </dt>
+            <dd class="col-sm-10">
+                @Model.AvailableAbsence.Where(a => a.IdAbsenceType == Model.AbsenceType.IdAbsenceType).FirstOrDefault().AvailableDays
+            </dd>
+        }
+        else
+        {
+            <dt class="col-sm-2">
+                Dostępne nadgodziny:
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Overtime.Quantity
+            </dd>
         }
         <dt class="col-sm-2">
             Data:
@@ -98,18 +113,18 @@
     </dl>
 
     @*@if (this.User.IsInRole("Administrator") || this.User.IsInRole("PracownikHR"))
-    {*@
-        <a class="btn btn-primary btn-sm" asp-controller="Request" asp-action="ApproveRequest" asp-route-id="@Model.Request.IdRequest">
-            &#10004; Zaakceptuj
-        </a>
-        <a class="btn btn-danger btn-sm"  asp-controller="Request" asp-action="DeclineReason" asp-route-id="@Model.Request.IdRequest">
-            &#10008; Odrzuć
-        </a>
-        <a asp-area="" asp-controller="Request" asp-action="PendingRequest" asp-route-id="@user.Id">Przejdź do oczekujących wniosków</a>
+        {*@
+    <a class="btn btn-primary btn-sm" asp-controller="Request" asp-action="ApproveRequest" asp-route-id="@Model.Request.IdRequest">
+        &#10004; Zaakceptuj
+    </a>
+    <a class="btn btn-danger btn-sm" asp-controller="Request" asp-action="DeclineReason" asp-route-id="@Model.Request.IdRequest">
+        &#10008; Odrzuć
+    </a>
+    <a asp-area="" asp-controller="Request" asp-action="PendingRequest" asp-route-id="@user.Id">Przejdź do oczekujących wniosków</a>
 
     @*}
-    else
-    {
-        <a asp-action="ListRequest" asp-route-id="@user.Id">Powrót do listy wniosków</a>
-    }*@
+        else
+        {
+            <a asp-action="ListRequest" asp-route-id="@user.Id">Powrót do listy wniosków</a>
+        }*@
 </div>

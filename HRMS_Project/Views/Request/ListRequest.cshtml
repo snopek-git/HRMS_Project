@@ -1,15 +1,14 @@
-﻿@model RequestViewModel
+﻿@model IEnumerable<Request>
 @inject UserManager<Employee> UserManager
 
 @{
     ViewData["Title"] = "Wnioski";
-
     var user = await UserManager.GetUserAsync(User);
 }
 
 <h1>Twoje wnioski</h1>
 
-@if (Model.Request.Any())
+@if (Model.Any())
 {
     <table class="table">
         <thead>
@@ -38,7 +37,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Request)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>
@@ -89,10 +88,13 @@ else
 }
 
 <div>
-    <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
-        Twoje urlopy
-    </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest">
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest" asp-route-id="@user.Id">
         Złóż wniosek urlopowy
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateOvertimeRequest">
+        Złóż wniosek o nadgodziny
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateTakeOvertimeRequest">
+        Złóż wniosek o odbiór nadgodzin
     </a>
 </div>

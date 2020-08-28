@@ -10,16 +10,16 @@
 @if (Model.Any())
 {
 
-    @if (Model.Last().Quantity != 0)
+    @if (Model.First().Quantity != 0)
     {
         <div class="alert alert-info">
-            Obecny stan Twoich nadgodzin to: @Model.Last().Quantity . Należy je wykorzystać do @Html.DisplayFor(modelItem => Model.Last().ToBeSettledBefore) .
+            Obecny stan Twoich nadgodzin to: @Model.First().Quantity . Należy je wykorzystać do @Html.DisplayFor(modelItem => Model.First().ToBeSettledBefore) .
         </div>
     }
     else
     {
         <div class="alert alert-info">
-            Obecny stan Twoich nadgodzin to: @Model.Last().Quantity .
+            Obecny stan Twoich nadgodzin to: @Model.First().Quantity .
          </div>
     }
 
