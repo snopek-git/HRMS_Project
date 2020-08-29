@@ -93,7 +93,16 @@ namespace HRMS_Project.Controllers
 
             var user = await userManager.FindByIdAsync(request.IdEmployee);
 
-            var manager = userManager.Users.First(e => e.Id == user.IdManager);
+            Employee manager;
+
+            if (UserWithoutManagerCheck(user.Id))
+            {
+                manager = user;
+            }
+            else
+            {
+                manager = userManager.Users.First(e => e.Id == user.IdManager);
+            }
 
             var absenceType = await _context.AbsenceType.FindAsync(request.AbsenceTypeRef);
 
@@ -137,7 +146,16 @@ namespace HRMS_Project.Controllers
 
             var user = await userManager.FindByIdAsync(request.IdEmployee);
 
-            var manager = userManager.Users.First(e => e.Id == user.IdManager);
+            Employee manager;
+
+            if (UserWithoutManagerCheck(user.Id))
+            {
+                manager = user;
+            }
+            else
+            {
+                manager = userManager.Users.First(e => e.Id == user.IdManager);
+            }
 
             var absenceType = await _context.AbsenceType.FindAsync(request.AbsenceTypeRef);
 
@@ -195,8 +213,6 @@ namespace HRMS_Project.Controllers
 
             ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType.Where(a => userAbsenceType.Contains(a.IdAbsenceType)), "IdAbsenceType", "AbsenceTypeName");
 
-            //ViewData["IdAbsenceType"] = new SelectList(_context.AbsenceType, "IdAbsenceType", "AbsenceTypeName");
-
             return View();
         }
 
@@ -205,11 +221,22 @@ namespace HRMS_Project.Controllers
         public async Task<IActionResult> CreateRequest(Request request)
         {
 
-            request.RequestNumber = _context.Request.Max(r => r.IdRequest) + 1001; //id na tym etapie jeszcze nie istnieje, dlatego max + 1001
+            request.RequestNumber = _context.Request.Max(r => r.IdRequest) + 1001;
             request.RequestDate = DateTime.Today;
-            request.Quantity = (int)GetBusinessDays(request.StartDate, request.EndDate); //(int)(request.EndDate - request.StartDate).TotalDays + 1;
+            request.Quantity = (int)GetBusinessDays(request.StartDate, request.EndDate);
             request.IdRequestType = 1;
-            request.IdRequestStatus = 1;
+
+            //Sprawdzanie czy pracownik ma managera. Jeśli nie, jego wniosek będzie automatycznie akceptowany.
+
+            if (UserWithoutManagerCheck(request.IdEmployee))
+            {
+                request.IdRequestStatus = 2;
+            }
+            else
+            {
+                request.IdRequestStatus = 1;
+            }
+            
 
             var numberOfDays = _context.AvailableAbsence
                                         .Where(a => (a.IdEmployee == request.IdEmployee) && (a.IdAbsenceType == request.AbsenceTypeRef))
@@ -260,7 +287,16 @@ namespace HRMS_Project.Controllers
             request.RequestNumber = _context.Request.Max(r => r.IdRequest) + 1001;
             request.RequestDate = DateTime.Today;
             request.IdRequestType = 2;
-            request.IdRequestStatus = 1;
+
+            //Sprawdzanie czy pracownik ma managera. Jeśli nie, jego wniosek będzie automatycznie akceptowany.
+            if (UserWithoutManagerCheck(request.IdEmployee))
+            {
+                request.IdRequestStatus = 2;
+            }
+            else
+            {
+                request.IdRequestStatus = 1;
+            }
 
             //Sprawdzanie czy wnioski nadgodzin na siebie nie nachodzą (sprawdzanie z wnioskami o statusie 1 lub 2)
 
@@ -299,9 +335,20 @@ namespace HRMS_Project.Controllers
             request.RequestNumber = _context.Request.Max(r => r.IdRequest) + 1001;
             request.RequestDate = DateTime.Today;
             request.IdRequestType = 3;
-            request.IdRequestStatus = 1;
             request.EndDate = request.StartDate;
 
+            //Sprawdzanie czy pracownik ma managera. Jeśli nie, jego wniosek będzie automatycznie akceptowany.
+            if (UserWithoutManagerCheck(request.IdEmployee))
+            {
+                request.IdRequestStatus = 2;
+            }
+            else
+            {
+                request.IdRequestStatus = 1;
+            }
+
+
+            //Sprawdzanie czy pracownik ma wystarczająco nadgodzin
             var currentOvertime = _context.Overtime
                                           .Where(o => (o.IdEmployee == request.IdEmployee))
                                           .OrderByDescending(o => o.ToBeSettledBefore)
@@ -454,6 +501,7 @@ namespace HRMS_Project.Controllers
             return View(request);
         }
 
+        //------------------------METODY POMOCNICZE
 
         public static double GetBusinessDays(DateTime startD, DateTime endD)
         {
@@ -482,6 +530,23 @@ namespace HRMS_Project.Controllers
             }
 
             return false;
+        }
+
+        public bool UserWithoutManagerCheck(string id)
+        {
+            var usersWithoutManager =   userManager.Users
+                                               .Where(e => e.IdManager == null)
+                                               .Select(e => e.Id)
+                                               .ToList();
+
+            if (usersWithoutManager.Contains(id))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }
