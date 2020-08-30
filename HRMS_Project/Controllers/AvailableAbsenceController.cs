@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HRMS_Project.Data;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,7 +30,7 @@ namespace HRMS_Project.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public async Task<ActionResult> ListAvailableAbsence()
         {
@@ -72,6 +73,7 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public IActionResult CreateAvailableAbsence()
         {
@@ -90,6 +92,7 @@ namespace HRMS_Project.Controllers
         }
 
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateAvailableAbsence(AvailableAbsence availableAbsence)
         {
@@ -130,7 +133,7 @@ namespace HRMS_Project.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> DeleteAvailableAbsence(int id)
         {
@@ -148,6 +151,8 @@ namespace HRMS_Project.Controllers
             }
         }
 
+
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> ResetAvailableAbsence(int id)
         {
@@ -168,6 +173,8 @@ namespace HRMS_Project.Controllers
             }
         }
 
+
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> EditAvailableAbsence(int id)
         {
@@ -191,6 +198,7 @@ namespace HRMS_Project.Controllers
         }
 
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAvailableAbsence(int id, AvailableAbsence availableAbsence)

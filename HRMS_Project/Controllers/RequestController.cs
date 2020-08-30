@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HRMS_Project.Data;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,6 +31,7 @@ namespace HRMS_Project.Controllers
             return View();
         }
 
+
         [HttpGet]
         public async Task<IActionResult> ListRequest(string id)
         {
@@ -46,6 +48,7 @@ namespace HRMS_Project.Controllers
             return View(request);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> PendingRequest(string id)
         {
@@ -129,6 +132,7 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> PendingRequestDetails(int id)
         {
@@ -183,7 +187,7 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
-
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> DeleteRequest(int id)
         {
@@ -413,6 +417,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> ApproveRequest(int id)
         {
@@ -432,7 +437,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> DeclineRequest(int id)
         {
@@ -452,7 +457,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Manager")]
         [HttpGet]
         public async Task<IActionResult> DeclineReason(int id)
         {
@@ -468,7 +473,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> DeclineReason(int id, Request request)
         {

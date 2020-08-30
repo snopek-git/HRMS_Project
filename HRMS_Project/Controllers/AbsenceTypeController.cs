@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HRMS_Project.Data;
 using HRMS_Project.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,13 +28,14 @@ namespace HRMS_Project.Controllers
             return View();
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public IActionResult CreateAbsenceType()
         {
             return View();
         }
 
-
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateAbsenceType(AbsenceType absenceType)
         {
@@ -50,7 +52,7 @@ namespace HRMS_Project.Controllers
             return View(absenceType);
         }
 
-
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public async Task<ActionResult> ListAbsenceType()
         {
@@ -58,7 +60,7 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
-
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> DeleteAbsenceType(int id)
         {
@@ -76,6 +78,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> EditAbsenceType(int id)
         {
@@ -90,6 +93,7 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAbsenceType(int id, AbsenceType absenceType)
