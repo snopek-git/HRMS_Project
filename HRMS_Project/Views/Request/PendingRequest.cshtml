@@ -9,6 +9,17 @@
 
 <h1>Wnioski Twoich pracowników</h1>
 
+<hr />
+
+<p>
+    <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
+        Twoje urlopy
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">
+        Twoje wnioski
+    </a>
+</p>
+
 @if (Model.Any())
 {
     <table class="table">
@@ -75,11 +86,4 @@ else
     <h3>Brak dostępnych wniosków</h3>
 }
 
-<div>
-    <a class="btn btn-primary" style="width:auto" asp-controller="AvailableAbsence" asp-action="Summary" asp-route-id="@user.Id">
-        Twoje urlopy
-    </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">
-        Twoje wnioski
-    </a>
-</div>
+

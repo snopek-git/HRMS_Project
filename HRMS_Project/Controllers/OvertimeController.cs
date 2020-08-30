@@ -37,37 +37,37 @@ namespace HRMS_Project.Controllers
 
             //tworzenie nowego Overtime jesli zaczyna sie nowy kwartal // ustawić jako JOB
 
-            DateTime today = DateTime.Today;
-            DateTime maxDateOvertime;
+            //DateTime today = DateTime.Today;
+            //DateTime maxDateOvertime;
 
-            if (overtime.Any())
-            {
-                maxDateOvertime = overtime.OrderByDescending(a => a.ToBeSettledBefore)
-                                          .First()
-                                          .ToBeSettledBefore;
-            }
-            else
-            {
-                maxDateOvertime = today.AddDays(-1);
-            }
+            //if (overtime.Any())
+            //{
+            //    maxDateOvertime = overtime.OrderByDescending(a => a.ToBeSettledBefore)
+            //                              .First()
+            //                              .ToBeSettledBefore;
+            //}
+            //else
+            //{
+            //    maxDateOvertime = today.AddDays(-1);
+            //}
 
-            if (maxDateOvertime != null && today > maxDateOvertime)
-            {
-                Overtime newQuarterOvertime = new Overtime
-                {
-                    IdEmployee = id,
-                    Quantity = 0,
-                    ToBeSettledBefore = QuarterEndDate()
-                };
+            //if (maxDateOvertime != null && today > maxDateOvertime)
+            //{
+            //    Overtime newQuarterOvertime = new Overtime
+            //    {
+            //        IdEmployee = id,
+            //        Quantity = 0,
+            //        ToBeSettledBefore = QuarterEndDate()
+            //    };
 
-                _context.Add(newQuarterOvertime);
-                await _context.SaveChangesAsync();
+            //    _context.Add(newQuarterOvertime);
+            //    await _context.SaveChangesAsync();
 
-                overtime = await _context.Overtime
-                                        .Where(a => a.IdEmployee == id)
-                                        .OrderByDescending(a => a.ToBeSettledBefore)
-                                        .ToListAsync();
-            }
+            //    overtime = await _context.Overtime
+            //                            .Where(a => a.IdEmployee == id)
+            //                            .OrderByDescending(a => a.ToBeSettledBefore)
+            //                            .ToListAsync();
+            //}
 
 
             return View(overtime);

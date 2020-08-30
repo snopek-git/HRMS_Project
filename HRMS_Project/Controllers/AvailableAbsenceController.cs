@@ -31,24 +31,56 @@ namespace HRMS_Project.Controllers
         }
 
         [Authorize(Roles = "PracownikHR, Administrator")]
-        [HttpGet]
         public async Task<ActionResult> ListAvailableAbsence()
         {
 
             var availableAbsence = await _context.AvailableAbsence
+                                                 .Include(a => a.IdEmployeeNavigation)
+                                                 .Include(a => a.IdAbsenceTypeNavigation)
                                                  .OrderBy(a => a.IdEmployeeNavigation.LastName)
                                                  .ToListAsync();
 
-            var absenceType = await _context.AbsenceType
-                                            .ToListAsync();
+            //var absenceType = await _context.AbsenceType
+            //                                .ToListAsync();
 
-            var model = new AbsenceViewModel
+            //var model = new AbsenceViewModel
+            //{
+            //    AvailableAbsence = availableAbsence,
+            //    AbsenceType = absenceType
+            //};
+
+            return View(availableAbsence);
+
+        }
+
+        [Authorize(Roles = "PracownikHR, Administrator")]
+        [HttpGet]
+        public async Task<ActionResult> ListAvailableAbsence(string search)
+        {
+
+            var availableAbsence = await _context.AvailableAbsence
+                                           .Include(a => a.IdEmployeeNavigation)
+                                           .Include(a => a.IdAbsenceTypeNavigation)
+                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
+                                           .ToListAsync();
+
+            if (!String.IsNullOrEmpty(search))
             {
-                AvailableAbsence = availableAbsence,
-                AbsenceType = absenceType
-            };
+                availableAbsence = await _context.AvailableAbsence
+                                           .Include(a => a.IdEmployeeNavigation)
+                                           .Include(a => a.IdAbsenceTypeNavigation)
+                                           .Where(a => a.IdEmployeeNavigation.LastName.Contains(search))
+                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
+                                           .ToListAsync();
 
-            return View(model);
+                //availableAbsence.Where(a => a.IdEmployeeNavigation.LastName.Contains(search))
+                //                                   .ToList();
+                return View(availableAbsence);
+            }
+            else
+            {
+                return View(availableAbsence);
+            }
 
         }
 

@@ -9,6 +9,20 @@
 <h1>Dostępne nadgodziny</h1>
 <hr />
 
+<div>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">
+        Twoje wnioski
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateOvertimeRequest">
+        Złóż wniosek o nadgodziny
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateTakeOvertimeRequest">
+        Złóż wniosek o odbiór nadgodzin
+    </a>
+</div>
+
+<br />
+
 @if (Model.Any())
 {
 
@@ -63,15 +77,5 @@ else
     </div>
 }
 
-<div>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="ListRequest" asp-route-id="@user.Id">
-        Twoje wnioski
-    </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateOvertimeRequest">
-        Złóż wniosek o nadgodziny
-    </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateTakeOvertimeRequest">
-        Złóż wniosek o odbiór nadgodzin
-    </a>
-</div>
+
 
