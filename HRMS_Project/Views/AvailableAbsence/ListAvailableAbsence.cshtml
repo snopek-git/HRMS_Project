@@ -1,4 +1,4 @@
-﻿@model AbsenceViewModel
+﻿@model IEnumerable<AvailableAbsence>
 @inject UserManager<Employee> UserManager
 
 @{
@@ -19,7 +19,15 @@
 
 <br />
 
-@if (Model.AvailableAbsence.Any())
+<form method="get" asp-action="ListAvailableAbsence">
+    <p>
+        <input type="search" placeholder="Wyszukaj po nazwisku pracownika..." value="" name="search" style="width:300px;border-radius:4px" />
+        <input class="btn-primary mb-4" type="submit" value="Wyszukaj" style="border-radius:4px" />
+        <a asp-action="ListAvailableAbsence"> | Usuń filtr</a>
+    </p>
+</form>
+
+@if (Model.Any())
 {
     <table class="table">
         <thead>
@@ -45,14 +53,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.AvailableAbsence)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>
-                        @UserManager.FindByIdAsync(item.IdEmployee).Result.LastName @UserManager.FindByIdAsync(item.IdEmployee).Result.FirstName
+                        @item.IdEmployeeNavigation.LastName @item.IdEmployeeNavigation.FirstName
+                        @*@UserManager.FindByIdAsync(item.IdEmployee).Result.LastName @UserManager.FindByIdAsync(item.IdEmployee).Result.FirstName*@
                     </td>
                     <td>
-                        @Model.AbsenceType.Find(a => a.IdAbsenceType == item.IdAbsenceType).AbsenceTypeName
+                        @item.IdAbsenceTypeNavigation.AbsenceTypeName
+                        @*@Model.AbsenceType.Find(a => a.IdAbsenceType == item.IdAbsenceType).AbsenceTypeName*@
                     </td>
                     <td>
                         @item.AvailableDays
@@ -61,7 +71,8 @@
                         @item.UsedAbsence
                     </td>
                     <td>
-                        @UserManager.FindByIdAsync(item.IdEmployee).Result.IdCardNumber
+                        @item.IdEmployeeNavigation.IdCardNumber
+                        @*@UserManager.FindByIdAsync(item.IdEmployee).Result.IdCardNumber*@
                     </td>
                     <td>
                         <form method="post" asp-action="ResetAvailableAbsence" asp-route-id="@item.IdAvailableAbsence">

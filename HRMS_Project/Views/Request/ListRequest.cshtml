@@ -8,6 +8,20 @@
 
 <h1>Twoje wnioski</h1>
 
+<hr />
+
+<p>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest" asp-route-id="@user.Id">
+        Złóż wniosek urlopowy
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateOvertimeRequest">
+        Złóż wniosek o nadgodziny
+    </a>
+    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateTakeOvertimeRequest">
+        Złóż wniosek o odbiór nadgodzin
+    </a>
+</p>
+
 @if (Model.Any())
 {
     <table class="table">
@@ -87,14 +101,4 @@ else
     <h3>Brak dostępnych wniosków</h3>
 }
 
-<div>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateRequest" asp-route-id="@user.Id">
-        Złóż wniosek urlopowy
-    </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateOvertimeRequest">
-        Złóż wniosek o nadgodziny
-    </a>
-    <a class="btn btn-primary" style="width:auto" asp-controller="Request" asp-action="CreateTakeOvertimeRequest">
-        Złóż wniosek o odbiór nadgodzin
-    </a>
-</div>
+

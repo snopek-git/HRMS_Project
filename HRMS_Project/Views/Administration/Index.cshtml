@@ -5,8 +5,10 @@
 
 <h1>Panel administracyjny</h1>
 <br />
+
 <div class="card-deck">
-    <div class="card" style="width: 18rem;">
+    <div class="card">
+        @*<img class="card-img-top" src="@Url.Content("~/graphics/roles.png")" />*@
         <div class="card-body">
             <a asp-controller="Administration" asp-action="ListRoles">
                 <h5 class="card-title">Role</h5>
@@ -18,7 +20,8 @@
         </div>
     </div>
     <br />
-    <div class="card" style="width: 18rem;">
+    <div class="card">
+        @*<img class="card-img-top" src="@Url.Content("~/graphics/employees.png")" />*@
         <div class="card-body">
             <a asp-controller="Administration" asp-action="ListUsers">
                 <h5 class="card-title">Pracownicy</h5>
@@ -31,55 +34,61 @@
     </div>
 
     <br />
-    <div class="card" style="width: 18rem;">
+    <div class="card">
+        @*<img class="card-img-top" src="@Url.Content("~/graphics/contract.png")" />*@
         <div class="card-body">
             <a asp-controller="Contract" asp-action="ListAllContracts">
                 <h5 class="card-title">Umowy</h5>
             </a>
             <p class="card-text">Zarządzanie umowami.</p>
-            <a asp-controller="Contract" asp-action="CreateContract" class="card-link">Stwórz umowę</a>
+            <a asp-controller="Contract" asp-action="CreateContract" class="card-link">Dodaj umowę</a>
             <br />
             <a asp-controller="Contract" asp-action="ListAllContracts" class="card-link">Wyświetl umowy</a>
         </div>
     </div>
-
-    <br />
-
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <a asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence">
-                <h5 class="card-title">Urlopy</h5>
-            </a>
-            <p class="card-text">Zarządzanie urlopami pracowników.</p>
-            <a asp-controller="AvailableAbsence" asp-action="CreateAvailableAbsence" class="card-link">Dodaj urlop</a>
-            <br />
-            <a asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence" class="card-link">Wyświetl urlopy</a>
-
-        </div>
-    </div>
-
-    <br />
-
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <a asp-controller="Administration" asp-action="ListBenefits">
-                <h5 class="card-title">Benefity</h5>
-            </a>
-            <p class="card-text">Zarządzanie benefitami.</p>
-            <a asp-controller="Administration" asp-action="CreateBenefit" class="card-link">Stwórz benfit</a>
-            <br />
-            <a asp-controller="Administration" asp-action="ListBenefits" class="card-link">Wyświetl benefity</a>
-        </div>
-    </div>
-
-    <br />
-
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <a asp-controller="Administration" asp-action="Reports">
-                <h5 class="card-title">Raporty</h5>
-            </a>
-            <p class="card-text">Generacja raportów.</p>
-        </div>
-    </div>
 </div>
+
+    <br />
+
+    <div class="card-deck">
+        <div class="card">
+            @*<img class="card-img-top" src="@Url.Content("~/graphics/absence.png")" />*@
+            <div class="card-body">
+                <a asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence">
+                    <h5 class="card-title">Urlopy</h5>
+                </a>
+                <p class="card-text">Zarządzanie urlopami pracowników.</p>
+                <a asp-controller="AvailableAbsence" asp-action="CreateAvailableAbsence" class="card-link">Dodaj urlop</a>
+                <br />
+                <a asp-controller="AvailableAbsence" asp-action="ListAvailableAbsence" class="card-link">Wyświetl urlopy</a>
+
+            </div>
+        </div>
+
+        <br />
+
+        <div class="card">
+            @*<img class="card-img-top" src="@Url.Content("~/graphics/benefit.png")" />*@
+            <div class="card-body">
+                <a asp-controller="Administration" asp-action="ListBenefits">
+                    <h5 class="card-title">Benefity</h5>
+                </a>
+                <p class="card-text">Zarządzanie benefitami.</p>
+                <a asp-controller="Administration" asp-action="CreateBenefit" class="card-link">Dodaj benfit</a>
+                <br />
+                <a asp-controller="Administration" asp-action="ListBenefits" class="card-link">Wyświetl benefity</a>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="card">
+            @*<img class="card-img-top" src="@Url.Content("~/graphics/report.png")" />*@
+            <div class="card-body">
+                <a asp-controller="Administration" asp-action="Reports">
+                    <h5 class="card-title">Raporty</h5>
+                </a>
+                <p class="card-text">Generacja raportów.</p>
+            </div>
+        </div>
+    </div>
