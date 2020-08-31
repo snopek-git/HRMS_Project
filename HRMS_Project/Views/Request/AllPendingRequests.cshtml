@@ -86,7 +86,7 @@
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.PageIndex - 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @prevDisabled">
+       class="btn btn-outline-secondary @prevDisabled">
         Poprzednia strona
     </a>
     <label>Strona</label> @Model.PageIndex <label> / </label> @Model.TotalPages
@@ -94,7 +94,7 @@
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.PageIndex + 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default @nextDisabled">
+       class="btn btn-outline-info @nextDisabled">
         Następna strona
     </a>
 
