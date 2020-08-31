@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Request>
+﻿@model PaginatedList<HRMS_Project.Models.Request>
 @inject UserManager<Employee> UserManager
 
 @{
@@ -9,7 +9,14 @@
 
 <h1>Oczekujące wnioski wszystkich pracowników</h1>
 
-
+<br />
+<form method="get" asp-action="AllPendingRequests">
+    <p>
+        <input type="search" placeholder="Wyszukaj po nazwisku pracownika..." value="" name="searchString" style="width:300px;border-radius:4px" />
+        <input class="btn-primary mb-4" type="submit" value="Wyszukaj" style="border-radius:4px" />
+        <a asp-action="AllPendingRequests"> | Usuń filtr</a>
+    </p>
+</form>
 
 @if (Model.Any())
 {
@@ -70,6 +77,25 @@
             }
         </tbody>
     </table>
+
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+
+    <a asp-action="AllPendingRequests"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Poprzednia strona
+    </a>
+    <a asp-action="AllPendingRequests"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Następna strona
+    </a>
 
 }
 else
