@@ -39,16 +39,37 @@ namespace HRMS_Project.Controllers
 
         [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
-        public async Task<IActionResult> ListAllContracts(string search)
+        public async Task<IActionResult> ListAllContracts(string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+
             var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation);
-            if (!String.IsNullOrEmpty(search))
+            
+            int pageSize = 10;
+
+            if (searchString != null)
             {
-                var listOfContract = listOfContracts.Where(s => s.IdEmployeeNavigation.LastName.Contains(search));
-                return View(await listOfContract.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
-            } else { 
-                return View(await listOfContracts.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
-                }
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+
+                var listOfContract = listOfContracts.Where(s => s.IdEmployeeNavigation.LastName.Contains(searchString));
+                return View(await PaginatedList<Contract>.CreateAsync(listOfContract.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking(), pageNumber ?? 1, pageSize));
+                //listOfContract.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
+            }
+
+            return View(await PaginatedList<Contract>.CreateAsync(listOfContracts.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking(), pageNumber ?? 1, pageSize));
+            //listOfContracts.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking().ToListAsync());
+            
+
         }
 
         public async Task<IActionResult> ListContracts(string id)
@@ -66,12 +87,32 @@ namespace HRMS_Project.Controllers
             return View(await listOfContracts);
         }
 
-        public async Task<IActionResult> ListSubordinatesContracts(string id)
+        public async Task<IActionResult> ListSubordinatesContracts(string searchString, string id, string sortOrder, string currentFilter, int? pageNumber)
         {
-            var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation)
-                                                  .Where(e => e.IdEmployeeNavigation.IdManager == id).OrderBy(e => e.IdEmployeeNavigation.LastName).ToListAsync();
+            ViewData["CurrentSort"] = sortOrder;
+            int pageSize = 10;
 
-            return View(await listOfContracts);
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var listOfContracts = _context.Contract.Include(e => e.IdEmployeeNavigation).Include(t => t.IdContractTypeNavigation).Include(s => s.IdContractStatusNavigation)
+                                                  .Where(e => e.IdEmployeeNavigation.IdManager == id).OrderBy(e => e.IdEmployeeNavigation.LastName);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var listOfContract = listOfContracts.Where(s => s.IdEmployeeNavigation.LastName.Contains(searchString));
+                return View(await PaginatedList<Contract>.CreateAsync(listOfContract.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking(), pageNumber ?? 1, pageSize));
+            }
+
+                return View(await PaginatedList<Contract>.CreateAsync(listOfContracts.OrderBy(e => e.IdEmployeeNavigation.LastName).AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         [HttpGet]

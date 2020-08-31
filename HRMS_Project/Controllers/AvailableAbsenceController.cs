@@ -33,6 +33,7 @@ namespace HRMS_Project.Controllers
         [Authorize(Roles = "PracownikHR, Administrator")]
         public async Task<ActionResult> ListAvailableAbsence()
         {
+            
 
             var availableAbsence = await _context.AvailableAbsence
                                                  .Include(a => a.IdEmployeeNavigation)
@@ -51,35 +52,49 @@ namespace HRMS_Project.Controllers
 
             return View(availableAbsence);
 
+
         }
 
         [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
-        public async Task<ActionResult> ListAvailableAbsence(string search)
+        public async Task<ActionResult> ListAvailableAbsence(string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            int pageSize = 10;
 
-            var availableAbsence = await _context.AvailableAbsence
-                                           .Include(a => a.IdEmployeeNavigation)
-                                           .Include(a => a.IdAbsenceTypeNavigation)
-                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
-                                           .ToListAsync();
-
-            if (!String.IsNullOrEmpty(search))
+            if (searchString != null)
             {
-                availableAbsence = await _context.AvailableAbsence
-                                           .Include(a => a.IdEmployeeNavigation)
-                                           .Include(a => a.IdAbsenceTypeNavigation)
-                                           .Where(a => a.IdEmployeeNavigation.LastName.Contains(search))
-                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
-                                           .ToListAsync();
-
-                //availableAbsence.Where(a => a.IdEmployeeNavigation.LastName.Contains(search))
-                //                                   .ToList();
-                return View(availableAbsence);
+                pageNumber = 1;
             }
             else
             {
-                return View(availableAbsence);
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var availableAbsence = _context.AvailableAbsence
+                                           .Include(a => a.IdEmployeeNavigation)
+                                           .Include(a => a.IdAbsenceTypeNavigation)
+                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
+                                           ;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                availableAbsence = _context.AvailableAbsence
+                                           .Include(a => a.IdEmployeeNavigation)
+                                           .Include(a => a.IdAbsenceTypeNavigation)
+                                           .Where(a => a.IdEmployeeNavigation.LastName.Contains(searchString))
+                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
+                                           ;
+
+                //availableAbsence.Where(a => a.IdEmployeeNavigation.LastName.Contains(search))
+                //                                   .ToList();
+                return View(await PaginatedList<AvailableAbsence>.CreateAsync(availableAbsence.AsNoTracking(), pageNumber ?? 1, pageSize));
+            }
+            else
+            {
+                return View(await PaginatedList<AvailableAbsence>.CreateAsync(availableAbsence.AsNoTracking(), pageNumber ?? 1, pageSize));
             }
 
         }

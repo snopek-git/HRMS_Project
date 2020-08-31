@@ -33,25 +33,29 @@ namespace HRMS_Project.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> ListRequest(string id)
+        public async Task<IActionResult> ListRequest(string id, string sortOrder, string currentFilter, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            int pageSize = 10;
 
-            var request = await _context.Request
+            var request = _context.Request
                                         .Where(a => a.IdEmployee == id)
                                         .Include(a => a.IdEmployeeNavigation)
                                         .Include(a => a.IdRequestStatusNavigation)
                                         .Include(a => a.IdRequestTypeNavigation)
                                         .Include(a => a.IdAbsenceTypeNavigation)
                                         .OrderByDescending(r => r.IdRequest)
-                                        .ToListAsync();
+                                        ;
 
-            return View(request);
+            return View(await PaginatedList<Request>.CreateAsync(request.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         [Authorize(Roles = "Manager")]
         [HttpGet]
-        public async Task<IActionResult> PendingRequest(string id)
+        public async Task<IActionResult> PendingRequest(string id, string sortOrder, string currentFilter, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            int pageSize = 10;
 
             var employeeList = await userManager.Users
                                                 .Where(e => e.IdManager == id)
@@ -66,16 +70,16 @@ namespace HRMS_Project.Controllers
             }
 
 
-            var request = await _context.Request
+            var request = _context.Request
                             .Where(r => (idList.Contains(r.IdEmployee) && r.IdRequestStatus == 1))
                             .Include(a => a.IdEmployeeNavigation)
                             .Include(a => a.IdRequestStatusNavigation)
                             .Include(a => a.IdRequestTypeNavigation)
                             .Include(a => a.IdAbsenceTypeNavigation)
                             .OrderByDescending(r => r.IdRequest)
-                            .ToListAsync();
+                            ;
 
-            return View(request);
+            return View(await PaginatedList<Request>.CreateAsync(request.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
 
