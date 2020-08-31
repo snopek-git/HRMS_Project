@@ -41,14 +41,6 @@ namespace HRMS_Project.Controllers
                                                  .OrderBy(a => a.IdEmployeeNavigation.LastName)
                                                  .ToListAsync();
 
-            //var absenceType = await _context.AbsenceType
-            //                                .ToListAsync();
-
-            //var model = new AbsenceViewModel
-            //{
-            //    AvailableAbsence = availableAbsence,
-            //    AbsenceType = absenceType
-            //};
 
             return View(availableAbsence);
 
@@ -76,8 +68,7 @@ namespace HRMS_Project.Controllers
             var availableAbsence = _context.AvailableAbsence
                                            .Include(a => a.IdEmployeeNavigation)
                                            .Include(a => a.IdAbsenceTypeNavigation)
-                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
-                                           ;
+                                           .OrderBy(a => a.IdEmployeeNavigation.LastName);
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -85,8 +76,7 @@ namespace HRMS_Project.Controllers
                                            .Include(a => a.IdEmployeeNavigation)
                                            .Include(a => a.IdAbsenceTypeNavigation)
                                            .Where(a => a.IdEmployeeNavigation.LastName.Contains(searchString))
-                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
-                                           ;
+                                           .OrderBy(a => a.IdEmployeeNavigation.LastName);
 
                 //availableAbsence.Where(a => a.IdEmployeeNavigation.LastName.Contains(search))
                 //                                   .ToList();

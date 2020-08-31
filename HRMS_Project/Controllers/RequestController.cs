@@ -50,7 +50,7 @@ namespace HRMS_Project.Controllers
             return View(await PaginatedList<Request>.CreateAsync(request.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> PendingRequest(string id, string sortOrder, string currentFilter, int? pageNumber)
         {
@@ -76,12 +76,54 @@ namespace HRMS_Project.Controllers
                             .Include(a => a.IdRequestStatusNavigation)
                             .Include(a => a.IdRequestTypeNavigation)
                             .Include(a => a.IdAbsenceTypeNavigation)
-                            .OrderByDescending(r => r.IdRequest)
-                            ;
+                            .OrderByDescending(r => r.IdRequest);
 
             return View(await PaginatedList<Request>.CreateAsync(request.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
+        [HttpGet]
+        public async Task<IActionResult> AllPendingRequests(string id, string searchString, string sortOrder, string currentFilter, int? pageNumber)
+        {
+            ViewData["CurrentSort"] = sortOrder;
+            int pageSize = 10;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var request = _context.Request
+                            .Where(r => (r.IdRequestStatus == 1 && r.IdEmployee != id))
+                            .Include(a => a.IdEmployeeNavigation)
+                            .Include(a => a.IdRequestStatusNavigation)
+                            .Include(a => a.IdRequestTypeNavigation)
+                            .Include(a => a.IdAbsenceTypeNavigation)
+                            .OrderByDescending(r => r.IdRequest);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                request = _context.Request
+                                .Where(r => (r.IdRequestStatus == 1 && r.IdEmployee != id && r.IdEmployeeNavigation.LastName.Contains(searchString)))
+                                .Include(a => a.IdEmployeeNavigation)
+                                .Include(a => a.IdRequestStatusNavigation)
+                                .Include(a => a.IdRequestTypeNavigation)
+                                .Include(a => a.IdAbsenceTypeNavigation)
+                                .OrderByDescending(r => r.IdRequest);
+
+                return View(await PaginatedList<Request>.CreateAsync(request.AsNoTracking(), pageNumber ?? 1, pageSize));
+            }
+            else
+            {
+                return View(await PaginatedList<Request>.CreateAsync(request.AsNoTracking(), pageNumber ?? 1, pageSize));
+            }
+        }
 
         [HttpGet]
         public async Task<IActionResult> RequestDetails(int id)
@@ -136,7 +178,7 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> PendingRequestDetails(int id)
         {
@@ -421,7 +463,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> ApproveRequest(int id)
         {
@@ -441,7 +483,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> DeclineRequest(int id)
         {
@@ -461,7 +503,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> DeclineReason(int id)
         {
@@ -477,7 +519,7 @@ namespace HRMS_Project.Controllers
             }
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> DeclineReason(int id, Request request)
         {

@@ -1,0 +1,106 @@
+﻿@model PaginatedList<HRMS_Project.Models.Request>
+@inject UserManager<Employee> UserManager
+
+@{
+    ViewData["Title"] = "Oczekujące wnioski wszystkich pracowników";
+
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<h1>Oczekujące wnioski wszystkich pracowników</h1>
+
+<br />
+<form method="get" asp-action="AllPendingRequests">
+    <p>
+        <input type="search" placeholder="Wyszukaj po nazwisku pracownika..." value="" name="searchString" style="width:300px;border-radius:4px" />
+        <input class="btn-primary mb-4" type="submit" value="Wyszukaj" style="border-radius:4px" />
+        <a asp-action="AllPendingRequests"> | Usuń filtr</a>
+    </p>
+</form>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Numer
+                </th>
+                <th>
+                    Pracownik
+                </th>
+                <th>
+                    Rodzaj wniosku
+                </th>
+                <th>
+                    Od
+                </th>
+                <th>
+                    Do
+                </th>
+                <th>
+                    Akcja
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.RequestNumber
+                    </td>
+                    <td>
+                        @item.IdEmployeeNavigation.LastName @item.IdEmployeeNavigation.FirstName
+                    </td>
+                    <td>
+                        @item.IdRequestTypeNavigation.RequestTypeName
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        <a class="btn btn-info btn-sm" asp-controller="Request" asp-action="PendingRequestDetails" asp-route-id="@item.IdRequest">
+                            Szczegóły
+                        </a>
+                        <a class="btn btn-primary btn-sm" asp-controller="Request" asp-action="ApproveRequest" asp-route-id="@item.IdRequest">
+                            &#10004; Zaakceptuj
+                        </a>
+                        <a class="btn btn-danger btn-sm" asp-controller="Request" asp-action="DeclineReason" asp-route-id="@item.IdRequest">
+                            &#10008; Odrzuć
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+
+    <a asp-action="AllPendingRequests"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Poprzednia strona
+    </a>
+    <a asp-action="AllPendingRequests"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Następna strona
+    </a>
+
+}
+else
+{
+    <h3>Brak dostępnych wniosków</h3>
+}
+
+
