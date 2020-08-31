@@ -89,6 +89,7 @@
        class="btn btn-default @prevDisabled">
         Poprzednia strona
     </a>
+    <label>Strona</label> @Model.PageIndex <label> / </label> @Model.TotalPages
     <a asp-action="AllPendingRequests"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(Model.PageIndex + 1)"
