@@ -112,19 +112,14 @@
 
     </dl>
 
-    @*@if (this.User.IsInRole("Administrator") || this.User.IsInRole("PracownikHR"))
-        {*@
+
     <a class="btn btn-primary btn-sm" asp-controller="Request" asp-action="ApproveRequest" asp-route-id="@Model.Request.IdRequest">
         &#10004; Zaakceptuj
     </a>
     <a class="btn btn-danger btn-sm" asp-controller="Request" asp-action="DeclineReason" asp-route-id="@Model.Request.IdRequest">
         &#10008; Odrzuć
     </a>
-    <a asp-area="" asp-controller="Request" asp-action="PendingRequest" asp-route-id="@user.Id">Przejdź do oczekujących wniosków</a>
-
-    @*}
-        else
-        {
-            <a asp-action="ListRequest" asp-route-id="@user.Id">Powrót do listy wniosków</a>
-        }*@
+    <a asp-area="" asp-controller="Request" asp-action="PendingRequest" asp-route-id="@user.Id">
+        Przejdź do oczekujących wniosków Twoich pracowników
+    </a>
 </div>

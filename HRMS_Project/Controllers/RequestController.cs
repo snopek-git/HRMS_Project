@@ -78,6 +78,22 @@ namespace HRMS_Project.Controllers
             return View(request);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
+        [HttpGet]
+        public async Task<IActionResult> AllPendingRequests(string id)
+        {
+
+            var request = await _context.Request
+                            .Where(r => (r.IdRequestStatus == 1 && r.IdEmployee != id))
+                            .Include(a => a.IdEmployeeNavigation)
+                            .Include(a => a.IdRequestStatusNavigation)
+                            .Include(a => a.IdRequestTypeNavigation)
+                            .Include(a => a.IdAbsenceTypeNavigation)
+                            .OrderByDescending(r => r.IdRequest)
+                            .ToListAsync();
+
+            return View(request);
+        }
 
         [HttpGet]
         public async Task<IActionResult> RequestDetails(int id)
