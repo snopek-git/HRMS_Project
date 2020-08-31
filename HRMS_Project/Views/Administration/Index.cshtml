@@ -1,56 +1,61 @@
-﻿
+﻿@inject UserManager<Employee> UserManager
+
 @{
     ViewData["Title"] = "Panel administracyjny";
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <h1>Panel administracyjny</h1>
 <br />
 
-<div class="card-deck">
-    <div class="card">
-        @*<img class="card-img-top" src="@Url.Content("~/graphics/roles.png")" />*@
-        <div class="card-body">
-            <a asp-controller="Administration" asp-action="ListRoles">
-                <h5 class="card-title">Role</h5>
-            </a>
-            <p class="card-text">Zarządzanie rolami użytkowników.</p>
-            <a class="card-link" asp-area="" asp-controller="Administration" asp-action="CreateRole">Dodaj rolę</a>
-            <br />
-            <a asp-controller="Administration" asp-action="ListRoles" class="card-link">Wyświetl role</a>
-        </div>
-    </div>
-    <br />
-    <div class="card">
-        @*<img class="card-img-top" src="@Url.Content("~/graphics/employees.png")" />*@
-        <div class="card-body">
-            <a asp-controller="Administration" asp-action="ListUsers">
-                <h5 class="card-title">Pracownicy</h5>
-            </a>
-            <p class="card-text">Zarządzanie pracownikami.</p>
-            <a class="card-link" asp-area="" asp-controller="Account" asp-action="Register">Dodaj pracownika</a>
-            <br />
-            <a asp-controller="Administration" asp-action="ListUsers" class="card-link">Wyświetl pracowników</a>
-        </div>
-    </div>
 
-    <br />
-    <div class="card">
-        @*<img class="card-img-top" src="@Url.Content("~/graphics/contract.png")" />*@
-        <div class="card-body">
-            <a asp-controller="Contract" asp-action="ListAllContracts">
-                <h5 class="card-title">Umowy</h5>
-            </a>
-            <p class="card-text">Zarządzanie umowami.</p>
-            <a asp-controller="Contract" asp-action="CreateContract" class="card-link">Dodaj umowę</a>
-            <br />
-            <a asp-controller="Contract" asp-action="ListAllContracts" class="card-link">Wyświetl umowy</a>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card" style="">
+            @*<img class="card-img-top" src="@Url.Content("~/graphics/roles.png")" />*@
+            <div class="card-body">
+                <a asp-controller="Administration" asp-action="ListRoles">
+                    <h5 class="card-title">Role</h5>
+                </a>
+                <p class="card-text">Zarządzanie rolami użytkowników.</p>
+                <a class="card-link" asp-area="" asp-controller="Administration" asp-action="CreateRole">Dodaj rolę</a>
+                <br />
+                <a asp-controller="Administration" asp-action="ListRoles" class="card-link">Wyświetl role</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            @*<img class="card-img-top" src="@Url.Content("~/graphics/employees.png")" />*@
+            <div class="card-body">
+                <a asp-controller="Administration" asp-action="ListUsers">
+                    <h5 class="card-title">Pracownicy</h5>
+                </a>
+                <p class="card-text">Zarządzanie pracownikami.</p>
+                <a class="card-link" asp-area="" asp-controller="Account" asp-action="Register">Dodaj pracownika</a>
+                <br />
+                <a asp-controller="Administration" asp-action="ListUsers" class="card-link">Wyświetl pracowników</a>
+            </div>
         </div>
     </div>
 </div>
-
-    <br />
-
-    <div class="card-deck">
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            @*<img class="card-img-top" src="@Url.Content("~/graphics/contract.png")" />*@
+            <div class="card-body">
+                <a asp-controller="Contract" asp-action="ListAllContracts">
+                    <h5 class="card-title">Umowy</h5>
+                </a>
+                <p class="card-text">Zarządzanie umowami.</p>
+                <a asp-controller="Contract" asp-action="CreateContract" class="card-link">Dodaj umowę</a>
+                <br />
+                <a asp-controller="Contract" asp-action="ListAllContracts" class="card-link">Wyświetl umowy</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="card">
             @*<img class="card-img-top" src="@Url.Content("~/graphics/absence.png")" />*@
             <div class="card-body">
@@ -64,9 +69,12 @@
 
             </div>
         </div>
+    </div>
+</div>
 
-        <br />
-
+<br />
+<div class="row">
+    <div class="col-md-6">
         <div class="card">
             @*<img class="card-img-top" src="@Url.Content("~/graphics/benefit.png")" />*@
             <div class="card-body">
@@ -79,9 +87,23 @@
                 <a asp-controller="Administration" asp-action="ListBenefits" class="card-link">Wyświetl benefity</a>
             </div>
         </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <a asp-controller="Request" asp-action="AllPendingRequests" asp-route-id="@user.Id">
+                    <h5 class="card-title">Wnioski</h5>
+                </a>
+                <p class="card-text">Zarządzanie oczekującymi wnioskami pracowników.</p>
+                <a asp-controller="Request" asp-action="AllPendingRequests" asp-route-id="@user.Id" class="card-link">Wyświetl wnioski</a>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
 
-        <br />
-
+<div class="row">
+    <div class="col-md-6">
         <div class="card">
             @*<img class="card-img-top" src="@Url.Content("~/graphics/report.png")" />*@
             <div class="card-body">
@@ -92,3 +114,4 @@
             </div>
         </div>
     </div>
+</div>
