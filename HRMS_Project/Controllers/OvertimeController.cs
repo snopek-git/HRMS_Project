@@ -35,34 +35,40 @@ namespace HRMS_Project.Controllers
                                         .ToListAsync();
 
 
-            //dodac tworzenie nowego Overtime jesli zaczyna sie nowy kwartal
-            DateTime today = DateTime.Today;
-            DateTime maxDateOvertime = overtime.OrderByDescending(a => a.ToBeSettledBefore)
-                                               .First()
-                                               .ToBeSettledBefore;
+            //tworzenie nowego Overtime jesli zaczyna sie nowy kwartal // ustawić jako JOB
 
+            //DateTime today = DateTime.Today;
+            //DateTime maxDateOvertime;
 
-            if(maxDateOvertime != null && today > maxDateOvertime)
-            {
-                Overtime newQuarterOvertime = new Overtime
-                {
-                    IdEmployee = id,
-                    Quantity = 0,
-                    ToBeSettledBefore = QuarterEndDate()
-            };
+            //if (overtime.Any())
+            //{
+            //    maxDateOvertime = overtime.OrderByDescending(a => a.ToBeSettledBefore)
+            //                              .First()
+            //                              .ToBeSettledBefore;
+            //}
+            //else
+            //{
+            //    maxDateOvertime = today.AddDays(-1);
+            //}
 
-                _context.Add(newQuarterOvertime);
-                await _context.SaveChangesAsync();
+            //if (maxDateOvertime != null && today > maxDateOvertime)
+            //{
+            //    Overtime newQuarterOvertime = new Overtime
+            //    {
+            //        IdEmployee = id,
+            //        Quantity = 0,
+            //        ToBeSettledBefore = QuarterEndDate()
+            //    };
 
-                overtime = await _context.Overtime
-                                        .Where(a => a.IdEmployee == id)
-                                        .OrderByDescending(a => a.ToBeSettledBefore)
-                                        .ToListAsync();
-            }
+            //    _context.Add(newQuarterOvertime);
+            //    await _context.SaveChangesAsync();
 
+            //    overtime = await _context.Overtime
+            //                            .Where(a => a.IdEmployee == id)
+            //                            .OrderByDescending(a => a.ToBeSettledBefore)
+            //                            .ToListAsync();
+            //}
 
-
-            //zaktualozwac overtime
 
             return View(overtime);
         }

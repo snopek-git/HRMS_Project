@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HRMS_Project.Data;
 using HRMS_Project.Models;
 using HRMS_Project.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,25 +30,57 @@ namespace HRMS_Project.Controllers
             return View();
         }
 
-
-        [HttpGet]
+        [Authorize(Roles = "PracownikHR, Administrator")]
         public async Task<ActionResult> ListAvailableAbsence()
         {
 
             var availableAbsence = await _context.AvailableAbsence
+                                                 .Include(a => a.IdEmployeeNavigation)
+                                                 .Include(a => a.IdAbsenceTypeNavigation)
                                                  .OrderBy(a => a.IdEmployeeNavigation.LastName)
                                                  .ToListAsync();
 
-            var absenceType = await _context.AbsenceType
-                                            .ToListAsync();
+            //var absenceType = await _context.AbsenceType
+            //                                .ToListAsync();
 
-            var model = new AbsenceViewModel
+            //var model = new AbsenceViewModel
+            //{
+            //    AvailableAbsence = availableAbsence,
+            //    AbsenceType = absenceType
+            //};
+
+            return View(availableAbsence);
+
+        }
+
+        [Authorize(Roles = "PracownikHR, Administrator")]
+        [HttpGet]
+        public async Task<ActionResult> ListAvailableAbsence(string search)
+        {
+
+            var availableAbsence = await _context.AvailableAbsence
+                                           .Include(a => a.IdEmployeeNavigation)
+                                           .Include(a => a.IdAbsenceTypeNavigation)
+                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
+                                           .ToListAsync();
+
+            if (!String.IsNullOrEmpty(search))
             {
-                AvailableAbsence = availableAbsence,
-                AbsenceType = absenceType
-            };
+                availableAbsence = await _context.AvailableAbsence
+                                           .Include(a => a.IdEmployeeNavigation)
+                                           .Include(a => a.IdAbsenceTypeNavigation)
+                                           .Where(a => a.IdEmployeeNavigation.LastName.Contains(search))
+                                           .OrderBy(a => a.IdEmployeeNavigation.LastName)
+                                           .ToListAsync();
 
-            return View(model);
+                //availableAbsence.Where(a => a.IdEmployeeNavigation.LastName.Contains(search))
+                //                                   .ToList();
+                return View(availableAbsence);
+            }
+            else
+            {
+                return View(availableAbsence);
+            }
 
         }
 
@@ -72,6 +105,7 @@ namespace HRMS_Project.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public IActionResult CreateAvailableAbsence()
         {
@@ -90,6 +124,7 @@ namespace HRMS_Project.Controllers
         }
 
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateAvailableAbsence(AvailableAbsence availableAbsence)
         {
@@ -130,7 +165,7 @@ namespace HRMS_Project.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> DeleteAvailableAbsence(int id)
         {
@@ -148,6 +183,8 @@ namespace HRMS_Project.Controllers
             }
         }
 
+
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         public async Task<IActionResult> ResetAvailableAbsence(int id)
         {
@@ -168,6 +205,8 @@ namespace HRMS_Project.Controllers
             }
         }
 
+
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpGet]
         public async Task<IActionResult> EditAvailableAbsence(int id)
         {
@@ -191,6 +230,7 @@ namespace HRMS_Project.Controllers
         }
 
 
+        [Authorize(Roles = "PracownikHR, Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAvailableAbsence(int id, AvailableAbsence availableAbsence)
