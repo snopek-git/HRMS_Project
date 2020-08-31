@@ -229,18 +229,30 @@ namespace HRMS_Project.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListUsers(string search)
+        public async Task<IActionResult> ListUsers(string searchString, string sortOrder, string currentFilter, int? pageNumber)
         {
-            //ViewData["Emp"] = search;
-            var users = employeeUserManager.Users;
+            ViewData["CurrentSort"] = sortOrder;
+            int pageSize = 10;
 
-            var query = from e in context.Employee select e;
-            if(!string.IsNullOrEmpty(search))
+            if (searchString != null)
             {
-                query = query.Where(e => e.LastName.Contains(search) || e.FirstName.Contains(search) || e.Email.Contains(search));
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
             }
 
-            return View(await query.OrderBy(x => x.LastName).AsNoTracking().ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var query = from e in context.Employee select e;
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(e => e.LastName.Contains(searchString) || e.FirstName.Contains(searchString) || e.Email.Contains(searchString));
+            }
+
+            return View(await PaginatedList<Employee>.CreateAsync(query.OrderBy(e => e.LastName).AsNoTracking(), pageNumber ?? 1, pageSize));
+            //query.OrderBy(x => x.LastName).AsNoTracking().ToListAsync());
         }
 
         [HttpGet]

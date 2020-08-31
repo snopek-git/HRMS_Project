@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Employee>
+﻿@model PaginatedList<HRMS_Project.Models.Employee>
+@*IEnumerable<Employee>*@
 
 @{
     ViewBag.Title = "Lista pracowników";
@@ -16,7 +17,7 @@
 
 <form method="get" asp-action="ListUsers">
     <p>
-        <input type="search" placeholder="Wyszukaj pracownika..." value="" name="search" style="width:250px;border-radius:4px" />
+        <input type="search" placeholder="Wyszukaj pracownika..." value="@ViewData["CurrentFilter"]" name="searchString" style="width:250px;border-radius:4px" />
         <input class="btn-primary mb-4" type="submit" value="Wyszukaj" style="border-radius:4px" />
         <a asp-action="ListUsers"> | Usuń filtr</a>
     </p>
@@ -51,34 +52,53 @@
         <tbody>
             @foreach (var user in Model)
             {
-            <tr>
-                <td>
-                    @user.LastName
-                </td>
-                <td>
-                    @user.FirstName
-                </td>
-                <td>
-                    @user.SecondName
-                </td>
-                <td>
-                    @user.Email
-                </td>
-                <td>
-                    @user.IdCardNumber
-                </td>
-                <td>
-                    <form method="post" asp-action="DeleteUser" asp-route-id="@user.Id">
-                        <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id"
-                           class="btn btn-primary btn-sm">Edytuj</a>
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Czy na pewno chcesz usunąć pracownika: @user.LastName @user.FirstName wraz ze wszystkimi danymi?')">Usuń</button>
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @user.LastName
+                    </td>
+                    <td>
+                        @user.FirstName
+                    </td>
+                    <td>
+                        @user.SecondName
+                    </td>
+                    <td>
+                        @user.Email
+                    </td>
+                    <td>
+                        @user.IdCardNumber
+                    </td>
+                    <td>
+                        <form method="post" asp-action="DeleteUser" asp-route-id="@user.Id">
+                            <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id"
+                               class="btn btn-primary btn-sm">Edytuj</a>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Czy na pewno chcesz usunąć pracownika: @user.LastName @user.FirstName wraz ze wszystkimi danymi?')">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 
+    
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    
+
+    <a asp-action="ListUsers"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Poprzednia strona
+    </a>
+    <a asp-action="ListUsers"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Następna strona
+    </a>
 
 }
 else
