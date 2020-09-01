@@ -136,46 +136,55 @@ namespace HRMS_Project.Controllers
                 return NotFound();
             }
 
-            var requestType = await _context.RequestType.FindAsync(request.IdRequestType);
+            var user = await userManager.GetUserAsync(User);
 
-            var requestStatus = await _context.RequestStatus.FindAsync(request.IdRequestStatus);
-
-            var user = await userManager.FindByIdAsync(request.IdEmployee);
-
-            Employee manager;
-
-            if (UserWithoutManagerCheck(user.Id))
+            if (request.IdEmployee != user.Id)
             {
-                manager = user;
+                return View("ForbiddenReview");
             }
             else
             {
-                manager = userManager.Users.First(e => e.Id == user.IdManager);
+                var requestType = await _context.RequestType.FindAsync(request.IdRequestType);
+
+                var requestStatus = await _context.RequestStatus.FindAsync(request.IdRequestStatus);
+
+                //var user = await userManager.FindByIdAsync(request.IdEmployee);
+
+                Employee manager;
+
+                if (UserWithoutManagerCheck(user.Id))
+                {
+                    manager = user;
+                }
+                else
+                {
+                    manager = userManager.Users.First(e => e.Id == user.IdManager);
+                }
+
+                var absenceType = await _context.AbsenceType.FindAsync(request.AbsenceTypeRef);
+
+                var availableAbsence = await _context.AvailableAbsence
+                                                     .Where(a => a.IdEmployee == request.IdEmployee)
+                                                     .ToListAsync();
+
+                var overtime = _context.Overtime
+                                       .Where(a => a.IdEmployee == request.IdEmployee)
+                                       .OrderByDescending(a => a.ToBeSettledBefore)
+                                       .FirstOrDefault();
+
+                var model = new RequestDetailsViewModel
+                {
+                    Request = request,
+                    RequestStatus = requestStatus,
+                    RequestType = requestType,
+                    Manager = manager,
+                    AbsenceType = absenceType,
+                    AvailableAbsence = availableAbsence,
+                    Overtime = overtime
+                };
+
+                return View(model);
             }
-
-            var absenceType = await _context.AbsenceType.FindAsync(request.AbsenceTypeRef);
-
-            var availableAbsence = await _context.AvailableAbsence
-                                                 .Where(a => a.IdEmployee == request.IdEmployee)
-                                                 .ToListAsync();
-
-            var overtime = _context.Overtime
-                                   .Where(a => a.IdEmployee == request.IdEmployee)
-                                   .OrderByDescending(a => a.ToBeSettledBefore)
-                                   .FirstOrDefault();
-
-            var model = new RequestDetailsViewModel
-            {
-                Request = request,
-                RequestStatus = requestStatus,
-                RequestType = requestType,
-                Manager = manager,
-                AbsenceType = absenceType,
-                AvailableAbsence = availableAbsence,
-                Overtime = overtime
-            };
-
-            return View(model);
         }
 
         [Authorize(Roles = "Manager, PracownikHR, Administrator")]
