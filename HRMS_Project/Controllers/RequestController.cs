@@ -449,17 +449,31 @@ namespace HRMS_Project.Controllers
         {
             var request = await _context.Request.FindAsync(id);
 
-            request.IdRequestStatus = 4;
-
-            if (request == null)
+            if(request == null)
             {
                 return NotFound();
             }
+
+            var user = await userManager.GetUserAsync(User);
+
+            if(request.IdEmployee != user.Id)
+            {
+                return View("ForbiddenCancellation");
+            }
             else
             {
-                _context.Update(request);
-                await _context.SaveChangesAsync();
-                return View();
+                request.IdRequestStatus = 4;
+
+                if (request == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    _context.Update(request);
+                    await _context.SaveChangesAsync();
+                    return View();
+                }
             }
         }
 
@@ -469,14 +483,13 @@ namespace HRMS_Project.Controllers
         {
             var request = await _context.Request.FindAsync(id);
 
-            request.IdRequestStatus = 2;
-
             if (request == null)
             {
                 return NotFound();
             }
             else
             {
+                request.IdRequestStatus = 2;
                 _context.Update(request);
                 await _context.SaveChangesAsync();
                 return View();
@@ -489,14 +502,13 @@ namespace HRMS_Project.Controllers
         {
             var request = await _context.Request.FindAsync(id);
 
-            request.IdRequestStatus = 3;
-
             if (request == null)
             {
                 return NotFound();
             }
             else
             {
+                request.IdRequestStatus = 3;
                 _context.Update(request);
                 await _context.SaveChangesAsync();
                 return View();
