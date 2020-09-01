@@ -23,12 +23,12 @@ namespace HRMS_Project.Models
 
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime ContractStart { get; set; }
 
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime ContractEnd { get; set; }
         
         //Typ Umowy
